@@ -1,0 +1,25 @@
+{
+  "name": "user-expressjs-backend",
+  "version": "1.0.0",
+  "description": "express server for user ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bipinswarnkar1989/prepare-online-Mern-App.git"
+  },
+  "keywords": [
+    "expressjs",
+    "express",
+    "Rest",
+    "Api"
+  ],
+  "author": "Bipin Swarnkar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bipinswarnkar1989/prepare-online-Mern-App/issues"
+  },
+  "homepage": "https://github.com/bipinswarnkar1989/prepare-online-Mern-App#readme"
+}
