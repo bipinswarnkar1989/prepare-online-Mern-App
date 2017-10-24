@@ -21,5 +21,14 @@
   "bugs": {
     "url": "https://github.com/bipinswarnkar1989/prepare-online-Mern-App/issues"
   },
-  "homepage": "https://github.com/bipinswarnkar1989/prepare-online-Mern-App#readme"
+  "homepage": "https://github.com/bipinswarnkar1989/prepare-online-Mern-App#readme",
+  "dependencies": {
+    "babel-preset-es2015-node6": "^0.4.0",
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongoose": "^4.12.4",
+    "morgan": "^1.9.0",
+    "source-map-support": "^0.5.0"
+  }
 }
