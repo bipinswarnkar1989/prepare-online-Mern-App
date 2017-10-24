@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/user-react-redux-frontend/node_modules
+/user-expressjs-backend/node_modules
 
 # testing
 /coverage
