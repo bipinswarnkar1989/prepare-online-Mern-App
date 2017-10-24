@@ -43,7 +43,6 @@ userSchema.pre('save', (next) =>{
     })
   })
 
-  }
 });
 
 
