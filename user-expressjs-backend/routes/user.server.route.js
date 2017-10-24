@@ -7,16 +7,12 @@ import * as userController from '../controllers/user.server.controller';
 // get an instance of express router
 const router = express.Router();
 
-const routing = () => {
+
   router.route('/')
-          .get(userController.getUsers)
-        .route('/signup')
-          .post(userController.registerUser)
-        .route('/login')
+          .get(userController.getUsers);
+  router.route('/signup')
+          .post(userController.registerUser);
+  router.route('/login')
           .post(userController.loginUser);
 
-
-  return router;
-}
-
-export default routing;
+export default router;
