@@ -6,12 +6,12 @@ const INITIAL_STATE = {
 
 const appReducer = (currentState = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SHOW_SIGN_IN_BOX:
+    case 'SHOW_SIGN_IN_BOX':
          return {
            ...currentState, showSignInBox:true
          }
 
-    case SHOW_SIGN_UP_BOX:
+    case 'SHOW_SIGN_UP_BOX':
          return {
            ...currentState, showSignUpBox:true
          }

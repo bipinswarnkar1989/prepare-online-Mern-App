@@ -1,5 +1,5 @@
 // ./user-react-redux-frontend/src/store/configureStore.js
-import { creatStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
 
@@ -8,9 +8,9 @@ const configureStore = initialState => {
     thunk,
   ];
 
-  const store = creatStore(
+  const store = createStore(
     rootReducer,
-    preloadedState,
+    initialState,
     applyMiddleware(...middlewares)
   );
 
@@ -24,3 +24,5 @@ const configureStore = initialState => {
 
   return store;
 };
+
+export default configureStore;
