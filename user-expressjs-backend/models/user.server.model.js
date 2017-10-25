@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import uniqueValidator from 'mongoose-unique-validator';
 const SALT_WORK_FACTOR = 10;
 
 var userSchema = mongoose.Schema({
@@ -7,7 +8,7 @@ var userSchema = mongoose.Schema({
    email: {
      type: String, required: true,
      trim: true, unique: true,
-     match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+     validate: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
    },
    password: { type: String, required: true },
    facebookProvider: {
@@ -23,13 +24,19 @@ var userSchema = mongoose.Schema({
   }
 });
 
+userSchema.methods.toJSON = function() {
+  var obj = this.toObject();
+  delete obj.password;
+  return obj
+}
+
 /**
  * The pre-save hook method.
  */
-userSchema.pre('save', (next) =>{
+userSchema.pre('save', function(next){
   var user = this;
   // only hash the password if it has been modified (or is new)
-  if (!this.isModified('password')) return next();
+  if (!user.isModified('password')) return next();
 
   // generate a salt
   bcrypt.genSalt(SALT_WORK_FACTOR, (err,salt) => {
@@ -52,11 +59,13 @@ userSchema.pre('save', (next) =>{
  * @param {string} password
  * @returns {object} cb
  */
-userSchema.methods.comparePassword = (password,cb) => {
-  bcrypt.compare(password, this.password, (err, isMatch) => {
-    if(err) return cb(err);
-    cb(null, isMatch);
-  })
-}
+ userSchema.methods.comparePassword = function(password, cb) {
+     bcrypt.compare(password, this.password, function(err, isMatch) {
+         if (err) return cb(err);
+         cb(null, isMatch);
+     });
+ };
 
-export default mongoose.model('Todo', userSchema);
+ userSchema.plugin(uniqueValidator, {message:'is already taken'});
+
+export default mongoose.model('User', userSchema);

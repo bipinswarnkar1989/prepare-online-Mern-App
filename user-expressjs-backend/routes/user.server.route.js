@@ -8,11 +8,8 @@ import * as userController from '../controllers/user.server.controller';
 const router = express.Router();
 
 
-  router.route('/')
-          .get(userController.getUsers);
-  router.route('/signup')
-          .post(userController.registerUser);
-  router.route('/login')
-          .post(userController.loginUser);
+  router.get('/', userController.authenticate, userController.getUsers);
+  router.post('/signup',userController.registerUser);
+  router.post('/login',userController.loginUser);
 
 export default router;
