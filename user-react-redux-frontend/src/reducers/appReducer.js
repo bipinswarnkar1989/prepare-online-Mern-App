@@ -1,7 +1,9 @@
 // ./user-react-redux-frontend/src/reducers/appReducer.js
 const INITIAL_STATE = {
   showSignUpBox:false,
-  showSignInBox:false
+  showSignInBox:false,
+  navDrawerOpen:true,
+  width:null
 }
 
 const appReducer = (currentState = INITIAL_STATE, action) => {
@@ -15,6 +17,11 @@ const appReducer = (currentState = INITIAL_STATE, action) => {
          return {
            ...currentState, showSignUpBox:true
          }
+
+    case 'TOGGLE_NAV_DRAWER':
+         return {
+          ...currentState, navDrawerOpen: !currentState.navDrawerOpen
+        }
 
     default:
       return currentState;

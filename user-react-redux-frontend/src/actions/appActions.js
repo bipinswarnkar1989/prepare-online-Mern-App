@@ -11,3 +11,9 @@ export const showSignInBox = () => {
     type:'SHOW_SIGN_UP_BOX'
   };
 }
+
+export const togglenavDrawer = () => {
+  return {
+    type:'TOGGLE_NAV_DRAWER'
+  };
+}

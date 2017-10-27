@@ -14,7 +14,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     mappedShowSignUpBox: () => dispatch(appActions.showSignUpBox()),
-    mappedShowSignInBox: () => dispatch(appActions.showSignInBox())
+    mappedShowSignInBox: () => dispatch(appActions.showSignInBox()),
+    mappedToggleNav:     () => dispatch(appActions.togglenavDrawer())
   }
 }
 

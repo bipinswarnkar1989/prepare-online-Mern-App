@@ -6,7 +6,7 @@ import configureStore from './store/configureStore';
 
 import routes from './routes';
 import '../node_modules/materialize-css/dist/css/materialize.min.css';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import './styles.scss';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
@@ -14,13 +14,11 @@ const history = syncHistoryWithStore(browserHistory, store);
 class App extends Component {
   render() {
     return (
-      <MuiThemeProvider>
       <Provider store = {store}>
         <div>
           <Router history = {history} routes = {routes} />
         </div>
       </Provider>
-      </MuiThemeProvider>
     );
   }
 }
