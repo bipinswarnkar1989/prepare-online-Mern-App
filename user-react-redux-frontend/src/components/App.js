@@ -5,7 +5,18 @@ import Header from '../components/Header';
 import LeftDrawer from '../components/LeftDrawer';
 import withWidth, {LARGE, SMALL} from 'material-ui/utils/withWidth';
 import ThemeDefault from '../theme-default';
-import data from '../materialData';
+import Assessment from 'material-ui/svg-icons/action/assessment';
+import GridOn from 'material-ui/svg-icons/image/grid-on';
+import PermIdentity from 'material-ui/svg-icons/action/perm-identity';
+import Web from 'material-ui/svg-icons/av/web';
+
+const menuRoutes =  [
+    { text: 'Home', icon: <Assessment/>, link: '/dashboard' },
+    { text: 'Question Banks', icon: <Web/>, link: '/form' },
+    { text: 'Mock Tests', icon: <GridOn/>, link: '/table' },
+    { text: 'Login', icon: <PermIdentity/>, link: '/login' },
+    { text: 'Register', icon: <PermIdentity/>, link: '/register' }
+  ];
 
 
  class App extends React.Component {
@@ -49,7 +60,7 @@ import data from '../materialData';
                    handleChangeRequestNavDrawer={this.handleChangeRequestNavDrawer.bind(this)}/>
 
              <LeftDrawer navDrawerOpen={navDrawerOpen}
-                         menus={data.menus}
+                         menus={menuRoutes}
                          username="Guest User"/>
 
              <div style={styles.container}>

@@ -5,7 +5,8 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store/configureStore';
 
 import routes from './routes';
-import '../node_modules/materialize-css/dist/css/materialize.min.css';
+// import '../node_modules/materialize-css/dist/css/materialize.min.css';
+// import '../node_modules/materialize-css/dist/js/materialize.min.js';
 import './styles.scss';
 
 const store = configureStore();
