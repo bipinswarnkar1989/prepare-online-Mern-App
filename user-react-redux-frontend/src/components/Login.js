@@ -1,17 +1,17 @@
-// ./user-react-redux-frontend/src/components/Register.js
+// ./user-react-redux-frontend/src/components/Login.js
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 
-export default class Register extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render(){
     const styles = {
-        registerContainer: {
+        loginContainer: {
           height: 'auto',
           top: '10%',
           left: 0,
@@ -20,7 +20,7 @@ export default class Register extends React.Component {
           textAlign:'center',
           maxWidth:600
         },
-        registerButton: {
+        loginButton: {
           marginTop:20
         },
         buttonLabel:{
@@ -28,22 +28,15 @@ export default class Register extends React.Component {
         }
 };
     return(
-      <div style={styles.registerContainer}>
+      <div style={styles.loginContainer}>
       <div>
 
 
-                 <h1>Register</h1>
+                 <h1>Login</h1>
 
                  <form onSubmit={this.handleSubmit} onChange={this.clearErrors}>
                    <div className="row collapse">
-                     <TextField
-                       ref="fullname"
-                       name="fullname"
-                       required={true}
-                       errorText=""
-                       type="text"
-                       floatingLabelText="Fullname"
-                       fullWidth={true} />
+                    
                      <TextField
                        ref="email"
                        name="email"
@@ -62,7 +55,7 @@ export default class Register extends React.Component {
                        floatingLabelText="Password"
                         fullWidth={true} />
 
-                     <RaisedButton style={styles.registerButton} type="submit" label="Submit" primary={true} fullWidth={true} labelStyle={styles.buttonLabel}/>
+                     <RaisedButton style={styles.loginButton} type="submit" label="Submit" primary={true} fullWidth={true} labelStyle={styles.buttonLabel}/>
                    </div>
                  </form>
 
