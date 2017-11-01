@@ -11,7 +11,7 @@ import PermIdentity from 'material-ui/svg-icons/action/perm-identity';
 import Web from 'material-ui/svg-icons/av/web';
 
 const menuRoutes =  [
-    { text: 'Home', icon: <Assessment/>, link: '/dashboard' },
+    { text: 'Home', icon: <Assessment/>, link: '/' },
     { text: 'Question Banks', icon: <Web/>, link: '/form' },
     { text: 'Mock Tests', icon: <GridOn/>, link: '/table' },
     { text: 'Login', icon: <PermIdentity/>, link: '/login' },

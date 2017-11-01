@@ -2,12 +2,12 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import Paper from 'material-ui/Paper';
+
 
 export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   render(){
     const styles = {
@@ -36,7 +36,7 @@ export default class Login extends React.Component {
 
                  <form onSubmit={this.handleSubmit} onChange={this.clearErrors}>
                    <div className="row collapse">
-                    
+
                      <TextField
                        ref="email"
                        name="email"
