@@ -51,41 +51,7 @@ export default class Home extends React.Component {
               </Col>
            </Row>
         </Grid>
-          <div className="row">
 
-        <div className="col s12 m6 l3">
-          <Qbox Icon={ShoppingCart}
-                   color={pink600}
-                   title="Total Profit"
-                   value="1500k"
-          />
-        </div>
-
-
-        <div className="col s12 m6 l3">
-          <Qbox Icon={ThumbUp}
-                   color={cyan600}
-                   title="Likes"
-                   value="4231"
-          />
-        </div>
-
-        <div className="col s12 m6 l3">
-          <Qbox Icon={Assessment}
-                   color={purple600}
-                   title="Sales"
-                   value="460"
-          />
-        </div>
-
-        <div className="col s12 m6 l3">
-          <Qbox Icon={Face}
-                   color={orange600}
-                   title="New Members"
-                   value="248"
-          />
-        </div>
-      </div>
       </div>
       </div>
     )
