@@ -6,7 +6,8 @@ import Assessment from 'material-ui/svg-icons/action/assessment';
 import Face from 'material-ui/svg-icons/action/face';
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 import ShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
-import Qbox from './Qbox';
+import Qlist from 'material-ui/svg-icons/action/view-list';
+import QBankbox from './QBankbox';
 import {cyan600, pink600, purple600, orange600} from 'material-ui/styles/colors';
 import { Grid, Row, Col } from 'react-material-responsive-grid';
 
@@ -31,24 +32,31 @@ export default class Home extends React.Component {
         <h3>Latest Question Banks</h3>
           <Grid>
            <Row>
-              <Col md={3}>
-                 <p>This column consumes the entire row for extra-small,
-                 small, and medium screens.  For large and extra-large
-                 screens, it consumes half of the row.</p>
+              <Col md={4}>
+                 <QBankbox Icon={Qlist}
+                   color={orange600}
+                   title="Chattisgarh G.K"
+                   countQuestions="248"
+                   username="Bipin Swarnkar"
+                   lastUpdated="September 19, 2015"/>
               </Col>
-              <Col md={3}>
-                 <p>This column isn't visible for extra-small, small,
-                 and medium screens, but is visible for large and
-                 extra-large screens.  It consumes half of the row.</p>
+              <Col md={4}>
+                <QBankbox Icon={Qlist}
+                  color={orange600}
+                  title="Indian History"
+                  countQuestions="248"
+                  username="Manav Shrivastava"
+                  lastUpdated="September 19, 2015"/>
               </Col>
-              <Col md={3}>
-                 <p>This column is only visible for medium and large
-                 screens and consumes the entire row.</p>
+              <Col md={4}>
+                <QBankbox Icon={Qlist}
+                  color={orange600}
+                  title="Indian Constitution"
+                  countQuestions="248"
+                  username="Praveen Agrawal"
+                  lastUpdated="September 19, 2015"/>
               </Col>
-              <Col md={3}>
-                 <p>This column is hidden for small and large screens
-                 and consumes the entire row.</p>
-              </Col>
+
            </Row>
         </Grid>
 
