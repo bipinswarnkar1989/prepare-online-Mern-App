@@ -5,9 +5,23 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 
 export default class Register extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event){
+    event.preventDefault();
+    const fullname = this.refs.fullname.input.value;
+    const email = this.refs.email.input.value;
+    const password = this.refs.password.input.value;
+    const data = {
+      fullname:fullname,
+      email:email,
+      password:password
+    };
+    this.props.signUp(data);
+  }
 
   render(){
     const styles = {
@@ -65,6 +79,14 @@ export default class Register extends React.Component {
                      <RaisedButton style={styles.registerButton} type="submit" label="Submit" primary={true} fullWidth={true} labelStyle={styles.buttonLabel}/>
                    </div>
                  </form>
+                 <div className="msgBox">
+                   {this.props.mappedUserState.isFetching &&
+                    <h4>Registering....</h4>
+                   }
+                   {!this.props.mappedUserState.isFetching && this.props.mappedUserState.error &&
+                    <h4>{ this.props.mappedUserState.error}</h4>
+                   }
+                 </div>
 
              </div>
       </div>
