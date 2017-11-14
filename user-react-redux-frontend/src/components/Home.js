@@ -16,6 +16,9 @@ export default class Home extends React.Component {
   // constructor(props){
   //   super(props);
   // }
+  componentWillMount(){
+    this.props.mappedfetchUserIfLoggedIn();
+  }
 
   render(){
     const styles = {
@@ -26,9 +29,14 @@ export default class Home extends React.Component {
 
       }
     }
+      const user = this.props.mappedUserState.user;
     return(
       <div style={styles.homeContainer}>
+        {/*JSON.stringify(this.props.mappedUserState)*/}
       <div styles={styles.qBContainer}>
+        {user &&
+           <h2>Welcome {user.fullName} </h2>
+        }
         <h3>Latest Question Banks</h3>
           <Grid>
            <Row>

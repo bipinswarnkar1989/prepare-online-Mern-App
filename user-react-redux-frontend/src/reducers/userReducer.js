@@ -3,7 +3,8 @@ const INITIAL_STATE = {
   user:null,
   isFetching:false,
   error:null,
-  isLoggedIn:false
+  isLoggedIn:false,
+  successMsg:null
 }
 
 const userReducer = (currentState = INITIAL_STATE, action) => {
@@ -22,9 +23,35 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
 
  case 'USER_SIGN_UP_REQUEST_SUCCESS':
        return {
-         ...currentState, isFetching:false, error:null, user:action.user, isLoggedIn:true
+         ...currentState, isFetching:false, error:null, successMsg:action.data.message, isLoggedIn:true
        }
 
+ case 'SET_LOGGED_USER':
+       return {
+         ...currentState, user:action.user, isLoggedIn:true, successMsg:null, error:null
+       }
+
+ case 'SIGN_OUT_USER':
+       return {
+         ...currentState, user:null, isLoggedIn:false
+       }
+
+ case 'USER_SIGN_IN_REQUEST':
+       return {
+         ...currentState, isFetching:true
+       }
+
+
+case 'USER_SIGN_IN_REQUEST_FAILED':
+      return {
+        ...currentState, isFetching:false, error:action.error
+      }
+
+
+case 'USER_SIGN_IN_REQUEST_SUCCESS':
+    return {
+      ...currentState, isFetching:false, error:null, successMsg:action.data.message
+    }
 
     default:
        return currentState;

@@ -10,6 +10,11 @@ export default class Register extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentWillMount(){
+    this.props.mappedUserState.error = null;
+    this.props.mappedUserState.successMsg = null;
+  }
+
   handleSubmit(event){
     event.preventDefault();
     const fullname = this.refs.fullname.input.value;
@@ -79,12 +84,16 @@ export default class Register extends React.Component {
                      <RaisedButton style={styles.registerButton} type="submit" label="Submit" primary={true} fullWidth={true} labelStyle={styles.buttonLabel}/>
                    </div>
                  </form>
+
                  <div className="msgBox">
                    {this.props.mappedUserState.isFetching &&
-                    <h4>Registering....</h4>
+                    <h4>   <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /><br/>Registering....</h4>
                    }
                    {!this.props.mappedUserState.isFetching && this.props.mappedUserState.error &&
-                    <h4>{ this.props.mappedUserState.error}</h4>
+                    <h4 className="errorText">{ this.props.mappedUserState.error}</h4>
+                   }
+                   {!this.props.mappedUserState.isFetching && !this.props.mappedUserState.error && this.props.mappedUserState.successMsg &&
+                    <h4 className="successText">{ this.props.mappedUserState.successMsg}</h4>
                    }
                  </div>
 

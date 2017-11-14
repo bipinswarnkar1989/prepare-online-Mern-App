@@ -7,7 +7,8 @@ import {Link} from 'react-router';
 import Avatar from 'material-ui/Avatar';
 
 const LeftDrawer = (props) => {
-  let { navDrawerOpen } = props;
+  let { navDrawerOpen, menus } = props;
+  // const menu = menus.filter((m) => m.text !== 'Login' && m.text !== 'Register')
 
   const styles = {
     logo: {

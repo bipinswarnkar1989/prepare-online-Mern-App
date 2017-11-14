@@ -4,3 +4,14 @@ body {
   font-family: sans-serif;
 }
 .lastUpdatedDiv{position:relative;height:auto; width:auto; background:#fad400;margin: 20px auto;}
+.errorText{
+  background-color: red;
+  color:white;
+  padding: 2px;
+}
+
+.successText{
+  background-color: green;
+  color:white;
+  padding: 2px;
+}

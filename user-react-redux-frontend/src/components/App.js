@@ -10,7 +10,7 @@ import GridOn from 'material-ui/svg-icons/image/grid-on';
 import PermIdentity from 'material-ui/svg-icons/action/perm-identity';
 import Web from 'material-ui/svg-icons/av/web';
 
-const menuRoutes =  [
+let  menuRoutes =  [
     { text: 'Home', icon: <Assessment/>, link: '/' },
     { text: 'Question Banks', icon: <Web/>, link: '/form' },
     { text: 'Mock Tests', icon: <GridOn/>, link: '/table' },
@@ -18,11 +18,18 @@ const menuRoutes =  [
     { text: 'Register', icon: <PermIdentity/>, link: '/register' }
   ];
 
+let loggedInMenuRoutes = menuRoutes.filter((m) => m.text !== 'Login' && m.text !== 'Register')
+
 
  class App extends React.Component {
   constructor(props){
     super(props);
     this.props.mappedAppState.navDrawerOpen = true;
+    this.logout = this.logout.bind(this);
+  }
+
+  componentDidMount(){
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,6 +37,9 @@ const menuRoutes =  [
       //this.setState({navDrawerOpen: nextProps.width === LARGE});
       this.props.mappedAppState.navDrawerOpen = nextProps.width === LARGE;
       //alert(this.props.mappedAppState.navDrawerOpen);
+    }
+    if (nextProps.isLoggedIn !== this.props.mappedUserState.isLoggedIn) {
+
     }
   }
 
@@ -40,8 +50,14 @@ const menuRoutes =  [
     // });
   }
 
+logout(event){
+  event.preventDefault();
+  this.props.mappedLogOut();
+}
+
   render(){
     let { navDrawerOpen } = this.props.mappedAppState;
+    let { user, isLoggedIn } = this.props.mappedUserState;
    const paddingLeftDrawerOpen = 236;
 
    const styles = {
@@ -57,11 +73,12 @@ const menuRoutes =  [
       <MuiThemeProvider muiTheme={ThemeDefault}>
          <div>
            <Header styles={styles.header}
-                   handleChangeRequestNavDrawer={this.handleChangeRequestNavDrawer.bind(this)}/>
+                   handleChangeRequestNavDrawer={this.handleChangeRequestNavDrawer.bind(this)}
+                   logout={this.logout}/>
 
              <LeftDrawer navDrawerOpen={navDrawerOpen}
-                         menus={menuRoutes}
-                         username="Guest User"/>
+                         menus={isLoggedIn ? loggedInMenuRoutes : menuRoutes}
+                         username={isLoggedIn ? user.fullName : 'Guest User'}/>
 
              <div style={styles.container}>
                {this.props.children}

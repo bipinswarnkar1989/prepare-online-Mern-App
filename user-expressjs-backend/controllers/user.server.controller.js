@@ -19,7 +19,7 @@ var generateToken = user => {
 
 export const getUsers = (req,res) => {
   console.log('User: '+ JSON.stringify(req.user));
-  return;
+  return res.json({success:true, message:'Authenticated Successfully', user:req.user});
 }
 
 
@@ -67,6 +67,7 @@ export const registerUser = (req,res) => {
      var token = generateToken(user);
      return res.json({
        success:true,
+       message:'Registered Successfully',
        token
      });
    })
