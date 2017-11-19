@@ -5,6 +5,9 @@ import bodyParser from 'body-parser';
 import logger from 'morgan';
 import mongoose from 'mongoose';
 import SourceMapSupport from 'source-map-support';
+import config from './config/config';
+import configureAuth from './config/configureAuth';
+import passport from 'passport';
 
 // import routes
 import userRoutes from './routes/user.server.route';
@@ -29,6 +32,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//passport configuration
+configureAuth(passport,app, config);
+
 
 // connect to mongodb
 mongoose.Promise = global.Promise;
@@ -41,6 +47,24 @@ SourceMapSupport.install();
 
 // connect to route
 app.use('/api/user', userRoutes);
+
+app.get('/login/facebook', passport.authenticate('facebook',{
+  scope:'email'
+}));
+
+ app.get('/login/facebook/return',
+   passport.authenticate('facebook', {
+     //successRedirect:'http://localhost:3000/',
+     failureRedirect: 'http://localhost:3000/login'
+   }),
+   function (req, res) {
+     console.log('User: '+req.user);
+     console.log('userToken: '+req.usertoken);
+     res.header('Authorization', req.user);
+     localStorage.setItem('userToken', req.user);
+     res.redirect('http://localhost:3000/');
+   }
+ );
 
 app.get('/', (req,res) => {
   return res.end('Api working');

@@ -8,6 +8,7 @@ import routes from './routes';
 //import '../node_modules/materialize-css/dist/css/materialize.min.css';
 // import '../node_modules/materialize-css/dist/js/materialize.min.js';
 import './styles.scss';
+import 'font-awesome/css/font-awesome.css';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);

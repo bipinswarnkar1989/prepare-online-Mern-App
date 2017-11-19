@@ -11,13 +11,10 @@ var userSchema = mongoose.Schema({
      validate: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
    },
    password: { type: String, required: true },
-   facebookProvider: {
-     type: {
-       id: String,
-       token: String
-     },
-     select: false
-   },
+   profileId: String,
+   profileType: String,
+   gender: String,
+   picture: String,
   createdAt:{
     type: Date,
     default: Date.now

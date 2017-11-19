@@ -98,3 +98,52 @@ export const loginUser = (req,res) => {
      }
    })
 }
+
+export const loginWithFb = (req,res) => {
+  console.log('Logging with FB');
+  return res.end('Logging with FB');
+}
+
+export const  findOrCreateFBUser = (profile,done) => {
+        if (profile) {
+          // Look up user by profile id
+            var u;
+            User.findOne({profileType: profile.provider, profileId: profile.id},(err,user) => {
+              if(err) {
+                return done(err);
+              }
+
+              // Create a new user in the user table if not found
+              if (!user) {console.log(profile);
+                var newUser = new User({
+                  fullName: profile.displayName,
+                  email: profile.emails[0].value,
+                  profileId: profile.id,
+                  profileType: profile.provider,
+                  gender: profile.gender,
+                  picture: `https://graph.facebook.com/${profile.id}/picture?type=large`,
+                  password: '1234'
+                });
+
+                newUser.save((err,user) => {
+                  if(err) {
+                    return done(err);
+                  }
+                  else{
+                    u =  user;
+                    var token = generateToken(u);
+                    return done(null,token);
+                  }
+                });
+
+              }
+              else{ //if user exists in database
+                u = user;
+                var token = generateToken(u);
+                return done(null,token);
+              }
+
+            });
+
+        }
+      };
