@@ -5,11 +5,14 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router';
 import {grey500, white} from 'material-ui/styles/colors';
 import { Grid, Row, Col } from 'react-material-responsive-grid';
+import FbLoginBtn from './Fblogin'
 
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.onSuccess = this.onSuccess.bind(this);
   }
 
   componentWillMount(){
@@ -26,6 +29,114 @@ export default class Login extends React.Component {
       password:password
     };
     this.props.signIn(data);
+  }
+
+  // fb sd code begins
+  componentDidMount() {
+
+	  window.fbAsyncInit = function() {
+	    window.FB.init({
+	      appId      : '1250815578279698',
+	      cookie     : true,  // enable cookies to allow the server to access
+	                        // the session
+	      xfbml      : true,  // parse social plugins on this page
+	      version    : 'v2.1' // use version 2.1
+	    });
+
+	    // Now that we've initialized the JavaScript SDK, we call
+	    // FB.getLoginStatus().  This function gets the state of the
+	    // person visiting this page and can return one of three states to
+	    // the callback you provide.  They can be:
+	    //
+	    // 1. Logged into your app ('connected')
+	    // 2. Logged into Facebook, but not your app ('not_authorized')
+	    // 3. Not logged into Facebook and can't tell if they are logged into
+	    //    your app or not.
+	    //
+	    // These three cases are handled in the callback function.
+      //window.FB.Event.subscribe('auth.statusChange', this.statusChangeCallback());
+	    window.FB.getLoginStatus(function(response) {
+	      this.statusChangeCallback(response);
+	    }.bind(this));
+	  }.bind(this);
+
+	  // Load the SDK asynchronously
+	  (function(d, s, id) {
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) return;
+	    js = d.createElement(s); js.id = id;
+	    js.src = "//connect.facebook.net/en_US/sdk.js";
+	    fjs.parentNode.insertBefore(js, fjs);
+	  }(document, 'script', 'facebook-jssdk'));
+
+	}
+
+	// Here we run a very simple test of the Graph API after login is
+	// successful.  See statusChangeCallback() for when this call is made.
+	testAPI() {
+	  console.log('Welcome!  Fetching your information.... ');
+	  window.FB.api('/me', function(response) {
+	  console.log('Successful login for: ' + response.name);
+	  document.getElementById('status').innerHTML =
+	    'Thanks for logging in, ' + response.name + '!';
+	  });
+	}
+
+	// This is called with the results from from FB.getLoginStatus().
+	statusChangeCallback(response) {
+	  console.log('statusChangeCallback');
+	  console.log(response);
+	  // The response object is returned with a status field that lets the
+	  // app know the current login status of the person.
+	  // Full docs on the response object can be found in the documentation
+	  // for FB.getLoginStatus().
+	  if (response.status === 'connected') {
+	    // Logged into your app and Facebook.
+	    this.testAPI();
+      window.FB.Event.subscribe('auth.statusChange', this.fbAuthStatusChangeCallback);
+      // Reload the same page
+           //window.location.reload();
+	  } else if (response.status === 'not_authorized') {
+	    // The person is logged into Facebook, but not your app.
+	    document.getElementById('status').innerHTML = 'Please log ' +
+	      'into this app.';
+	  } else {
+	    // The person is not logged into Facebook, so we're not sure if
+	    // they are logged into this app or not.
+	    document.getElementById('status').innerHTML = 'Please log ' +
+	    'into Facebook.';
+	  }
+	}
+
+  fbAuthStatusChangeCallback = (response) => {
+  console.log("auth_status_change_callback: " + response.status);
+  window.FB.api('/me', function(response) {
+  console.log('Successful login for: ' + response.name);
+  this.props.mappedUserState.isLoggedIn = true;
+  this.props.mappedUserState.user.fullName = response.name;
+  document.getElementById('status').innerHTML =
+    'Thanks for logging in, ' + response.name + '!';
+  });
+}
+
+	// This function is called when someone finishes with the Login
+	// Button.  See the onlogin handler attached to it in the sample
+	// code below.
+	checkLoginState() {
+	  window.FB.getLoginStatus(function(response) {
+	    this.statusChangeCallback(response);
+	  }.bind(this));
+	}
+
+	handleClick(event) {
+    event.preventDefault();
+	  window.FB.login(this.checkLoginState());
+	}
+
+  onSuccess(response){
+    document.getElementById('status').innerHTML =
+	    'Thanks for logging in, ' + response.name + '!';
+	     console.log('Success')
   }
 
   render(){
@@ -115,10 +226,13 @@ export default class Login extends React.Component {
                  </div>
 
           <div style={styles.buttonsDiv}>
+
+       <div id="status">
+       </div>
             <Grid>
              <Row>
                 <Col md={6}>
-            <a href="http://localhost:3001/login/facebook" style={{...styles.btn, ...styles.btnFacebook}}>
+            <a href="#" onClick={this.handleClick} style={{...styles.btn, ...styles.btnFacebook}}>
               <i className="fa fa-facebook fa-lg"/>
               <span style={styles.btnSpan}>Log in with Facebook</span>
             </a>
@@ -133,6 +247,13 @@ export default class Login extends React.Component {
       </Grid>
           </div>
              </div>
+             <FbLoginBtn
+  width="250"
+  dataScope="public_profile,email"
+  onSuccess={this.onSuccess}
+  onFailure={() => {}}
+  afterLogin={() => {}}
+/>
       </div>
 
     );
