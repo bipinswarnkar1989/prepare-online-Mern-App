@@ -159,8 +159,7 @@ export default class Login extends React.Component {
         buttonsDiv: {
         textAlign: 'center',
         padding: 10,
-        marginTop:50,
-        backgroundColor:'green',
+        marginTop:50
         },
         btn: {
       background: '#4f81e9',

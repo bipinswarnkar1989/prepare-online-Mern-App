@@ -69,13 +69,20 @@ class FbLoginBtn extends React.Component {
 
 
 
+
+
   render() {
+    const styles = {
+      spinner:{
+
+      }
+    }
     return (
       <div
         className="fb-login-button"
         data-width={this.props.width}
         data-max-rows="1"
-        data-size="large"
+        data-size="medium"
         data-button-type="login_with"
         data-show-faces="false"
         data-auto-logout-link="true"
