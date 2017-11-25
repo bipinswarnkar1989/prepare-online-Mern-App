@@ -86,14 +86,16 @@ export default class Login extends React.Component {
 	statusChangeCallback(response) {
 	  console.log('statusChangeCallback');
 	  console.log(response);
+    console.log('LoggedIn: '+JSON.stringify(this.props.mappedUserState.isLoggedIn));
+    window.FB.Event.subscribe('auth.statusChange', this.fbAuthStatusChangeCallback);
 	  // The response object is returned with a status field that lets the
 	  // app know the current login status of the person.
 	  // Full docs on the response object can be found in the documentation
 	  // for FB.getLoginStatus().
 	  if (response.status === 'connected') {
 	    // Logged into your app and Facebook.
-	    this.testAPI();
-      window.FB.Event.subscribe('auth.statusChange', this.fbAuthStatusChangeCallback);
+	    //this.testAPI();
+
       // Reload the same page
            //window.location.reload();
 	  } else if (response.status === 'not_authorized') {
@@ -112,11 +114,14 @@ export default class Login extends React.Component {
   console.log("auth_status_change_callback: " + response.status);
   window.FB.api('/me', function(response) {
   console.log('Successful login for: ' + response.name);
-  this.props.mappedUserState.isLoggedIn = true;
-  this.props.mappedUserState.user.fullName = response.name;
+  this.setfbUserData(response);
   document.getElementById('status').innerHTML =
-    'Thanks for logging in, ' + response.name + '!';
+    'Thanks for logging in from state, ' + response.name + '!';
   });
+}
+
+setfbUserData(u){
+  this.props.mappedsetfbUser(u);
 }
 
 	// This function is called when someone finishes with the Login
@@ -246,13 +251,8 @@ export default class Login extends React.Component {
       </Grid>
           </div>
              </div>
-             <FbLoginBtn
-  width="250"
-  dataScope="public_profile,email"
-  onSuccess={this.onSuccess}
-  onFailure={() => {}}
-  afterLogin={() => {}}
-/>
+
+{JSON.stringify(this.props.mappedUserState.user)}
       </div>
 
     );

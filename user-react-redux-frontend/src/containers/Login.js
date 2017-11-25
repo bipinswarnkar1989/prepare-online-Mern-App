@@ -11,7 +11,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-       signIn: user => dispatch(userActions.signIn(user))
+       signIn: user => dispatch(userActions.signIn(user)),
+       mappedsetfbUser: user => dispatch(userActions.setfbUser(user))
   }
 }
 

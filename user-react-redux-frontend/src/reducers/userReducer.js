@@ -31,6 +31,11 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
          ...currentState, user:action.user, isLoggedIn:true, successMsg:null, error:null
        }
 
+ case 'SET_LOGGED_FB_USER':
+       return {
+         ...currentState, user:{fullName:action.response.name,email:action.response.email}, isLoggedIn:true, successMsg:null, error:null
+       }
+
  case 'SIGN_OUT_USER':
        return {
          ...currentState, user:null, isLoggedIn:false

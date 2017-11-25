@@ -90,6 +90,13 @@ export const setUser = (user) => {
   }
 }
 
+export const setfbUser = (response) => {
+  return {
+    type:'SET_LOGGED_FB_USER',
+    response
+  }
+}
+
 export const signOutUser = () => {
   localStorage.removeItem('userToken');
   return {
