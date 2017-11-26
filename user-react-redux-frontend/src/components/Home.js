@@ -32,7 +32,6 @@ export default class Home extends React.Component {
       const user = this.props.mappedUserState.user;
     return(
       <div style={styles.homeContainer}>
-        {/*JSON.stringify(this.props.mappedUserState)*/}
       <div styles={styles.qBContainer}>
         {user &&
            <h2>Welcome {user.fullName} </h2>

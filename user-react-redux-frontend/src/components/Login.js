@@ -5,7 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router';
 import {grey500, white} from 'material-ui/styles/colors';
 import { Grid, Row, Col } from 'react-material-responsive-grid';
-import FbLoginBtn from './Fblogin'
+import FbLoginBtn from './Fblogin';
+import { browserHistory } from 'react-router';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -87,7 +88,8 @@ export default class Login extends React.Component {
 	  console.log('statusChangeCallback');
 	  console.log(response);
     console.log('LoggedIn: '+JSON.stringify(this.props.mappedUserState.isLoggedIn));
-    window.FB.Event.subscribe('auth.statusChange', this.fbAuthStatusChangeCallback);
+    window.FB.Event.subscribe('auth.statusChange', this.fbAuthStatusChangeCallback.bind(this));
+
 	  // The response object is returned with a status field that lets the
 	  // app know the current login status of the person.
 	  // Full docs on the response object can be found in the documentation
@@ -111,13 +113,16 @@ export default class Login extends React.Component {
 	}
 
   fbAuthStatusChangeCallback = (response) => {
+      var self = this;
   console.log("auth_status_change_callback: " + response.status);
-  window.FB.api('/me', function(response) {
+  window.FB.api('/me',{fields:'email,name'}, function(response) {
   console.log('Successful login for: ' + response.name);
-  this.setfbUserData(response);
+  console.log(response);
+  self.setfbUserData(response);
   document.getElementById('status').innerHTML =
     'Thanks for logging in from state, ' + response.name + '!';
   });
+  browserHistory.push('/');
 }
 
 setfbUserData(u){
