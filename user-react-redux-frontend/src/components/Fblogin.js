@@ -93,5 +93,13 @@ class FbLoginBtn extends React.Component {
     );
   }
 }
-
+{/*
+  <FbLoginBtn
+  width="250"
+  dataScope="public_profile,email"
+  onSuccess={this.onSuccess}
+  onFailure={() => {}}
+  afterLogin={() => {}}
+  />
+   */}
 export default FbLoginBtn;

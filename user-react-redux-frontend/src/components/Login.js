@@ -12,8 +12,8 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.onSuccess = this.onSuccess.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
+    // this.onSuccess = this.onSuccess.bind(this);
   }
 
   componentWillMount(){
@@ -87,35 +87,33 @@ export default class Login extends React.Component {
 	statusChangeCallback(response) {
 	  console.log('statusChangeCallback');
 	  console.log(response);
-    console.log('LoggedIn: '+JSON.stringify(this.props.mappedUserState.isLoggedIn));
+    console.log('response.status: '+response.status);
     window.FB.Event.subscribe('auth.statusChange', this.fbAuthStatusChangeCallback.bind(this));
 
 	  // The response object is returned with a status field that lets the
 	  // app know the current login status of the person.
 	  // Full docs on the response object can be found in the documentation
 	  // for FB.getLoginStatus().
-	  if (response.status === 'connected') {
-	    // Logged into your app and Facebook.
-	    //this.testAPI();
-
-      // Reload the same page
-           //window.location.reload();
-	  } else if (response.status === 'not_authorized') {
-	    // The person is logged into Facebook, but not your app.
-	    document.getElementById('status').innerHTML = 'Please log ' +
-	      'into this app.';
-	  } else {
-	    // The person is not logged into Facebook, so we're not sure if
-	    // they are logged into this app or not.
-	    document.getElementById('status').innerHTML = 'Please log ' +
-	    'into Facebook.';
-	  }
+    if (response.status === 'connected') {
+  // the user is logged in and has authenticated your
+  // app, and response.authResponse supplies
+  // the user's ID, a valid access token, a signed
+  // request, and the time the access token
+  // and signed request each expire
+  var uid = response.authResponse.userID;
+  var accessToken = response.authResponse.accessToken;
+} else if (response.status === 'not_authorized') {
+  // the user is logged in to Facebook,
+  // but has not authenticated your app
+} else {
+  // the user isn't logged in to Facebook.
+}
 	}
 
   fbAuthStatusChangeCallback = (response) => {
       var self = this;
   console.log("auth_status_change_callback: " + response.status);
-  window.FB.api('/me',{fields:'email,name'}, function(response) {
+  window.FB.api('/me',{fields:'email,name,first_name,last_name,link,gender,locale,picture,id,age_range'}, function(response) {
   console.log('Successful login for: ' + response.name);
   console.log(response);
   self.setfbUserData(response);
@@ -132,22 +130,22 @@ setfbUserData(u){
 	// This function is called when someone finishes with the Login
 	// Button.  See the onlogin handler attached to it in the sample
 	// code below.
-	checkLoginState() {
-	  window.FB.getLoginStatus(function(response) {
-	    this.statusChangeCallback(response);
-	  }.bind(this));
-	}
-
-	handleClick(event) {
-    event.preventDefault();
-	  window.FB.login(this.checkLoginState());
-	}
-
-  onSuccess(response){
-    document.getElementById('status').innerHTML =
-	    'Thanks for logging in, ' + response.name + '!';
-	     console.log('Success')
-  }
+	// checkLoginState() {
+	//   window.FB.getLoginStatus(function(response) {
+	//     this.statusChangeCallback(response);
+	//   }.bind(this));
+	// }
+  //
+	// handleClick(event) {
+  //   event.preventDefault();
+	//   window.FB.login(this.checkLoginState());
+	// }
+  //
+  // onSuccess(response){
+  //   document.getElementById('status').innerHTML =
+	//     'Thanks for logging in, ' + response.name + '!';
+	//      console.log('Success')
+  // }
 
   render(){
     const styles = {
@@ -241,10 +239,18 @@ setfbUserData(u){
             <Grid>
              <Row>
                 <Col md={6}>
-            <a href="#" onClick={this.handleClick} style={{...styles.btn, ...styles.btnFacebook}}>
-              <i className="fa fa-facebook fa-lg"/>
-              <span style={styles.btnSpan}>Log in with Facebook</span>
-            </a>
+                  <div
+                    className="fb-login-button"
+                    data-width=""
+                    data-max-rows="1"
+                    data-size="medium"
+                    data-button-type="login_with"
+                    data-show-faces="false"
+                    data-auto-logout-link="true"
+                    data-use-continue-as="false"
+                    data-scope="public_profile,email"
+                  >
+                  </div>
           </Col>
           <Col md={6}>
             <Link to="/" style={{...styles.btn, ...styles.btnGoogle}}>
