@@ -12,7 +12,7 @@ const router = express.Router();
   router.get('/getuser', userController.authenticate, userController.getUsers);
   router.post('/signup',userController.registerUser);
   router.post('/signin',userController.loginUser);
-  // router.get('/login/facebook',passport.authenticate('facebook'));
+  router.post('/signupwithSocial',userController.loginWithSocial);
   // router.get('/login/facebook/return',
   //   passport.authenticate('facebook', {failureRedirect: 'http://localhost:3000/login'}),
   //   function (req, res) {

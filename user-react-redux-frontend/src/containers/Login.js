@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
        signIn: user => dispatch(userActions.signIn(user)),
-       mappedsetfbUser: user => dispatch(userActions.setfbUser(user))
+       mappedSignUpSocialUser: user => dispatch(userActions.signUpSocialUser(user))
   }
 }
 

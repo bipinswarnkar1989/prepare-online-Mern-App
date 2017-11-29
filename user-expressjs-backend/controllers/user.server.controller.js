@@ -53,7 +53,8 @@ export const registerUser = (req,res) => {
    var newUser = new User({
      fullName:req.body.fullname,
      email:req.body.email,
-     password:req.body.password
+     password:req.body.password,
+     profileType:'local'
    });
    newUser.save((err,user) => {
      if(err){
@@ -99,9 +100,56 @@ export const loginUser = (req,res) => {
    })
 }
 
-export const loginWithFb = (req,res) => {
-  console.log('Logging with FB');
-  return res.end('Logging with FB');
+export const loginWithSocial = (req,res) => {console.log(req.body)
+  if (req.body.email && req.body.id) {
+    // Look up user by profile id
+      var u;
+      User.findOne({profileType: req.body.provider, profileId: req.body.id},(err,user) => {
+        if(err) {
+          return res.json({success:false,message:'Something going wrong'});
+        }
+
+        // Create a new user in the user table if not found
+        if (!user) {
+          var newUser = new User({
+            fullName: req.body.name,
+            email: req.body.email,
+            profileId: req.body.id,
+            profileType: req.body.provider,
+            gender: req.body.gender,
+            picture: `https://graph.facebook.com/${req.body.id}/picture?type=large`,
+            password: req.body.id
+          });
+
+          newUser.save((err,user) => {
+            if(err) {
+                 return res.json({success:false,message:'Something going wrong'});
+            }
+            else{
+              u =  user;
+              var token = generateToken(u);
+              return res.json({
+                success:true,
+                message:'Registered Successfully',
+                token
+              });
+            }
+          });
+
+        }
+        else{ //if user exists in database
+          u = user;
+          var token = generateToken(u);
+          return res.json({
+            success:true,
+            message:'Registered Successfully',
+            token
+          });
+        }
+
+      });
+
+  }
 }
 
 export const  findOrCreateFBUser = (profile,done) => {

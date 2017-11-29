@@ -23,7 +23,7 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
 
  case 'USER_SIGN_UP_REQUEST_SUCCESS':
        return {
-         ...currentState, isFetching:false, error:null, successMsg:action.data.message, isLoggedIn:true
+         ...currentState, isFetching:false, error:null, successMsg:action.data.message, isLoggedIn:false
        }
 
  case 'SET_LOGGED_USER':
@@ -31,10 +31,6 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
          ...currentState, user:action.user, isLoggedIn:true, successMsg:null, error:null
        }
 
- case 'SET_LOGGED_FB_USER':
-       return {
-         ...currentState, user:{fullName:action.response.name,email:action.response.email}, isLoggedIn:true, successMsg:null, error:null
-       }
 
  case 'SIGN_OUT_USER':
        return {

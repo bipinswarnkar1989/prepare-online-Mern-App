@@ -12,7 +12,7 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleClick = this.handleClick.bind(this);
+     this.handleClick = this.handleClick.bind(this);
     // this.onSuccess = this.onSuccess.bind(this);
   }
 
@@ -32,6 +32,10 @@ export default class Login extends React.Component {
     this.props.signIn(data);
   }
 
+  componentDidUpdate(w){
+   console.log('loads when same router clicked again');
+  }
+
   // fb sd code begins
   componentDidMount() {
 
@@ -41,46 +45,24 @@ export default class Login extends React.Component {
 	      cookie     : true,  // enable cookies to allow the server to access
 	                        // the session
 	      xfbml      : true,  // parse social plugins on this page
-	      version    : 'v2.1' // use version 2.1
+	      version    : 'v2.11' // use version 2.1
 	    });
 
-	    // Now that we've initialized the JavaScript SDK, we call
-	    // FB.getLoginStatus().  This function gets the state of the
-	    // person visiting this page and can return one of three states to
-	    // the callback you provide.  They can be:
-	    //
-	    // 1. Logged into your app ('connected')
-	    // 2. Logged into Facebook, but not your app ('not_authorized')
-	    // 3. Not logged into Facebook and can't tell if they are logged into
-	    //    your app or not.
-	    //
-	    // These three cases are handled in the callback function.
       //window.FB.Event.subscribe('auth.statusChange', this.statusChangeCallback());
-	    window.FB.getLoginStatus(function(response) {
-	      this.statusChangeCallback(response);
-	    }.bind(this));
+      /* comment by bipin: it redirect if user is logged in fb */
+	    // window.FB.getLoginStatus(function(response) {
+	    //   this.statusChangeCallback(response);
+	    // }.bind(this));
 	  }.bind(this);
 
-	  // Load the SDK asynchronously
+    // Load the SDK asynchronously
 	  (function(d, s, id) {
 	    var js, fjs = d.getElementsByTagName(s)[0];
 	    if (d.getElementById(id)) return;
-	    js = d.createElement(s); js.id = id;
-	    js.src = "//connect.facebook.net/en_US/sdk.js";
+	    js = d.createElement(s); js.id = id;js.async = true;
+	    js.src = "https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.11";
 	    fjs.parentNode.insertBefore(js, fjs);
 	  }(document, 'script', 'facebook-jssdk'));
-
-	}
-
-	// Here we run a very simple test of the Graph API after login is
-	// successful.  See statusChangeCallback() for when this call is made.
-	testAPI() {
-	  console.log('Welcome!  Fetching your information.... ');
-	  window.FB.api('/me', function(response) {
-	  console.log('Successful login for: ' + response.name);
-	  document.getElementById('status').innerHTML =
-	    'Thanks for logging in, ' + response.name + '!';
-	  });
 	}
 
 	// This is called with the results from from FB.getLoginStatus().
@@ -102,6 +84,7 @@ export default class Login extends React.Component {
   // and signed request each expire
   var uid = response.authResponse.userID;
   var accessToken = response.authResponse.accessToken;
+  this.fbAuthStatusChangeCallback(response);
 } else if (response.status === 'not_authorized') {
   // the user is logged in to Facebook,
   // but has not authenticated your app
@@ -115,31 +98,29 @@ export default class Login extends React.Component {
   console.log("auth_status_change_callback: " + response.status);
   window.FB.api('/me',{fields:'email,name,first_name,last_name,link,gender,locale,picture,id,age_range'}, function(response) {
   console.log('Successful login for: ' + response.name);
+  response.provider = 'facebook'
   console.log(response);
-  self.setfbUserData(response);
-  document.getElementById('status').innerHTML =
-    'Thanks for logging in from state, ' + response.name + '!';
+  self.signUpSocialUser(response);
   });
-  browserHistory.push('/');
 }
 
-setfbUserData(u){
-  this.props.mappedsetfbUser(u);
+signUpSocialUser(u){
+  this.props.mappedSignUpSocialUser(u);
 }
 
 	// This function is called when someone finishes with the Login
 	// Button.  See the onlogin handler attached to it in the sample
 	// code below.
-	// checkLoginState() {
-	//   window.FB.getLoginStatus(function(response) {
-	//     this.statusChangeCallback(response);
-	//   }.bind(this));
-	// }
-  //
-	// handleClick(event) {
-  //   event.preventDefault();
-	//   window.FB.login(this.checkLoginState());
-	// }
+	checkLoginState() {
+	  window.FB.getLoginStatus(function(response) {
+	    this.statusChangeCallback(response);
+	  }.bind(this));
+	}
+
+	handleClick(event) {
+    event.preventDefault();
+	  window.FB.login(this.checkLoginState());
+	}
   //
   // onSuccess(response){
   //   document.getElementById('status').innerHTML =
@@ -185,9 +166,11 @@ setfbUserData(u){
       background: '#e14441'
     },
     btnSpan: {
-      marginLeft: 5
+      marginLeft: 5,
+      padding:'14px'
     }
 };
+       
      const { isFetching,error,successMsg } = this.props.mappedUserState;
     return(
       <div style={styles.loginContainer}>
@@ -239,18 +222,24 @@ setfbUserData(u){
             <Grid>
              <Row>
                 <Col md={6}>
-                  <div
-                    className="fb-login-button"
-                    data-width=""
-                    data-max-rows="1"
-                    data-size="medium"
-                    data-button-type="login_with"
-                    data-show-faces="false"
-                    data-auto-logout-link="true"
-                    data-use-continue-as="false"
-                    data-scope="public_profile,email"
-                  >
+                  <a href="#" onClick={this.handleClick} style={{...styles.btn, ...styles.btnFacebook}}>
+               <i className="fa fa-facebook fa-lg"/>
+               <span style={styles.btnSpan}>Log in with Facebook</span>
+             </a>
+                  {/*
+                    <div
+                      className="fb-login-button"
+                      data-width=""
+                      data-max-rows="1"
+                      data-size="large"
+                      data-button-type="login_with"
+                      data-show-faces="false"
+                      data-auto-logout-link="false"
+                      data-use-continue-as="true"
+                      data-scope="public_profile,email"
+                    >
                   </div>
+                  */}
           </Col>
           <Col md={6}>
             <Link to="/" style={{...styles.btn, ...styles.btnGoogle}}>
@@ -263,7 +252,6 @@ setfbUserData(u){
           </div>
              </div>
 
-{JSON.stringify(this.props.mappedUserState.user)}
       </div>
 
     );

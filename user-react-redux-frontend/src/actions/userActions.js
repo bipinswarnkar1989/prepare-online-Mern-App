@@ -90,10 +90,34 @@ export const setUser = (user) => {
   }
 }
 
-export const setfbUser = (response) => {
-  return {
-    type:'SET_LOGGED_FB_USER',
-    response
+
+export const signUpSocialUser = (user) => {
+  return (dispatch) => {
+    dispatch(signUpRequest());
+    return fetch(`${apiUrl}user/signupwithSocial`, {
+      method:'post',
+      body:JSON.stringify(user),
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      }
+    }).then(response => {
+      if(response.ok){
+        response.json().then(data => {
+          if(data.success){
+            dispatch(signUpRequestSuccess(data));
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('userToken', data.token);
+                // - redirect to the route '/feature'
+                browserHistory.push('/');
+          }
+        })
+      }else{
+        response.json().then(error => {
+          dispatch(signUpRequestFailed(error));
+        })
+      }
+    })
   }
 }
 

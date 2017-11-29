@@ -78,7 +78,7 @@ logout(event){
 
              <LeftDrawer navDrawerOpen={navDrawerOpen}
                          menus={isLoggedIn ? loggedInMenuRoutes : menuRoutes}
-                         username={isLoggedIn ? user.fullName : 'Guest User'}/>
+                         username={isLoggedIn  ? user.fullName : 'Guest User'}/>
 
              <div style={styles.container}>
                {this.props.children}
