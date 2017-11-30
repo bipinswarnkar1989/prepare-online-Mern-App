@@ -54,6 +54,11 @@ case 'USER_SIGN_IN_REQUEST_SUCCESS':
       ...currentState, isFetching:false, error:null, successMsg:action.data.message
     }
 
+case 'CHECK_LOGGED_IN':
+     return{
+       ...currentState, user:currentState.user, isLoggedIn:currentState.isLoggedIn
+     }
+
     default:
        return currentState;
 

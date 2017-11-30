@@ -12,7 +12,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
        signIn: user => dispatch(userActions.signIn(user)),
-       mappedSignUpSocialUser: user => dispatch(userActions.signUpSocialUser(user))
+       mappedSignUpSocialUser: user => dispatch(userActions.signUpSocialUser(user)),
+       mappedfetchUserIfLoggedIn: () => dispatch(userActions.fetchUserIfLoggedIn())
   }
 }
 

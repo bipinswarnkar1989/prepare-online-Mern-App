@@ -19,6 +19,7 @@ export default class Login extends React.Component {
   componentWillMount(){
     this.props.mappedUserState.error = null;
     this.props.mappedUserState.successMsg = null;
+    this.props.mappedfetchUserIfLoggedIn();
   }
 
   handleSubmit(event){
@@ -128,6 +129,8 @@ signUpSocialUser(u){
 	//      console.log('Success')
   // }
 
+
+
   render(){
     const styles = {
         loginContainer: {
@@ -170,14 +173,15 @@ signUpSocialUser(u){
       padding:'14px'
     }
 };
-       
+
      const { isFetching,error,successMsg } = this.props.mappedUserState;
+
     return(
       <div style={styles.loginContainer}>
       <div>
 
 
-                 <h1>Login</h1>
+                 <h1>Login </h1>
 
                  <form onSubmit={this.handleSubmit} onChange={this.clearErrors}>
                    <div className="row collapse">
