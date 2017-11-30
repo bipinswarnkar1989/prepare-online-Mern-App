@@ -11,7 +11,7 @@ var generateToken = user => {
     _id:user._id
   }
   const token = jwt.sign(u, 'my-secret', { algorithm: 'HS384' } ,{
-     expiresIn: 60 * 60 * 24 // expires in 24 hours
+     expiresIn: 60 * 60 * 1 // expires in 1 hours
   },(err,token) => token);
 
   return token;

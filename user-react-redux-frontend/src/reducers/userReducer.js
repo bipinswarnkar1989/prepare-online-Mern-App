@@ -37,6 +37,11 @@ const userReducer = (currentState = INITIAL_STATE, action) => {
          ...currentState, user:null, isLoggedIn:false
        }
 
+case 'SIGN_OUT_USER_TOKEN_ERROR':
+     return {
+       ...currentState, user:null, isLoggedIn:false,error:action.data.message
+     }
+
  case 'USER_SIGN_IN_REQUEST':
        return {
          ...currentState, isFetching:true

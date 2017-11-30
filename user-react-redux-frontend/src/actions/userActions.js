@@ -76,7 +76,17 @@ export const fetchUserIfLoggedIn = () => {
               }
 
             }
+            else if(!data.success && data.message){
+              dispatch(signOutUserTokenError(data));
+              browserHistory.push('/');
+            }
+            else{
+              dispatch(signOutUser());
+            }
           })
+        }
+        else{
+          dispatch(signOutUser());
         }
       })
 
@@ -85,6 +95,14 @@ export const fetchUserIfLoggedIn = () => {
       // else part if there is no token on localStorage
       return ;
     }
+  }
+}
+
+export const signOutUserTokenError = (data) => {
+  localStorage.removeItem('userToken');
+  return {
+    type:'SIGN_OUT_USER_TOKEN_ERROR',
+    data
   }
 }
 
