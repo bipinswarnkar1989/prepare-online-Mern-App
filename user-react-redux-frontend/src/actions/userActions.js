@@ -71,7 +71,7 @@ export const fetchUserIfLoggedIn = () => {
             if(data.success){
               dispatch(setUser(data.user));
               const location = browserHistory.getCurrentLocation();
-              if(location.pathname == '/login'){
+              if(location.pathname === '/login'){
                 browserHistory.push('/');
               }
 

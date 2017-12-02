@@ -5,8 +5,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Link} from 'react-router';
 import {grey500, white} from 'material-ui/styles/colors';
 import { Grid, Row, Col } from 'react-material-responsive-grid';
-import FbLoginBtn from './Fblogin';
+//import FbLoginBtn from './Fblogin';
 import { browserHistory } from 'react-router';
+import GoogleLogin from './GoogleLogin';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -246,10 +247,7 @@ signUpSocialUser(u){
                   */}
           </Col>
           <Col md={6}>
-            <Link to="/" style={{...styles.btn, ...styles.btnGoogle}}>
-              <i className="fa fa-google-plus fa-lg"/>
-              <span style={styles.btnSpan}>Log in with Google</span>
-            </Link>
+            <GoogleLogin/>
           </Col>
         </Row>
       </Grid>
