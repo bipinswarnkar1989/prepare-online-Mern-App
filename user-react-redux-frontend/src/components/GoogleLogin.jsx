@@ -2,25 +2,20 @@
 import React from 'react';
 
 class GoogleLogin extends React.Component{
+  g;
   componentDidMount(){
-    this.handleClientLoad();
-        (function() {
-            var e = document.createElement("script");
-            e.type = "text/javascript";
-            e.async = true;
-            e.src = "https://apis.google.com/js/client:platform.js?onload=gPOnLoad";
-            var t = document.getElementsByTagName("script")[0];
-            t.parentNode.insertBefore(e, t)
-        });
+        let self = this;
+        let scriptTag = document.createElement('script');
+        scriptTag.type = 'text/javascript';
+        scriptTag.src = "https://apis.google.com/js/client:platform.js?onload=onLoadCallback";
+        scriptTag.async = true;
 
-        // Load the SDK asynchronously
-        (function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;js.async = true;
-          js.src = "https://apis.google.com/js/client:platform.js";
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script'));
+        document.body.appendChild(scriptTag);
+        //this.handleClientLoad();
+        window.onLoadCallback = function(){
+             window.gapi.load('client:auth2', self.initClient());
+           }
+
 
     }
 
@@ -101,7 +96,7 @@ class GoogleLogin extends React.Component{
       }
       return(
         <div>
-          <a href="#" style={{...styles.btn, ...styles.btnGoogle}} onClick={ (event) => this.googleLogin(event) }>
+          <a href="#" style={{...styles.btn, ...styles.btnGoogle}} onClick={ (event) => this.handleSignInClick(event) }>
             <i className="fa fa-google-plus fa-lg"/>
             <span style={styles.btnSpan}>Log in with Google</span>
           </a>
