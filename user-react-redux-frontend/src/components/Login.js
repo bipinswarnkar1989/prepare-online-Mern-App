@@ -100,7 +100,8 @@ export default class Login extends React.Component {
   console.log("auth_status_change_callback: " + response.status);
   window.FB.api('/me',{fields:'email,name,first_name,last_name,link,gender,locale,picture,id,age_range'}, function(response) {
   console.log('Successful login for: ' + response.name);
-  response.provider = 'facebook'
+  response.provider = 'facebook';
+  response.picture = `https://graph.facebook.com/${response.id}/picture?type=large`
   console.log(response);
   self.signUpSocialUser(response);
   });
@@ -247,7 +248,7 @@ signUpSocialUser(u){
                   */}
           </Col>
           <Col md={6}>
-            <GoogleLogin/>
+            <GoogleLogin signUpSocialUser = {(u) => this.signUpSocialUser(u)}/>
           </Col>
         </Row>
       </Grid>

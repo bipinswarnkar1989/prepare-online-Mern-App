@@ -2,7 +2,7 @@
 import React from 'react';
 
 class GoogleLogin extends React.Component{
-  g;
+
   componentDidMount(){
         let self = this;
         let scriptTag = document.createElement('script');
@@ -87,7 +87,6 @@ class GoogleLogin extends React.Component{
 
      //Triggering login for google
     googleLogin = () => {
-        let response = null;
         window.gapi.auth.signIn({
             callback: function(authResponse) {
                 this.googleSignInCallback( authResponse )
@@ -127,7 +126,17 @@ class GoogleLogin extends React.Component{
             } else if (e.id) {
                 //Profile data
                 console.log(e)
-                alert("Successfull login from google : "+ e.displayName );
+                //alert("Successfull login from google : "+ e.displayName );
+                const userData = {
+                  name:e.displayName,
+                  email:e.emails[0].value,
+                  id:e.id,
+                  provider:'google',
+                  gender: e.gender,
+                  picture: e.image.url,
+                  password: e.id
+                }
+                this.props.signUpSocialUser(userData);
                 return;
             }
         }.bind(this));

@@ -117,7 +117,7 @@ export const loginWithSocial = (req,res) => {console.log(req.body)
             profileId: req.body.id,
             profileType: req.body.provider,
             gender: req.body.gender,
-            picture: `https://graph.facebook.com/${req.body.id}/picture?type=large`,
+            picture: req.body.picture,
             password: req.body.id
           });
 
