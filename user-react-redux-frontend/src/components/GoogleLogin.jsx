@@ -36,25 +36,39 @@ class GoogleLogin extends React.Component{
            clientId: '589604253674-5p72onvt84t9l3ev7lrav6i9c1je9i5t.apps.googleusercontent.com',
            scope: 'profile'
        }).then(function () {
-         // Listen for sign-in state changes.
-         window.gapi.auth2.getAuthInstance().isSignedIn.listen(self.updateSigninStatus);
 
-         // Handle the initial sign-in state. But not needed . by bipin. so commenting
-         //self.updateSigninStatus(window.gapi.auth2.getAuthInstance().isSignedIn.get());
        });
      }
 
-      updateSigninStatus(isSignedIn) {
+      updateSigninStatus(isSignedIn) {console.log('updateSigninStatusCalled')
+        let self = this;
        // When signin status changes, this function is called.
        // If the signin status is changed to signedIn, we make an API call.
-       if (isSignedIn) {console.log('updateSigninStatus')
+       if (isSignedIn) {console.log('updateSigninStatus');console.log(JSON.stringify(window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token));
+       let accessToken = window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
+       if(!accessToken || accessToken === undefined || accessToken === 'undefined' || accessToken === '') return;
          window.gapi.client.load('plus','v1',function(){
            var request = window.gapi.client.plus.people.get({
              'userId':'me'
            });
            request.execute(function(resp){
+             console.log('resp: '+ resp);
              console.log(resp);
-             console.log('Retrieved profile for: '+resp.displayName);
+             if(resp.id){
+               const userData = {
+                 name:resp.displayName,
+                 email:resp.emails[0].value,
+                 id:resp.id,
+                 provider:'google',
+                 gender: resp.gender,
+                 picture: resp.image.url,
+                 password: resp.id
+               }
+
+                 self.props.signUpSocialUser(userData);
+               console.log('Retrieved profile for: '+resp.displayName);
+
+             }
            })
          })
        }
@@ -62,10 +76,19 @@ class GoogleLogin extends React.Component{
 
       handleSignInClick(event) {
         event.preventDefault();
+        let self = this;
        // Ideally the button should only show up after gapi.client.init finishes, so that this
        // handler won't be called before OAuth is initialized.
-       this.googleLogin();
-       //window.gapi.auth2.getAuthInstance().signIn();
+       //this.googleLogin();
+       console.log('RESPONSE: ')
+       console.log(JSON.stringify(window.gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token));
+       window.gapi.auth2.getAuthInstance().signIn();
+       // Listen for sign-in state changes.
+      window.gapi.auth2.getAuthInstance().isSignedIn.listen(self.updateSigninStatus);
+
+       // Handle the initial sign-in state. But not needed . by bipin. so commenting
+       self.updateSigninStatus(window.gapi.auth2.getAuthInstance().isSignedIn.get());
+
      }
 
       handleSignOutClick(event) {
@@ -86,11 +109,13 @@ class GoogleLogin extends React.Component{
      }
 
      //Triggering login for google
-    googleLogin = () => {
+    googleLogin = (event) => {let self = this;
+      event.preventDefault();
         window.gapi.auth.signIn({
             callback: function(authResponse) {
-                this.googleSignInCallback( authResponse )
-            }.bind( this ),
+                console.log(authResponse)
+                self.googleSignInCallback( authResponse )
+            },
             clientid: '589604253674-5p72onvt84t9l3ev7lrav6i9c1je9i5t.apps.googleusercontent.com', //Google client Id
             cookiepolicy: "single_host_origin",
             requestvisibleactions: "http://schema.org/AddAction",
@@ -99,6 +124,7 @@ class GoogleLogin extends React.Component{
     }
 
     googleSignInCallback = (e) => {
+      console.log('googleSignInCallback: ');
         console.log( e )
         if (e["status"]["signed_in"]) {
             window.gapi.client.load("plus", "v1", function() {
@@ -114,6 +140,7 @@ class GoogleLogin extends React.Component{
     }
 
     getUserGoogleProfile = accesstoken => {
+      console.log('getUserGoogleProfile: '+accesstoken);
         var e = window.gapi.client.plus.people.get({
             userId: "me"
         });

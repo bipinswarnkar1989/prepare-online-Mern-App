@@ -177,6 +177,7 @@ signUpSocialUser(u){
 };
 
      const { isFetching,error,successMsg } = this.props.mappedUserState;
+     const user = this.props.mappedUserState.user;
 
     return(
       <div style={styles.loginContainer}>
