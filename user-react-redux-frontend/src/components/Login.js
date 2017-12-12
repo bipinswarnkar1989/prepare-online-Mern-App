@@ -8,6 +8,7 @@ import { Grid, Row, Col } from 'react-material-responsive-grid';
 //import FbLoginBtn from './Fblogin';
 import { browserHistory } from 'react-router';
 import GoogleLogin from './GoogleLogin';
+import LinkedinLogin from './LinkedinLogin';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -228,7 +229,7 @@ signUpSocialUser(u){
        </div>
             <Grid>
              <Row>
-                <Col md={6}>
+                <Col md={4}>
                   <a href="#" onClick={this.handleClick} style={{...styles.btn, ...styles.btnFacebook}}>
                <i className="fa fa-facebook fa-lg"/>
                <span style={styles.btnSpan}>Log in with Facebook</span>
@@ -248,8 +249,11 @@ signUpSocialUser(u){
                   </div>
                   */}
           </Col>
-          <Col md={6}>
+          <Col md={4}>
             <GoogleLogin signUpSocialUser = {(u) => this.signUpSocialUser(u)}/>
+          </Col>
+          <Col md={4}>
+            <LinkedinLogin signUpSocialUser = {(u) => this.signUpSocialUser(u)}/>
           </Col>
         </Row>
       </Grid>
