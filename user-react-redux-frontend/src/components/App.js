@@ -78,7 +78,8 @@ logout(event){
 
              <LeftDrawer navDrawerOpen={navDrawerOpen}
                          menus={user ? loggedInMenuRoutes : menuRoutes}
-                         username={user  ? user.fullName : 'Guest User'}/>
+                         username={user  ? user.fullName : 'Guest User'}
+                         userprofilepic={user ? user.picture : 'http://www.material-ui.com/images/uxceo-128.jpg'}/>
 
              <div style={styles.container}>
                {this.props.children}

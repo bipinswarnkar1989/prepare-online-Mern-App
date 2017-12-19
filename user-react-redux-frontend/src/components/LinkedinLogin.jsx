@@ -7,40 +7,47 @@ class LinkedinLogin extends React.Component{
     }
 
     componentDidMount(){
-        (function() {
             var e = document.createElement("script");
             e.type = "text/javascript";
             e.async = true;
-            e.src = "http://platform.linkedin.com/in.js?async=true";
-            var t = document.getElementsByTagName("script")[0];
-            t.parentNode.insertBefore(e, t)
-        })();
-    }
-
-    //Trigger Login for LinkedIn
-    linkedinLogin = () => {
-        window.IN.init({
-            api_key : 'config.linkedin'
-        });
-        setTimeout(function(){
-                this.getUserDetails()
-            }.bind(this),1000);
-        console.log( "Loaded" )
+            e.src = "http://platform.linkedin.com/in.js";
+            e.text = "api_key: 81s9xziqg4fhlb";
+            document.body.appendChild(e);
     }
 
     getUserDetails = () => {
+      var self = this;
         window.IN.User.authorize( function(){
             window.IN.API.Profile("me")
-                .fields(["id", "firstName", "lastName", "pictureUrl", "publicProfileUrl"])
-                .result(function(result) {
-                    console.log(result);
-                    alert("Successfull login from linkedin : "+ result.values[0].firstName + " " + result.values[0].lastName);
+                .fields(["id", "firstName", "lastName", "pictureUrl", "publicProfileUrl","email-address"])
+                .result(function(resp) {
+                    console.log(resp.values[0]);
+                    resp = resp.values[0];
+                    if(resp.id){
+                      let fullName = resp.firstName+' '+resp.lastName;
+                      const userData = {
+                        name:fullName,
+                        email:resp.emailAddress,
+                        id:resp.id,
+                        provider:'linkedin',
+                        gender: '',
+                        picture: resp.pictureUrl,
+                        password: resp.id
+                      }
+                        self.props.signUpSocialUser(userData);
+                      }
                 })
                 .error(function(err) {
                     console.log('Import error - Error occured while importing data')
                 });
         });
     }
+
+   handleSignInClick = (event) => {
+     event.preventDefault();
+     this.getUserDetails();
+   }
+
     render(){
       const styles = {
         btn: {

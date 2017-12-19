@@ -8,7 +8,8 @@ var generateToken = user => {
   let u = {
     fullName: user.fullName,
     email:user.email,
-    _id:user._id
+    _id:user._id,
+    picture:user.picture
   }
   const token = jwt.sign(u, 'my-secret', { algorithm: 'HS384' } ,{
      expiresIn: 60 * 60 * 1 // expires in 1 hours
