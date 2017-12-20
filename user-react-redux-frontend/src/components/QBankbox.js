@@ -4,11 +4,26 @@ import {white, grey800, lightBlue900, blueGrey500} from 'material-ui/styles/colo
 import {typography} from 'material-ui/styles';
 
 class QBankbox extends React.Component {
+  maintainTextLength(text,maxLength){
+    if(text.length >= maxLength){
+      let shortedText = text.substr(0,maxLength);
+      return `${shortedText}...`;
+    }
+    else{
+      return text;
+    }
+  }
 
   render() {
     const {color, title, countQuestions, Icon, username, lastUpdated} = this.props;
 
     const styles = {
+      paperStyle:{
+        marginRight:5,
+        marginLeft:5,
+        marginTop:5,
+
+      },
       QbBox:{
 
       },
@@ -55,12 +70,14 @@ class QBankbox extends React.Component {
         width: 48,
         marginTop: 20,
         maxWidth: '100%'
-
+      },
+      maxTextLength:{
+        minWidth:'150px'
       }
     };
 
     return (
-      <Paper>
+      <Paper style={styles.paperStyle}>
       <div className="QbBox" style={styles.QbBox}>
         <span style={styles.iconSpan}>
           <Icon color={white}
@@ -69,9 +86,9 @@ class QBankbox extends React.Component {
         </span>
 
         <div style={styles.content}>
-          <span style={styles.text}>{title}</span>
+          <span style={{...styles.text,...styles.maxTextLength}}>{this.maintainTextLength(title,20)}</span>
           <span style={styles.number}>{countQuestions} Questions</span>
-          <span>Author: <span style={styles.username} >{username}</span></span>
+          <span>Author: <span style={{...styles.username,...styles.maxTextLength}} >{this.maintainTextLength(username,20)}</span></span>
           <div className="lastUpdatedDiv" style={styles.lastUpdatedDiv}><div style={styles.lastUpdated} className="lastUpdated">{lastUpdated}</div></div>
         </div>
       </div>

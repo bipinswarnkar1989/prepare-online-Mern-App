@@ -143,7 +143,7 @@ signUpSocialUser(u){
           right: 0,
           margin: 'auto',
           textAlign:'center',
-          maxWidth:600
+          maxWidth:680
         },
         loginButton: {
           marginTop:20
@@ -166,10 +166,7 @@ signUpSocialUser(u){
       display:'block'
     },
     btnFacebook: {
-      background: '#4f81e9'
-    },
-    btnGoogle: {
-      background: '#e14441'
+      background: '#3b5999'
     },
     btnSpan: {
       marginLeft: 5,

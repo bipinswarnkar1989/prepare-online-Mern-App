@@ -60,7 +60,7 @@ class LinkedinLogin extends React.Component{
       display:'block'
     },
     btnLinkedIn: {
-      background: '#0075BA'
+      background: '#0077B5'
     },
     btnSpan: {
       marginLeft: 5,

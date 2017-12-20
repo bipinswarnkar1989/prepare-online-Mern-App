@@ -185,7 +185,7 @@ class GoogleLogin extends React.Component{
       display:'block'
     },
     btnGoogle: {
-      background: '#e14441'
+      background: '#dd4b39'
     },
     btnSpan: {
       marginLeft: 5,
