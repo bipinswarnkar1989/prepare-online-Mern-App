@@ -14,8 +14,16 @@ class QBankbox extends React.Component {
     }
   }
 
+  dateFormat(date){
+    let d = new Date(date);
+    let month = d.getMonth();
+    let year = d.getFullYear();
+    let day = d.getUTCDay();
+    return `${month} ${day}, ${year}`;   // September 19, 2015
+  }
+
   render() {
-    const {color, title, countQuestions, Icon, username, lastUpdated} = this.props;
+    const {color, title, countQuestions, Icon, author, lastUpdated} = this.props;
 
     const styles = {
       paperStyle:{
@@ -27,10 +35,18 @@ class QBankbox extends React.Component {
       QbBox:{
 
       },
-      username:{
-        fontSize:15,
+      title:{
+        fontSize:17,
         color: lightBlue900,
-        display:'block'
+        display:'block',
+        fontWeight: typography.fontWeightBold,
+        minWidth:'90%',
+        maxWidth:'50px',
+        maxHeight:'40px',
+        minHeight:'40px',
+        overflow:'hidden',
+        padding:2,
+        wordWrap:'break'
       },
       content: {
         padding: '5px 10px',
@@ -43,7 +59,8 @@ class QBankbox extends React.Component {
       },
       lastUpdated:{
         fontSize:12,
-        color:blueGrey500
+        color:blueGrey500,
+        textAlign:'center'
       },
       number: {
         display: 'block',
@@ -72,7 +89,7 @@ class QBankbox extends React.Component {
         maxWidth: '100%'
       },
       maxTextLength:{
-        minWidth:'150px'
+
       }
     };
 
@@ -86,10 +103,10 @@ class QBankbox extends React.Component {
         </span>
 
         <div style={styles.content}>
-          <span style={{...styles.text,...styles.maxTextLength}}>{this.maintainTextLength(title,20)}</span>
+          <span style={{...styles.title,...styles.maxTextLength}}>{this.maintainTextLength(title,20)}</span>
           <span style={styles.number}>{countQuestions} Questions</span>
-          <span>Author: <span style={{...styles.username,...styles.maxTextLength}} >{this.maintainTextLength(username,20)}</span></span>
-          <div className="lastUpdatedDiv" style={styles.lastUpdatedDiv}><div style={styles.lastUpdated} className="lastUpdated">{lastUpdated}</div></div>
+          <span>Author: <span style={{...styles.username,...styles.maxTextLength}} >{this.maintainTextLength(author,20)}</span></span>
+          <div className="lastUpdatedDiv" style={styles.lastUpdatedDiv}><div style={styles.lastUpdated} className="lastUpdated">{this.dateFormat(lastUpdated)}</div></div>
         </div>
       </div>
       </Paper>
