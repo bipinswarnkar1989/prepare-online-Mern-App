@@ -74,7 +74,7 @@ logout(event){
          <div>
            <Header styles={styles.header}
                    handleChangeRequestNavDrawer={this.handleChangeRequestNavDrawer.bind(this)}
-                   logout={this.logout}/>
+                   logout={this.logout} isLoggedIn={isLoggedIn}/>
 
              <LeftDrawer navDrawerOpen={navDrawerOpen}
                          menus={user ? loggedInMenuRoutes : menuRoutes}

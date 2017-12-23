@@ -29,7 +29,7 @@ class QBanksList extends React.Component {
     const {qBanks} = this.props.mappedQbankState;
     return(
       <div style={styles.QBanksList} className="QBanksList">
-        <h3>Question Banks </h3>isLoggedIn:{JSON.stringify(isLoggedIn)}
+        <h3 align="center">Question Banks </h3>
           <Grid>
            <Row>
               {qBanks && qBanks.length > 0 &&

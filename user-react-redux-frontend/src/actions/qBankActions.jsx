@@ -46,3 +46,59 @@ export const failedFetchQbanks = (message) => {
     message
   }
 }
+
+export const previewQbankImage = (imagePreviewUrl) => {
+  return{
+    type:'QBANK_IMAGE_PREVIEW',
+    imagePreviewUrl
+  }
+}
+
+export const CreateQbank = (qb) => {
+  return (dispatch) => {
+    dispatch(requestCreateQbank());
+    return fetch(`${apiUrl}/Qbanks`,{
+      method:'post',
+      body:qb
+    }).then(response => {
+      if(response.status >= 200 && response.status < 300){
+         response.json().then(data => {
+           console.log(data);
+           if(data.success){
+             dispatch(successCreateQbank(data));
+           }
+           else if(!data.success && data.message){
+             dispatch(failedCreateQbank(data.message));
+           }
+           else{
+             dispatch(failedCreateQbank('Something Going Wrong.'));
+           }
+         })
+      }
+      else{
+        var error = new Error(response.statusText);
+        alert(error);
+      }
+    })
+  }
+}
+
+export const requestCreateQbank = () => {
+  return{
+    type:'REQUEST_CREATE_QBANK'
+  }
+}
+
+export const successCreateQbank = (data) => {
+  return{
+    type:'SUCCESS_CREATE_QBANK',
+    data
+  }
+}
+
+export const failedCreateQbank = (message) => {
+  return{
+    type:'FAILED_CREATE_QBANK',
+    message
+  }
+}

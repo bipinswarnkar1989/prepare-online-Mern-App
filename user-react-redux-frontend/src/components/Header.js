@@ -8,6 +8,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Menu from 'material-ui/svg-icons/navigation/menu';
 import ViewModule from 'material-ui/svg-icons/action/view-module';
 import {white} from 'material-ui/styles/colors';
+import Add from 'material-ui/svg-icons/content/add';
 import SearchBox from './SearchBox';
 
 class Header extends React.Component {
@@ -44,17 +45,22 @@ class Header extends React.Component {
               }
               iconElementRight={
                 <div style={style.iconsRightContainer}>
-                  <IconMenu color={white}
-                            iconButtonElement={
-                              <IconButton><ViewModule color={white}/></IconButton>
-                            }
-                            targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                  >
-                    <MenuItem key={1} primaryText="Application 1"/>
-                    <MenuItem key={2} primaryText="Application 2"/>
-                    <MenuItem key={3} primaryText="Application 3"/>
-                  </IconMenu>
+                  {/*
+                    <IconMenu color={white}
+                              iconButtonElement={
+                                <IconButton><ViewModule color={white}/></IconButton>
+                              }
+                              targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                              anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                    >
+                      <MenuItem key={1} primaryText="Application 1"/>
+                      <MenuItem key={2} primaryText="Application 2"/>
+                      <MenuItem key={3} primaryText="Application 3"/>
+                    </IconMenu>
+                     */}
+                  {this.props.isLoggedIn &&
+                    <Link to='/question-banks/create'><IconButton><Add color={white}/></IconButton></Link>
+                  }
                   <IconMenu color={white}
                             iconButtonElement={
                               <IconButton><MoreVertIcon color={white}/></IconButton>
