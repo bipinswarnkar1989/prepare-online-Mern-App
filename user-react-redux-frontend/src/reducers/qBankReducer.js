@@ -30,6 +30,8 @@ const qBankReducer = (currentState = INITIAL_STATE, action) => {
     case 'QBANK_IMAGE_PREVIEW':
        return {
          ...currentState,
+         error:null,
+         successMsg:null,
          CreateQbank:{
            imagePreviewUrl:action.imagePreviewUrl
          }

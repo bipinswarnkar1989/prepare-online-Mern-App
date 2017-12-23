@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.route('/Qbanks')
   .get(qBankController.getAllQbanks)
-  .post(qBankController.createQbank)
+  .post(qBankController.UploadImage,qBankController.createQbank)
 
 
 export default router;

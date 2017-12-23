@@ -17,6 +17,9 @@ const qBankSchema = new Schema({
     type:String,
     required:[true, 'Summary is required']
   },
+  image:{
+    type:String
+  },
   createdAt:{
     type:Date,
     default:Date.now

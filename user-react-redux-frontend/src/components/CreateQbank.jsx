@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FileUpload from 'material-ui/svg-icons/file/file-upload';
 import {white} from 'material-ui/styles/colors';
 import FontIcon from 'material-ui/FontIcon';
+import Snackbar from 'material-ui/Snackbar';
 
 class CreateQbank extends React.Component{
   constructor(props){
@@ -26,6 +27,7 @@ class CreateQbank extends React.Component{
        let data = new FormData();
        data.append('title',qBform.title.value);
        data.append('summary',qBform.summary.value);
+       data.append('author',this.props.mappedUserState.user._id);
      if(qBform.qBImage.value !== ''){
        let qBImageName = document.getElementById('qBImage').files[0].name;
        let qBImageExt = qBImageName.split('.').pop();
@@ -34,6 +36,7 @@ class CreateQbank extends React.Component{
        }
      }
      this.props.mappedCreateQbank(data);
+     this.props.mappedpreviewQbImagePreview(null);
      qBform.reset();
    }
   }
@@ -70,7 +73,7 @@ class CreateQbank extends React.Component{
        }
     }
 
-    const { CreateQbank } = this.props.mappedQbankState;
+    const { CreateQbank,isFetching,successMsg,error } = this.props.mappedQbankState;
     return(
        <div align="center" style={styles.CreateQbankDiv}>
          <h3>Create New Question Bank</h3>
@@ -127,6 +130,14 @@ class CreateQbank extends React.Component{
                       />
              </form>
          </div>
+
+         <Snackbar
+         open={successMsg != null ? true : error != null ? true : false}
+         message={successMsg != null ? successMsg : error != null ? error : 'Loaded'}
+         autoHideDuration={8000}
+         onRequestClose={this.handleRequestClose}
+       />
+
        </div>
     )
   }
