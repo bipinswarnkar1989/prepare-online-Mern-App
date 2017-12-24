@@ -1,4 +1,5 @@
 // ./user-react-redux-frontend/src/actions/qBankActions.jsx
+import { browserHistory } from 'react-router';
 const apiUrl = '/api/qbank/';
 
 export const fetchQbanks = () => {
@@ -66,6 +67,7 @@ export const CreateQbank = (qb) => {
            console.log(data);
            if(data.success){
              dispatch(successCreateQbank(data));
+             browserHistory.push(`/question-bank/${data.qb._id}/add-questions`);
            }
            else if(!data.success && data.message){
              dispatch(failedCreateQbank(data.message));
@@ -99,6 +101,53 @@ export const successCreateQbank = (data) => {
 export const failedCreateQbank = (message) => {
   return{
     type:'FAILED_CREATE_QBANK',
+    message
+  }
+}
+
+export const  fetchQuestionBank = (id) => {
+  return (dispatch) => {
+    dispatch(requestFetchQbank());
+    return fetch(`${apiUrl}/Qbank/${id}`, {
+      method:'get'
+    }).then(response => {
+      if(response.status >= 200 && response.status < 300){
+         response.json().then(data => {
+           if(data.success){
+             dispatch(successFetchQbank(data));
+           }
+           else if (!data.success && data.message) {
+             dispatch(failedFetchQbank(data.message));
+           }
+           else{
+             dispatch(failedFetchQbank('Something Going Wrong.'));
+           }
+         })
+      }
+      else{
+        var error = new Error(response.statusText);
+        alert(error);
+      }
+    })
+  }
+}
+
+export const requestFetchQbank = () => {
+  return{
+    type:'REQUEST_FETCH_QBANK'
+  }
+}
+
+export const successFetchQbank = (data) => {
+  return{
+    type:'SUCCESS_FETCH_QBANK',
+    data
+  }
+}
+
+export const failedFetchQbank = (message) => {
+  return{
+    type:'FAILED_FETCH_QBANK',
     message
   }
 }

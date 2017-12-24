@@ -7,7 +7,8 @@ const INITIAL_STATE = {
   CreateQbank:{
     imagePreviewUrl:null
   },
-  newQbank:null
+  newQbank:null,
+  fetchedQbank:null
 }
 
 const qBankReducer = (currentState = INITIAL_STATE, action) => {
@@ -60,6 +61,30 @@ const qBankReducer = (currentState = INITIAL_STATE, action) => {
       successMsg:null,
       error:action.message
     }
+
+    case 'REQUEST_FETCH_QBANK':
+       return {
+        ...currentState,
+        isFetching:true
+       }
+
+   case 'SUCCESS_FETCH_QBANK':
+      return {
+        ...currentState,
+        isFetching:false,
+        fetchedQbank:action.data.qb,
+        successMsg:action.data.message,
+        error:null
+      }
+
+   case 'FAILED_FETCH_QBANK':
+     return {
+       ...currentState,
+       isFetching:false,
+       fetchedQbank:null,
+       successMsg:null,
+       error:action.message
+     }
 
     default:
       return currentState;

@@ -3,14 +3,16 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FileUpload from 'material-ui/svg-icons/file/file-upload';
-import {white} from 'material-ui/styles/colors';
+import {white,blueGrey500} from 'material-ui/styles/colors';
 import FontIcon from 'material-ui/FontIcon';
 import Snackbar from 'material-ui/Snackbar';
+import Clear from 'material-ui/svg-icons/content/clear';
 
 class CreateQbank extends React.Component{
   constructor(props){
     super(props);
     this.handleQbSubmit = this.handleQbSubmit.bind(this);
+    this.removeQbImage = this.removeQbImage.bind(this);
   }
   componentWillMount(){
     this.props.mappedfetchUserIfLoggedIn();
@@ -30,9 +32,18 @@ class CreateQbank extends React.Component{
        data.append('author',this.props.mappedUserState.user._id);
      if(qBform.qBImage.value !== ''){
        let qBImageName = document.getElementById('qBImage').files[0].name;
+       let qBImageSize = document.getElementById('qBImage').files[0].size;
        let qBImageExt = qBImageName.split('.').pop();
        if(qBImageExt == 'jpg' || qBImageExt == 'jpeg' || qBImageExt == 'png' || qBImageExt == 'JPG' || qBImageExt == 'JPEG' || qBImageExt === 'bmp'){
+         if(qBImageSize > 2*1024*1024){
+           this.props.mappedfailedCreateQbank('Image size should be less then 2MB');
+           return;
+         }
          data.append('qBImage', document.getElementById('qBImage').files[0]);
+       }
+       else{
+         this.props.mappedfailedCreateQbank('Only Image Files Allowed');
+         return;
        }
      }
      this.props.mappedCreateQbank(data);
@@ -42,6 +53,18 @@ class CreateQbank extends React.Component{
   }
 
   handleImageChange(e){
+    let qBImageName = document.getElementById('qBImage').files[0].name;
+    let qBImageSize = document.getElementById('qBImage').files[0].size;
+    let qBImageExt = qBImageName.split('.').pop();
+    if(qBImageExt == 'jpg' || qBImageExt == 'jpeg' || qBImageExt == 'png' || qBImageExt == 'JPG' || qBImageExt == 'JPEG' || qBImageExt === 'bmp'){
+      if(qBImageSize > 2*1024*1024){
+        this.props.mappedfailedCreateQbank('Image size should be less then 2MB');
+      }
+    }
+    else{
+      this.props.mappedfailedCreateQbank('Only Image Files Allowed');
+      return;
+    }
     console.log(e.target.files[0]);
       let reader = new FileReader();
       let file = e.target.files[0];
@@ -51,7 +74,10 @@ class CreateQbank extends React.Component{
         this.props.mappedpreviewQbImagePreview(imagePreviewUrl);
       }
       reader.readAsDataURL(file);
-      //this.imagePreviewUrl = reader.result;
+  }
+
+  removeQbImage(){
+     this.props.mappedpreviewQbImagePreview(null);
   }
 
   render(){
@@ -70,6 +96,21 @@ class CreateQbank extends React.Component{
        overRideRaisedButtonUppercase:{
          textTransform: 'none',
          fontSize:18
+       },
+       imagePreviewDiv:{
+         position:'relative',
+         width:200,
+         height:200,
+         textAlign:'center',
+         margin:'0 auto',
+         border:'1px solid #FF66B0'
+       },
+       removeImage:{
+         top:0,
+         right:0,
+         position:'absolute',
+         backgroundColor:'white',
+         cursor:'pointer'
        }
     }
 
@@ -97,9 +138,14 @@ class CreateQbank extends React.Component{
                     multiLine={true}
                     style={styles.summaryfloatingLabelStyle}
                     />
-                  <div style={{display:'block'}}>
+                  <div style={{display:'block',textAlign:'center'}}>
                     {CreateQbank.imagePreviewUrl &&
-                     <img src={CreateQbank.imagePreviewUrl} width="200" height="200"/>
+                      <div style={styles.imagePreviewDiv}>
+                        <span style={styles.removeImage}><Clear onClick={this.removeQbImage} color={blueGrey500}/></span>
+                        {CreateQbank.imagePreviewUrl &&
+                         <img src={CreateQbank.imagePreviewUrl} width="200" height="200"/>
+                        }
+                      </div>
                     }
                   </div>
                   <div style={{display:'block'}}>
@@ -131,12 +177,14 @@ class CreateQbank extends React.Component{
              </form>
          </div>
 
-         <Snackbar
-         open={successMsg != null ? true : error != null ? true : false}
-         message={successMsg != null ? successMsg : error != null ? error : 'Loaded'}
-         autoHideDuration={8000}
-         onRequestClose={this.handleRequestClose}
-       />
+        <div align="center">
+          <Snackbar
+          open={successMsg != null ? true : error != null ? true : false}
+          message={successMsg != null ? successMsg : error != null ? error : 'Loaded'}
+          autoHideDuration={8000}
+          onRequestClose={this.handleRequestClose}
+        />
+        </div>
 
        </div>
     )
