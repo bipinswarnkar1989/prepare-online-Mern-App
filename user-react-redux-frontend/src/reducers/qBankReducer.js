@@ -15,6 +15,10 @@ const INITIAL_STATE = {
   UpdateQbank:{
     imagePreviewUrl:null
   },
+  QbankToDelete:{
+    openDialog:false,
+    Qbank:null
+  }
 }
 
 const qBankReducer = (currentState = INITIAL_STATE, action) => {
@@ -106,7 +110,11 @@ const qBankReducer = (currentState = INITIAL_STATE, action) => {
         imagePreviewUrl:action.image
       },
       error:null,
-      success:null
+      success:null,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      }
     }
 
 case 'FAILED_UPDATE_QB_IMAGE_PREVIEW':
@@ -115,7 +123,11 @@ case 'FAILED_UPDATE_QB_IMAGE_PREVIEW':
     expandQb:currentState.expandQb,
     UpdateQbank:currentState.UpdateQbank,
     error:action.message,
-    success:null
+    success:null,
+    QbankToDelete:{
+      openDialog:false,
+      Qbank:null
+    }
   }
 
 case 'FAILED_UPDATE_QB':
@@ -128,7 +140,11 @@ case 'FAILED_UPDATE_QB':
      fetchedQbank:currentState.fetchedQbank,
      successMsg:null,
      error:action.message,
-     isFetching:false
+     isFetching:false,
+     QbankToDelete:{
+       openDialog:false,
+       Qbank:null
+     }
    }
 
  case 'REQUEST_UPDATE_QB':
@@ -139,7 +155,11 @@ case 'FAILED_UPDATE_QB':
       fetchedQbank:currentState.fetchedQbank,
       successMsg:null,
       error:null,
-      isFetching:true
+      isFetching:true,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      }
     }
 
     case 'SUCCESS_UPDATE_QB':
@@ -152,7 +172,11 @@ case 'FAILED_UPDATE_QB':
          fetchedQbank:action.data.qb,
          successMsg:action.data.message,
          error:null,
-         isFetching:false
+         isFetching:false,
+         QbankToDelete:{
+           openDialog:false,
+           Qbank:null
+         }
        }
 
    case 'OPEN_QB_EDIT':
@@ -167,7 +191,11 @@ case 'FAILED_UPDATE_QB':
      fetchedQbank:currentState.fetchedQbank,
      successMsg:null,
      error:null,
-     isFetching:false
+     isFetching:false,
+     QbankToDelete:{
+       openDialog:false,
+       Qbank:null
+     }
    }
 
    case 'CLOSE_QB_EDIT':
@@ -182,8 +210,107 @@ case 'FAILED_UPDATE_QB':
      fetchedQbank:currentState.fetchedQbank,
      successMsg:null,
      error:null,
-     isFetching:false
+     isFetching:false,
+     QbankToDelete:{
+       openDialog:false,
+       Qbank:null
+     }
    }
+
+  case 'OPEN_QB_DELETE':
+     return{
+       ...currentState,
+       expandQb:currentState.expandQb,
+       UpdateQbank:{
+         imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+         openDialog:false,
+         QbankToEdit:null
+       },
+       fetchedQbank:currentState.fetchedQbank,
+       successMsg:null,
+       error:null,
+       isFetching:false,
+       QbankToDelete:{
+         openDialog:true,
+         Qbank:action.qbToDelete
+       }
+     }
+
+ case 'CLOSE_QB_DELETE':
+    return{
+      ...currentState,
+      expandQb:currentState.expandQb,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:null,
+      error:null,
+      isFetching:false,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      }
+    }
+
+case 'REQUEST_DELETE_QB':
+   return{
+     ...currentState,
+     expandQb:currentState.expandQb,
+     UpdateQbank:{
+       imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+       openDialog:false,
+       QbankToEdit:null
+     },
+     fetchedQbank:currentState.fetchedQbank,
+     successMsg:null,
+     error:null,
+     isFetching:true,
+     QbankToDelete:{
+       openDialog:true,
+       Qbank:action.qbToDelete
+     }
+   }
+
+ case 'SUCCESS_DELETE_QB':
+    return{
+      ...currentState,
+      expandQb:currentState.expandQb,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:action.data.message,
+      error:null,
+      isFetching:false,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      }
+    }
+
+    case 'FAILED_DELETE_QB':
+       return{
+         ...currentState,
+         expandQb:currentState.expandQb,
+         UpdateQbank:{
+           imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+           openDialog:false,
+           QbankToEdit:null
+         },
+         fetchedQbank:currentState.fetchedQbank,
+         successMsg:null,
+         error:action.message,
+         isFetching:false,
+         QbankToDelete:{
+           openDialog:true,
+           Qbank:action.qbToDelete
+         }
+       }
 
     default:
       return currentState;

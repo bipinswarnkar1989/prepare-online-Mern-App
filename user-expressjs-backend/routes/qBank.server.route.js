@@ -11,7 +11,8 @@ router.route('/Qbanks')
   .put(qBankController.UploadImage,qBankController.updateQbank);
 
 router.route('/Qbank/:id')
-  .get(qBankController.getqBankById);
+  .get(qBankController.getqBankById)
+  .delete(qBankController.deleteqBankById);
 
 
 export default router;

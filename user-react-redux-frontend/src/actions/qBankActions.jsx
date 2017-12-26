@@ -234,3 +234,67 @@ export const closeQbEdit = () => {
     type:'CLOSE_QB_EDIT'
   }
 }
+
+export const openConfirmDeleteQb = (qbToDelete) => {
+  return{
+    type:'OPEN_QB_DELETE',
+    qbToDelete
+  }
+}
+
+export const closeConfirmDeleteQb = () => {
+  return{
+    type:'CLOSE_QB_DELETE'
+  }
+}
+
+export const deleteQb = (qbToDelete) => {
+    return (dispatch) => {
+      dispatch(requestDeleteQbank(qbToDelete));
+      const token = localStorage.getItem('userToken');
+      return fetch(`${apiUrl}/Qbank/${qbToDelete._id}`,{
+        method:'delete',
+        headers:{'authorization':token}
+      }).then(response => {
+        if(response.status >= 200 && response.status < 300){
+          response.json().then(data => {
+            if(data.success){
+              dispatch(successDeleteQbank(data));
+              browserHistory.push('/question-banks');
+            }
+            else if (!data.success && data.message) {
+              dispatch(failedDeleteQbank(data.message));
+            }
+            else{
+              dispatch(failedDeleteQbank('Something Going Wrong'));
+            }
+          })
+        }
+        else{
+          var error = new Error(response.statusText);
+          alert(error);
+        }
+      })
+    }
+}
+
+export const requestDeleteQbank = (qbToDelete) => {
+  return{
+    type:'REQUEST_DELETE_QB',
+    qbToDelete
+  }
+}
+
+export const successDeleteQbank = (data) => {
+  return{
+    type:'SUCCESS_DELETE_QB',
+    data
+  }
+}
+
+export const failedDeleteQbank = (message) => {
+  return{
+    type:'FAILED_DELETE_QB',
+    message
+  }
+}

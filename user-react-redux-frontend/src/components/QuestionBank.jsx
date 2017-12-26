@@ -1,7 +1,8 @@
 // ./user-react-redux-frontend/src/components/CreateQbank.jsx
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import { pink300,pink500,white,red300,black,blue500 } from 'material-ui/styles/colors';
+import { pink300,pink500,white,red300,black,blue500,red400
+ } from 'material-ui/styles/colors';
 //import { Grid, Row, Col } from 'react-material-responsive-grid';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
@@ -79,7 +80,7 @@ const QuestionBankCard = (props) => (
            style={{borderBottom:'1px solid #CFD8DC'}}
          >
          <Edit style={qbCardstyles.EditQb} color={blue500} onClick={props.OpenQbEdit}/>
-         <DeleteForever style={qbCardstyles.DeleQb} color={red300}/>
+         <DeleteForever style={qbCardstyles.DeleQb} color={red300} onClick={props.OpenConfirmQbDel}/>
        </CardHeader>
          {props.qb.image &&
            <CardMedia
@@ -211,6 +212,58 @@ class EditQbDialog extends React.Component {
 
 }
 
+class DeleteQbDialog extends React.Component {
+  render(){
+    const DeleteQbActions = [
+      <FlatButton
+        label="Confirm"
+        primary={true}
+        onClick={this.props.ConfirmDeleteQb}
+      />,
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        disabled={false}
+        onClick={this.props.CloseQbDelete}
+      />,
+    ];
+
+    const styles = {
+      QbDetailsFormDiv:{
+        textAlign:'center'
+      },
+      summaryfloatingLabelStyle:{
+        textAlign:'left'
+      },
+      overRideRaisedButtonUppercase:{
+        textTransform: 'none',
+        fontSize:18
+      }
+    }
+
+    return(
+      <div>
+        <Dialog
+              title="Delete Question Bank"
+              actions={DeleteQbActions}
+              modal={true}
+              open={this.props.QbankToDelete.openDialog || false}
+            >
+              {this.props.QbankToDelete.Qbank &&
+                 <div className="QbEditFormDiv">
+                   <div style={styles.QbDetailsFormDiv}>
+                       <h4>Are you sure want to delete QuestionBank <span style={{color:black
+}}>{this.props.QbankToDelete.Qbank.title}?</span></h4>
+                 </div>
+               </div>
+              }
+            </Dialog>
+      </div>
+    )
+  }
+
+}
+
 class QuestionBank extends React.Component {
   updateQbformData ;
   constructor(props) {
@@ -220,6 +273,8 @@ class QuestionBank extends React.Component {
     this.CancelQbImageUpdate = this.CancelQbImageUpdate.bind(this);
     this.UpdateQbankData = this.UpdateQbankData.bind(this);
     this.OpenQbEdit = this.OpenQbEdit.bind(this);
+    this.closeQbDelete = this.closeQbDelete.bind(this);
+    this.confirmDeleteQb = this.confirmDeleteQb.bind(this);
   }
 
   componentWillMount(){
@@ -291,6 +346,10 @@ class QuestionBank extends React.Component {
      this.props.mappedCloseQbEdit();
   }
 
+  OpenConfirmQbDelete(qb){
+    this.props.mappedopenConfirmDeleteQb(qb);
+  }
+
   saveQbEdit(){
     let form = document.getElementById('qbEditForm');
     let formData = new FormData();
@@ -298,6 +357,14 @@ class QuestionBank extends React.Component {
     formData.append('summary',form.summary.value);
     formData.append('id', this.props.params.id);
     this.props.mappedupdateQuestionBank(formData);
+  }
+
+  closeQbDelete(){
+    this.props.mappedcloseConfirmDeleteQb();
+  }
+
+  confirmDeleteQb(){
+     this.props.mappeddeleteQb(this.props.mappedQbankState.QbankToDelete.Qbank);
   }
 
   render(){
@@ -347,7 +414,7 @@ class QuestionBank extends React.Component {
         paddingBottom:5
       }
     }
-    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank } = this.props.mappedQbankState;
+    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete } = this.props.mappedQbankState;
 
     return(
       <div style={styles.AddQuestionToQbDiv} className="AddQuestionToQbDiv">
@@ -364,6 +431,7 @@ class QuestionBank extends React.Component {
           CancelQbImage={this.CancelQbImageUpdate}
           UpdateQbankData={this.UpdateQbankData}
           OpenQbEdit={() => this.OpenQbEdit(fetchedQbank)}
+          OpenConfirmQbDel={() => this.OpenConfirmQbDelete(fetchedQbank)}
           />
              </div>
           }
@@ -373,6 +441,13 @@ class QuestionBank extends React.Component {
              CloseQbEdit={() => this.CloseQbEdit()}
              SaveQbEdit={() => this.saveQbEdit()}
              />
+           <DeleteQbDialog
+             QbankToDelete={QbankToDelete}
+             ConfirmDeleteQb={() => this.confirmDeleteQb()}
+             CloseQbDelete={() => this.closeQbDelete()}
+             />
+
+
           <div align="center">
             <Snackbar
             message={successMsg !== null ? successMsg : error !== null ? error : 'Loading...'}

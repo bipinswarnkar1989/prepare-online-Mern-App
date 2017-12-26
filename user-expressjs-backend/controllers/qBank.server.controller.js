@@ -103,7 +103,7 @@ export const getAllQbanks = (req,res) => {
 
 export const getqBankById = (req,res) => {
   let id = req.params.id;
-  console.log(id);
+  console.log('getqBankById: '+id);
   qBank.findOne({_id:id}).populate('author').exec((err,qb) => {
     if(err) {
       return res.json({success:false,message:'Something going wrong'});
@@ -117,4 +117,24 @@ export const getqBankById = (req,res) => {
       }
     }
   })
+}
+
+export const deleteqBankById = (req,res) => {
+  let id = req.params.id;
+  console.log('deleteqBankById: '+id);
+  if(id && id !== '' && id !== undefined){
+    qBank.findByIdAndRemove(id,(err,qb) => {
+      if(err) {
+        return res.json({success:false,message:'Something going wrong'});
+      }
+      else{
+        if(qb){
+          return res.json({success:true,message:'Question Bank Deleted Successfully',qb});
+        }
+        else{
+          return res.json({success:false,message:'Question Banks Not Found'});
+        }
+      }
+    })
+  }
 }
