@@ -5,10 +5,16 @@ const INITIAL_STATE = {
   error:null,
   successMsg:null,
   CreateQbank:{
-    imagePreviewUrl:null
+    imagePreviewUrl:null,
+    openDialog:false,
+    QbankToEdit:null
   },
   newQbank:null,
-  fetchedQbank:null
+  fetchedQbank:null,
+  expandQb:true,
+  UpdateQbank:{
+    imagePreviewUrl:null
+  },
 }
 
 const qBankReducer = (currentState = INITIAL_STATE, action) => {
@@ -86,10 +92,104 @@ const qBankReducer = (currentState = INITIAL_STATE, action) => {
        error:action.message
      }
 
+  case 'TOGGLE_EXPAND_QB_CARD':
+     return {
+       ...currentState,
+       expandQb: !currentState.expandQb
+     }
+
+ case 'UPDATE_QB_IMAGE_PREVIEW':
+    return {
+      ...currentState,
+      expandQb:currentState.expandQb,
+      UpdateQbank:{
+        imagePreviewUrl:action.image
+      },
+      error:null,
+      success:null
+    }
+
+case 'FAILED_UPDATE_QB_IMAGE_PREVIEW':
+  return {
+    ...currentState,
+    expandQb:currentState.expandQb,
+    UpdateQbank:currentState.UpdateQbank,
+    error:action.message,
+    success:null
+  }
+
+case 'FAILED_UPDATE_QB':
+   return {
+     ...currentState,
+     expandQb:currentState.expandQb,
+     UpdateQbank:{
+       imagePreviewUrl:null
+     },
+     fetchedQbank:currentState.fetchedQbank,
+     successMsg:null,
+     error:action.message,
+     isFetching:false
+   }
+
+ case 'REQUEST_UPDATE_QB':
+    return {
+      ...currentState,
+      expandQb:currentState.expandQb,
+      UpdateQbank:currentState.UpdateQbank,
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:null,
+      error:null,
+      isFetching:true
+    }
+
+    case 'SUCCESS_UPDATE_QB':
+       return {
+         ...currentState,
+         expandQb:currentState.expandQb,
+         UpdateQbank:{
+           imagePreviewUrl:null
+         },
+         fetchedQbank:action.data.qb,
+         successMsg:action.data.message,
+         error:null,
+         isFetching:false
+       }
+
+   case 'OPEN_QB_EDIT':
+   return {
+     ...currentState,
+     expandQb:currentState.expandQb,
+     UpdateQbank:{
+       imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+       openDialog:true,
+       QbankToEdit:action.qbToEdit
+     },
+     fetchedQbank:currentState.fetchedQbank,
+     successMsg:null,
+     error:null,
+     isFetching:false
+   }
+
+   case 'CLOSE_QB_EDIT':
+   return {
+     ...currentState,
+     expandQb:currentState.expandQb,
+     UpdateQbank:{
+       imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+       openDialog:false,
+       QbankToEdit:null
+     },
+     fetchedQbank:currentState.fetchedQbank,
+     successMsg:null,
+     error:null,
+     isFetching:false
+   }
+
     default:
       return currentState;
 
   }
+
 }
 
 export default qBankReducer;

@@ -59,7 +59,7 @@ class Header extends React.Component {
                     </IconMenu>
                      */}
                   {this.props.isLoggedIn &&
-                    <Link to='/question-banks/create'><IconButton><Add color={white}/></IconButton></Link>
+                    <Link to='/question-bank/create'><IconButton><Add color={white}/></IconButton></Link>
                   }
                   <IconMenu color={white}
                             iconButtonElement={

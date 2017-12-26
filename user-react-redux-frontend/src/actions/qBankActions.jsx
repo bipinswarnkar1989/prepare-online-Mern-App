@@ -67,7 +67,7 @@ export const CreateQbank = (qb) => {
            console.log(data);
            if(data.success){
              dispatch(successCreateQbank(data));
-             browserHistory.push(`/question-bank/${data.qb._id}/add-questions`);
+             browserHistory.push(`/question-bank/${data.qb._id}`);
            }
            else if(!data.success && data.message){
              dispatch(failedCreateQbank(data.message));
@@ -149,5 +149,88 @@ export const failedFetchQbank = (message) => {
   return{
     type:'FAILED_FETCH_QBANK',
     message
+  }
+}
+
+export const ToggleExpandQbCard = () => {
+  return{
+    type:'TOGGLE_EXPAND_QB_CARD'
+  }
+}
+
+export const updateQbankImagePreview = (image) => {
+  return{
+    type:'UPDATE_QB_IMAGE_PREVIEW',
+    image
+  }
+}
+
+export const failedUpdateQbImagePreview = (message) => {
+  return{
+    type:'FAILED_UPDATE_QB_IMAGE_PREVIEW',
+    message
+  }
+}
+
+export const updateQuestionBank = (data) => {
+  return (dispatch) => {
+    dispatch(requestUpdateQbank());
+    const token = localStorage.getItem('userToken');
+    return fetch(`${apiUrl}/Qbanks`, {
+      method:'put',
+      body:data,
+      headers:{'authorization':token}
+    }).then(response => {
+      if(response.status >= 200 && response.status < 300){
+         response.json().then(data => {
+           if(data.success){
+             dispatch(successUpdateQbank(data));
+           }
+           else if (!data.success && data.message) {
+             dispatch(failedUpdateQbank(data.message));
+           }
+           else{
+             dispatch(failedUpdateQbank('Something Going Wrong.'));
+           }
+         })
+      }
+      else{
+        var error = new Error(response.statusText);
+        alert(error);
+      }
+    })
+  }
+}
+
+export const requestUpdateQbank = () => {
+  return{
+    type:'REQUEST_UPDATE_QB'
+  }
+}
+
+export const successUpdateQbank = (data) => {
+  return{
+    type:'SUCCESS_UPDATE_QB',
+    data
+  }
+}
+
+export const failedUpdateQbank = (message) => {
+  return{
+    type:'FAILED_UPDATE_QB',
+    message
+  }
+}
+
+export const openQbEdit = (qbToEdit) => {
+  return{
+    type:'OPEN_QB_EDIT',
+    qbToEdit
+  }
+}
+
+export const closeQbEdit = () => {
+  return{
+    type:'CLOSE_QB_EDIT'
   }
 }

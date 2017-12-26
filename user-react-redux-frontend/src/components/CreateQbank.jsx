@@ -33,10 +33,10 @@ class CreateQbank extends React.Component{
      if(qBform.qBImage.value !== ''){
        let qBImageName = document.getElementById('qBImage').files[0].name;
        let qBImageSize = document.getElementById('qBImage').files[0].size;
-       let qBImageExt = qBImageName.split('.').pop();
-       if(qBImageExt == 'jpg' || qBImageExt == 'jpeg' || qBImageExt == 'png' || qBImageExt == 'JPG' || qBImageExt == 'JPEG' || qBImageExt === 'bmp'){
-         if(qBImageSize > 2*1024*1024){
-           this.props.mappedfailedCreateQbank('Image size should be less then 2MB');
+       let qBImageExt = qBImageName.split('.').pop();console.log('qBImageSize: '+qBImageSize)
+       if(qBImageExt === 'jpg' || qBImageExt === 'jpeg' || qBImageExt === 'png' || qBImageExt ==='JPG' || qBImageExt === 'JPEG' || qBImageExt === 'bmp'){
+         if(qBImageSize > 5389864){ //grater than 5MB
+           this.props.mappedfailedCreateQbank('Image size should be less then 5MB');
            return;
          }
          data.append('qBImage', document.getElementById('qBImage').files[0]);
@@ -56,9 +56,9 @@ class CreateQbank extends React.Component{
     let qBImageName = document.getElementById('qBImage').files[0].name;
     let qBImageSize = document.getElementById('qBImage').files[0].size;
     let qBImageExt = qBImageName.split('.').pop();
-    if(qBImageExt == 'jpg' || qBImageExt == 'jpeg' || qBImageExt == 'png' || qBImageExt == 'JPG' || qBImageExt == 'JPEG' || qBImageExt === 'bmp'){
-      if(qBImageSize > 2*1024*1024){
-        this.props.mappedfailedCreateQbank('Image size should be less then 2MB');
+    if(qBImageExt === 'jpg' || qBImageExt === 'jpeg' || qBImageExt === 'png' || qBImageExt === 'JPG' || qBImageExt === 'JPEG' || qBImageExt === 'bmp'){
+      if(qBImageSize > 5389864){
+        this.props.mappedfailedCreateQbank('Image size should be less then 5MB');
       }
     }
     else{
@@ -164,6 +164,7 @@ class CreateQbank extends React.Component{
                         type="file"
                         name="qBImage"
                         id="qBImage"
+                        accept="image/*"
                       />
                     </RaisedButton>
                   </div>

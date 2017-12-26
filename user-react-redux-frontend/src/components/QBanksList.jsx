@@ -4,6 +4,7 @@ import Qlist from 'material-ui/svg-icons/action/view-list';
 import { orange600 } from 'material-ui/styles/colors';
 import { Grid, Row, Col } from 'react-material-responsive-grid';
 import QBankbox from './QBankbox';
+import { Link,browserHistory } from 'react-router';
 
 class QBanksList extends React.Component {
   constructor(props) {
@@ -35,12 +36,14 @@ class QBanksList extends React.Component {
               {qBanks && qBanks.length > 0 &&
                     qBanks.map((qb,i) =>
                     <Col key={i} md={4}>
-                       <QBankbox Icon={Qlist}
-                         color={orange600}
-                         title={qb.title}
-                         countQuestions="248"
-                         author={qb.author.fullName}
-                         lastUpdated={qb.createdAt}/>
+                       <Link to={`/question-bank/${qb._id}`}>
+                         <QBankbox Icon={Qlist}
+                           color={orange600}
+                           title={qb.title}
+                           countQuestions="248"
+                           author={qb.author.fullName}
+                           lastUpdated={qb.createdAt}/>
+                       </Link>
                     </Col>
                   )
                   }

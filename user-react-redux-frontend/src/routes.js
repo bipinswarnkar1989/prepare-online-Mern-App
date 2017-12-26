@@ -6,7 +6,7 @@ import Register from './containers/Register';
 import Login from './containers/Login';
 import QBanksList from './containers/QBanksList';
 import CreateQbank from './containers/CreateQbank';
-import AddQuestionToQb from './containers/AddQuestionToQb';
+import QuestionBank from './containers/QuestionBank';
 
 export default (
   <Route path='/' component={App}>
@@ -15,6 +15,7 @@ export default (
   <Route path='/login' component={Login}/>
   <Route path="/question-banks" component={QBanksList}/>
   <Route path="/question-bank/create" component={CreateQbank}/>
-  <Route path="question-bank/:id/add-questions" component={AddQuestionToQb}/>
+  <Route path="/question-bank/:id" component={QuestionBank}/>
+  <Route path="/question-bank/:id/add-question" component={QuestionBank}/>
   </Route>
 )
