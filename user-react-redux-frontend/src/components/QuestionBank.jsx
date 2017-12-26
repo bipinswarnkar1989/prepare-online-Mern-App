@@ -190,6 +190,7 @@ class EditQbDialog extends React.Component {
                             floatingLabelText='Title'
                             hintText="Enter Question Bank Title"
                             fullWidth={true}
+                            defaultValue={this.props.UpdateQbank.QbankToEdit.title}
                             />
                             <TextField
                               ref='summary'
@@ -200,6 +201,8 @@ class EditQbDialog extends React.Component {
                               fullWidth={true}
                               multiLine={true}
                               style={styles.summaryfloatingLabelStyle}
+                              defaultValue={this.props.UpdateQbank.QbankToEdit.summary}
+                              rows={3}
                               />
                        </form>
                  </div>

@@ -58,9 +58,11 @@ export const previewQbankImage = (imagePreviewUrl) => {
 export const CreateQbank = (qb) => {
   return (dispatch) => {
     dispatch(requestCreateQbank());
+    const token = localStorage.getItem('userToken');
     return fetch(`${apiUrl}/Qbanks`,{
       method:'post',
-      body:qb
+      body:qb,
+      headers:{'authorization':token}
     }).then(response => {
       if(response.status >= 200 && response.status < 300){
          response.json().then(data => {
@@ -108,8 +110,10 @@ export const failedCreateQbank = (message) => {
 export const  fetchQuestionBank = (id) => {
   return (dispatch) => {
     dispatch(requestFetchQbank());
+    const token = localStorage.getItem('userToken');
     return fetch(`${apiUrl}/Qbank/${id}`, {
-      method:'get'
+      method:'get',
+      headers:{'authorization':token}
     }).then(response => {
       if(response.status >= 200 && response.status < 300){
          response.json().then(data => {
