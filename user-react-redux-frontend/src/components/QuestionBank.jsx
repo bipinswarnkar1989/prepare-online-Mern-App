@@ -58,7 +58,9 @@ const qbCardstyles = {
   }
 }
 
-const QuestionBankCard = (props) => (
+const QuestionBankCard = (props) => {
+  let CheckImg = props.qb.image || props.UpdateQbank.imagePreviewUrl || null;
+  return(
   <Card onExpandChange={props.handleExpandChange}>
     {!props.expandQb &&
     <CardHeader
@@ -82,7 +84,7 @@ const QuestionBankCard = (props) => (
          <Edit style={qbCardstyles.EditQb} color={blue500} onClick={props.OpenQbEdit}/>
          <DeleteForever style={qbCardstyles.DeleQb} color={red300} onClick={props.OpenConfirmQbDel}/>
        </CardHeader>
-         {props.qb.image &&
+         {CheckImg  &&
            <CardMedia
              overlay={<CardTitle title={props.qb.title} subtitle="" />}
            >
@@ -126,7 +128,28 @@ const QuestionBankCard = (props) => (
            </CardMedia>
          }
          {!props.qb.image &&
-            <CardTitle title={props.qb.title} subtitle="" />
+            <CardTitle title={props.qb.title} subtitle="">
+            {!CheckImg &&
+              <div style={{textAlign:'right',backgroundColor:'white',position:'absolute',zIndex:11,right:2,top:30,padding:0,margin:0}}>
+                <FlatButton
+             label=""
+             labelPosition="before"
+             primary={true}
+             icon={<AddAPhoto color={black}/>}
+             style={qbCardstyles.UpdateQbImage}
+             labelStyle={qbCardstyles.overRideRaisedButtonUppercase}
+              >
+                <input type="file"
+                   accept="image/*"
+                   style={qbCardstyles.uploadInput}
+                   name="qBImage"
+                   id="qBImage"
+                   onChange={e => {props.handleImageChange(e)}}
+                   />
+                </FlatButton>
+              </div>
+            }
+            </CardTitle>
          }
          <CardText>
            {props.qb.summary}
@@ -141,6 +164,7 @@ const QuestionBankCard = (props) => (
       }
   </Card>
 );
+}
 
 class EditQbDialog extends React.Component {
   render(){
