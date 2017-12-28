@@ -18,6 +18,28 @@ const INITIAL_STATE = {
   QbankToDelete:{
     openDialog:false,
     Qbank:null
+  },
+  AddNewQuestion:{
+    showAddQDiv:false,
+    Question:null,
+    OptionsArray:[
+      {
+        number:1,
+        value:null
+      },
+      {
+        number:2,
+        value:null
+      },
+      {
+        number:3,
+        value:null
+      },
+       {
+        number:4,
+        value:null
+      }
+    ]
   }
 }
 
@@ -311,6 +333,112 @@ case 'REQUEST_DELETE_QB':
            Qbank:action.qbToDelete
          }
        }
+
+  case 'SHOW_ADD_QUESTION':
+    return{
+      ...currentState,
+      expandQb:false,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:null,
+      error:null,
+      isFetching:false,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      },
+      AddNewQuestion:{
+        showAddQDiv:true,
+        Question:null,
+        OptionsArray:[
+          {
+            number:1,
+            value:null
+          },
+          {
+            number:2,
+            value:null
+          },
+          {
+            number:3,
+            value:null
+          },
+           {
+            number:4,
+            value:null
+          }
+        ]
+      }
+    }
+
+  case 'ADD_NEW_OPTION_IN_NEW_QUESTION':
+  const NewOptionsArray = [
+    ...currentState.AddNewQuestion.OptionsArray, action.option
+  ];
+  //currentState.AddNewQuestion.OptionsArray.push(action.option);
+       return{
+         ...currentState,
+         expandQb:false,
+         UpdateQbank:{
+           imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+           openDialog:false,
+           QbankToEdit:null
+         },
+         fetchedQbank:currentState.fetchedQbank,
+         successMsg:null,
+         error:null,
+         isFetching:false,
+         QbankToDelete:{
+           openDialog:false,
+           Qbank:null
+         },
+         AddNewQuestion:{
+           showAddQDiv:true,
+           Question:currentState.AddNewQuestion.Question,
+           OptionsArray:NewOptionsArray
+         }
+       }
+
+  case 'UPDATE_NEW_QUESTION_STATE':
+  console.log(action.data)
+      if(action.data.fieldname === 'question'){
+          currentState.AddNewQuestion.Question = action.data.fieldvalue;
+      }
+      else{
+        currentState.AddNewQuestion.OptionsArray = currentState.AddNewQuestion.OptionsArray.map((op) => {
+          if(op.number === action.data.number){
+            let newOpt = {number:action.data.number,value:action.data.fieldvalue}
+            return {...op, ...newOpt}
+          }
+          return op;
+        })
+      }
+      return{
+        ...currentState,
+        expandQb:false,
+        UpdateQbank:{
+          imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+          openDialog:false,
+          QbankToEdit:null
+        },
+        fetchedQbank:currentState.fetchedQbank,
+        successMsg:null,
+        error:null,
+        isFetching:false,
+        QbankToDelete:{
+          openDialog:false,
+          Qbank:null
+        },
+        AddNewQuestion:{
+          showAddQDiv:true,
+          Question:currentState.AddNewQuestion.Question,
+          OptionsArray:currentState.AddNewQuestion.OptionsArray
+        }
+      }
 
     default:
       return currentState;

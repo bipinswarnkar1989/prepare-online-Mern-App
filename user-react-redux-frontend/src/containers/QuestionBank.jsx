@@ -25,6 +25,9 @@ const mapDispatchToProps = (dispatch) => {
     mappedopenConfirmDeleteQb: qb => dispatch(qBankActions.openConfirmDeleteQb(qb)),
     mappedcloseConfirmDeleteQb: () => dispatch(qBankActions.closeConfirmDeleteQb()),
     mappeddeleteQb: qb => dispatch(qBankActions.deleteQb(qb)),
+    mappedshowAddQuestion: () => dispatch(qBankActions.showAddQuestion()),
+    mappedAddNewOptionInNewQuestion: option => dispatch(qBankActions.AddNewOptionInNewQuestion(option)),
+    mappedupdateNewQuestionState: data => dispatch(qBankActions.updateNewQuestionState(data)),
   }
 }
 

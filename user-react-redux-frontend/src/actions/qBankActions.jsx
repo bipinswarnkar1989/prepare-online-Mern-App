@@ -302,3 +302,24 @@ export const failedDeleteQbank = (message) => {
     message
   }
 }
+
+export const showAddQuestion = (qb) => {
+  return{
+    type:'SHOW_ADD_QUESTION',
+    qb
+  }
+}
+
+export const AddNewOptionInNewQuestion = (option) => {
+  return{
+    type:'ADD_NEW_OPTION_IN_NEW_QUESTION',
+    option
+  }
+}
+
+export const updateNewQuestionState = (data) => {
+  return{
+    type:'UPDATE_NEW_QUESTION_STATE',
+    data
+  }
+}

@@ -14,6 +14,7 @@ import Snackbar from 'material-ui/Snackbar';
 import Edit from 'material-ui/svg-icons/image/edit';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import {AddQuestion} from './AddQuestion';
 
 const qbCardstyles = {
   EditQb:{
@@ -302,6 +303,7 @@ class QuestionBank extends React.Component {
     this.OpenQbEdit = this.OpenQbEdit.bind(this);
     this.closeQbDelete = this.closeQbDelete.bind(this);
     this.confirmDeleteQb = this.confirmDeleteQb.bind(this);
+    this.saveNewQuestion = this.saveNewQuestion.bind(this);
   }
 
   componentWillMount(){
@@ -312,13 +314,13 @@ class QuestionBank extends React.Component {
     this.props.mappedfetchQuestionBank(this.props.params.id);
     let location = browserHistory.getCurrentLocation();
     if(location.pathname === `/question-bank/${this.props.params.id}/add-question`){
-      this.props.mappedToggleExpandQbCard();
+      this.props.mappedshowAddQuestion();
     }
   }
 
 
   showAddQuestion(id){
-    this.handleExpandChange();
+    this.props.mappedshowAddQuestion();
     browserHistory.push(`/question-bank/${id}/add-question`);
   }
 
@@ -394,6 +396,42 @@ class QuestionBank extends React.Component {
      this.props.mappeddeleteQb(this.props.mappedQbankState.QbankToDelete.Qbank);
   }
 
+  AddNewOption(option){
+    this.props.mappedAddNewOptionInNewQuestion(option);
+  }
+
+  handleAddNewQuestionChange(e){
+    let fieldname = e.target.name;
+    let fieldvalue = e.target.value;
+    var data = {};
+    if(fieldname !== 'question'){
+      fieldname = parseInt(fieldname);
+       data = {
+        number:fieldname,
+        fieldvalue:fieldvalue,
+        fieldname:'option'
+      }
+    }else{
+       data = {
+        fieldname:fieldname,
+        fieldvalue:fieldvalue
+      }
+    }
+    //alert(JSON.stringify(data))
+    this.props.mappedupdateNewQuestionState(data);
+  }
+
+  saveNewQuestion(event){
+    event.preventDefault();
+    let question = this.props.mappedQbankState.AddNewQuestion.Question;
+    let options = this.props.mappedQbankState.AddNewQuestion.OptionsArray;
+    const data = {
+      question:question,
+      options:options,
+    }
+    console.log(data);
+  }
+
   render(){
     const styles = {
       AddQuestionToQbDiv:{
@@ -441,7 +479,7 @@ class QuestionBank extends React.Component {
         paddingBottom:5
       }
     }
-    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete } = this.props.mappedQbankState;
+    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete,AddNewQuestion } = this.props.mappedQbankState;
 
     return(
       <div style={styles.AddQuestionToQbDiv} className="AddQuestionToQbDiv">
@@ -473,7 +511,14 @@ class QuestionBank extends React.Component {
              ConfirmDeleteQb={() => this.confirmDeleteQb()}
              CloseQbDelete={() => this.closeQbDelete()}
              />
-
+           {AddNewQuestion.showAddQDiv &&
+               <AddQuestion
+                 AddNewQuestion={AddNewQuestion}
+                  AddNewOption={(option)=>this.AddNewOption(option)}
+                  handleAddNewQuestionChange={(e) => this.handleAddNewQuestionChange(e)}
+                  saveNewQuestion={this.saveNewQuestion}
+                  />
+           }
 
           <div align="center">
             <Snackbar
