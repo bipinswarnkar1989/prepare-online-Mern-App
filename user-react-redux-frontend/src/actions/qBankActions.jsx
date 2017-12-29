@@ -323,3 +323,54 @@ export const updateNewQuestionState = (data) => {
     data
   }
 }
+
+export const addNewQuestion = (data) => {
+  return (dispatch) => {
+    dispatch(requestAddNewQuestion());console.log(data);
+    const token = localStorage.getItem('userToken');
+    return fetch(`${apiUrl}/Qbank/${data.qbId}/AddNewQuestion`,{
+      method:'post',
+      body:JSON.stringify(data),
+      headers:{
+        'authorization':token,
+        'Accept': 'application/json',
+      'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      if(response.status >= 200 && response.status < 300){
+         response.json().then((data) => {
+           if(data.success){
+             dispatch(successAddNewQuestion(data));
+           }
+           else if(!data.success && data.message){
+             dispatch(failedAddNewQuestion(data.message));
+           }
+           else{
+             dispatch(failedAddNewQuestion('Something Going Wrong'));
+           }
+         })
+      }else{
+        var error = new Error(response.statusText);
+        alert(error);
+      }
+    })
+  }
+}
+
+export const requestAddNewQuestion = () => {
+  return{
+     type:'REQUEST_ADD_NEW_QUESTION'
+  }
+}
+
+export const successAddNewQuestion = (data) => {
+  return{
+     type:'SUCCESS_ADD_NEW_QUESTION',
+     data
+  }
+}
+
+export const failedAddNewQuestion = (message) => {
+   type:'FAILED_ADD_NEW_QUESTION',
+   message
+}

@@ -39,7 +39,9 @@ const INITIAL_STATE = {
         number:4,
         value:null
       }
-    ]
+    ],
+    isFetching:false,
+    QuestionAdded:null
   }
 }
 
@@ -437,6 +439,84 @@ case 'REQUEST_DELETE_QB':
           showAddQDiv:true,
           Question:currentState.AddNewQuestion.Question,
           OptionsArray:currentState.AddNewQuestion.OptionsArray
+        }
+      }
+
+
+  case 'REQUEST_ADD_NEW_QUESTION':
+    return {
+      ...currentState,
+      expandQb:false,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:null,
+      error:null,
+      isFetching:false,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      },
+      AddNewQuestion:{
+        showAddQDiv:true,
+        Question:currentState.AddNewQuestion.Question,
+        OptionsArray:currentState.AddNewQuestion.OptionsArray,
+        isFetching:true,
+      }
+    }
+
+  case 'SUCCESS_ADD_NEW_QUESTION':
+    return {
+      ...currentState,
+      expandQb:false,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:action.data.message,
+      error:null,
+      isFetching:false,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      },
+      AddNewQuestion:{
+        showAddQDiv:true,
+        Question:null,
+        OptionsArray:INITIAL_STATE.AddNewQuestion.OptionsArray,
+        isFetching:false,
+        QuestionAdded:action.data.question
+      }
+    }
+
+    case 'FAILED_ADD_NEW_QUESTION':
+      return {
+        ...currentState,
+        expandQb:false,
+        UpdateQbank:{
+          imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+          openDialog:false,
+          QbankToEdit:null
+        },
+        fetchedQbank:currentState.fetchedQbank,
+        successMsg:null,
+        error:action.message,
+        isFetching:false,
+        QbankToDelete:{
+          openDialog:false,
+          Qbank:null
+        },
+        AddNewQuestion:{
+          showAddQDiv:true,
+          Question:currentState.AddNewQuestion.Question,
+          OptionsArray:currentState.AddNewQuestion.OptionsArray,
+          isFetching:false,
+          QuestionAdded:null
         }
       }
 

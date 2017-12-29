@@ -138,3 +138,9 @@ export const deleteqBankById = (req,res) => {
     })
   }
 }
+
+export const addNewQuestion = (req,res) => {
+  let id = req.params.id;
+  console.log('deleteqBankById: '+id);
+  console.log(req.body);console.log('Question: '+req.body.question)
+}

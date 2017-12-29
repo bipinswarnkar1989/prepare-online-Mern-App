@@ -423,13 +423,18 @@ class QuestionBank extends React.Component {
 
   saveNewQuestion(event){
     event.preventDefault();
+    let form = document.getElementById('AddNewQuestionForm');
     let question = this.props.mappedQbankState.AddNewQuestion.Question;
     let options = this.props.mappedQbankState.AddNewQuestion.OptionsArray;
+    let qBId = this.props.params.id;
     const data = {
       question:question,
       options:options,
+      qbId:qBId
     }
     console.log(data);
+    this.props.mappedaddNewQuestion(data);
+    form.reset();
   }
 
   render(){

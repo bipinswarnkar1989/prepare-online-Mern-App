@@ -15,5 +15,8 @@ router.route('/Qbank/:id')
   .get(qBankController.getqBankById)
   .delete(userController.authenticate,qBankController.deleteqBankById);
 
+router.route('/Qbank/:id/AddNewQuestion')
+  .post(userController.authenticate,qBankController.addNewQuestion);
+
 
 export default router;
