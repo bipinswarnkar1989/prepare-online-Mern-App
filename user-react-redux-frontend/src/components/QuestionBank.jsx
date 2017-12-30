@@ -427,10 +427,12 @@ class QuestionBank extends React.Component {
     let question = this.props.mappedQbankState.AddNewQuestion.Question;
     let options = this.props.mappedQbankState.AddNewQuestion.OptionsArray;
     let qBId = this.props.params.id;
+    let authorId = this.props.mappedUserState.user._id;
     const data = {
       question:question,
       options:options,
-      qbId:qBId
+      qbank:qBId,
+      author:authorId
     }
     console.log(data);
     this.props.mappedaddNewQuestion(data);
@@ -485,7 +487,7 @@ class QuestionBank extends React.Component {
       }
     }
     const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete,AddNewQuestion } = this.props.mappedQbankState;
-
+    //const { user,isLoggedIn } = this.props.mappedUserState;
     return(
       <div style={styles.AddQuestionToQbDiv} className="AddQuestionToQbDiv">
           <h3>Question Bank</h3>

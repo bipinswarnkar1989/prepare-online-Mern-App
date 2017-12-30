@@ -99,6 +99,11 @@ const AddOption = () => {
           fullWidth={true}
           onClick={props.saveNewQuestion}
           />
+        {props.AddNewQuestion.QuestionAdded &&
+          <div align="center">
+           <h5>Question Added Successfully.<br/>View</h5>
+          </div>
+        }
           </div>
         </Grid>
     </form>

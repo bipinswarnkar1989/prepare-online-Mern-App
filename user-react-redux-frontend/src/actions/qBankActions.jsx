@@ -1,12 +1,13 @@
 // ./user-react-redux-frontend/src/actions/qBankActions.jsx
 import { browserHistory } from 'react-router';
-const apiUrl = '/api/qbank/';
+const qbApiUrl = '/api/qbank/';
+const quesApiUrl = '/api/question/'
 
 export const fetchQbanks = () => {
   return (dispatch) => {
     const token = localStorage.getItem('userToken');
     dispatch(requestFetchQbanks());
-    return fetch(`${apiUrl}/Qbanks`,{
+    return fetch(`${qbApiUrl}/Qbanks`,{
       method:'get',
       headers:{ 'authorization':token }
     }).then(response => {
@@ -59,7 +60,7 @@ export const CreateQbank = (qb) => {
   return (dispatch) => {
     dispatch(requestCreateQbank());
     const token = localStorage.getItem('userToken');
-    return fetch(`${apiUrl}/Qbanks`,{
+    return fetch(`${qbApiUrl}/Qbanks`,{
       method:'post',
       body:qb,
       headers:{'authorization':token}
@@ -111,7 +112,7 @@ export const  fetchQuestionBank = (id) => {
   return (dispatch) => {
     dispatch(requestFetchQbank());
     const token = localStorage.getItem('userToken');
-    return fetch(`${apiUrl}/Qbank/${id}`, {
+    return fetch(`${qbApiUrl}/Qbank/${id}`, {
       method:'get',
       headers:{'authorization':token}
     }).then(response => {
@@ -180,7 +181,7 @@ export const updateQuestionBank = (data) => {
   return (dispatch) => {
     dispatch(requestUpdateQbank());
     const token = localStorage.getItem('userToken');
-    return fetch(`${apiUrl}/Qbanks`, {
+    return fetch(`${qbApiUrl}/Qbanks`, {
       method:'put',
       body:data,
       headers:{'authorization':token}
@@ -256,7 +257,7 @@ export const deleteQb = (qbToDelete) => {
     return (dispatch) => {
       dispatch(requestDeleteQbank(qbToDelete));
       const token = localStorage.getItem('userToken');
-      return fetch(`${apiUrl}/Qbank/${qbToDelete._id}`,{
+      return fetch(`${qbApiUrl}/Qbank/${qbToDelete._id}`,{
         method:'delete',
         headers:{'authorization':token}
       }).then(response => {
@@ -328,7 +329,7 @@ export const addNewQuestion = (data) => {
   return (dispatch) => {
     dispatch(requestAddNewQuestion());console.log(data);
     const token = localStorage.getItem('userToken');
-    return fetch(`${apiUrl}/Qbank/${data.qbId}/AddNewQuestion`,{
+    return fetch(`${quesApiUrl}/question`,{
       method:'post',
       body:JSON.stringify(data),
       headers:{

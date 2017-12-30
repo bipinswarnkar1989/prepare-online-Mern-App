@@ -438,7 +438,8 @@ case 'REQUEST_DELETE_QB':
         AddNewQuestion:{
           showAddQDiv:true,
           Question:currentState.AddNewQuestion.Question,
-          OptionsArray:currentState.AddNewQuestion.OptionsArray
+          OptionsArray:currentState.AddNewQuestion.OptionsArray,
+          QuestionAdded:null,
         }
       }
 
@@ -465,6 +466,7 @@ case 'REQUEST_DELETE_QB':
         Question:currentState.AddNewQuestion.Question,
         OptionsArray:currentState.AddNewQuestion.OptionsArray,
         isFetching:true,
+        QuestionAdded:null,
       }
     }
 
@@ -490,7 +492,7 @@ case 'REQUEST_DELETE_QB':
         Question:null,
         OptionsArray:INITIAL_STATE.AddNewQuestion.OptionsArray,
         isFetching:false,
-        QuestionAdded:action.data.question
+        QuestionAdded:action.data.ques
       }
     }
 
