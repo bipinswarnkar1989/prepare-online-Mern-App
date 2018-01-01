@@ -372,6 +372,37 @@ export const successAddNewQuestion = (data) => {
 }
 
 export const failedAddNewQuestion = (message) => {
-   type:'FAILED_ADD_NEW_QUESTION',
-   message
+   return{
+     type:'FAILED_ADD_NEW_QUESTION',
+     message
+   }
+}
+
+export const fetchQbQuestions = (qBid,page) => {
+  return (dispatch) => {
+    dispatch(requestFetchQbQuestions());
+    return fetch(`${quesApiUrl}/question/${qBid}/${page}`,{
+      method:'get'
+    }).then(response => {
+      if(response.status >= 200 && response.status < 300){
+        response.json().then(data => {
+          if(data.success){
+            dispatch(successFetchQbQuestions(data));
+          }
+          else if (!data.success && data.message) {
+            dispatch(failedFetchQbQuestions(data.message));
+          }
+        })
+      }else {
+        let error = new Error(response.statusText);
+        dispatch(failedFetchQbQuestions(error));
+      }
+    })
+  }
+}
+
+export const showViewQuestions = () => {
+  return{
+     type:'SHOW_VIEW_QUESTIONS'
+  }
 }

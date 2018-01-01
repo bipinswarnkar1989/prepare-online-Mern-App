@@ -42,6 +42,10 @@ const INITIAL_STATE = {
     ],
     isFetching:false,
     QuestionAdded:null
+  },
+  ViewQbQuestions:{
+    showViewQDiv:false,
+    Questions:null
   }
 }
 
@@ -519,8 +523,42 @@ case 'REQUEST_DELETE_QB':
           OptionsArray:currentState.AddNewQuestion.OptionsArray,
           isFetching:false,
           QuestionAdded:null
+        },
+        ViewQbQuestions:{
+          showViewQDiv:false,
+          Questions:null
         }
       }
+
+  case 'SHOW_VIEW_QUESTIONS':
+    return {
+      ...currentState,
+      expandQb:false,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:null,
+      error:null,
+      isFetching:false,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      },
+      AddNewQuestion:{
+        showAddQDiv:false,
+        Question:currentState.AddNewQuestion.Question,
+        OptionsArray:currentState.AddNewQuestion.OptionsArray,
+        isFetching:false,
+        QuestionAdded:null
+      },
+      ViewQbQuestions:{
+        showViewQDiv:true,
+        Questions:null
+      }
+    }
 
     default:
       return currentState;

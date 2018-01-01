@@ -15,6 +15,7 @@ import Edit from 'material-ui/svg-icons/image/edit';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import {AddQuestion} from './AddQuestion';
+import ViewQuestions from './ViewQuestions';
 
 const qbCardstyles = {
   EditQb:{
@@ -158,7 +159,7 @@ const QuestionBankCard = (props) => {
          <CardActions>
            <FlatButton label="Answer Questions" />
            <FlatButton onClick={props.showAddQuestion} label="Add Questions" />
-           <FlatButton label="Search Questions" />
+           <FlatButton onClick={props.viewQuestions} label="View Questions" />
            <FlatButton label="BookMark"/>
          </CardActions>
        </div>
@@ -304,6 +305,7 @@ class QuestionBank extends React.Component {
     this.closeQbDelete = this.closeQbDelete.bind(this);
     this.confirmDeleteQb = this.confirmDeleteQb.bind(this);
     this.saveNewQuestion = this.saveNewQuestion.bind(this);
+    this.viewQuestions = this.viewQuestions.bind(this);
   }
 
   componentWillMount(){
@@ -315,6 +317,9 @@ class QuestionBank extends React.Component {
     let location = browserHistory.getCurrentLocation();
     if(location.pathname === `/question-bank/${this.props.params.id}/add-question`){
       this.props.mappedshowAddQuestion();
+    }
+    else if (location.pathname === `/question-bank/${this.props.params.id}/view-questions`) {
+      this.props.mappedshowViewQuestions();
     }
   }
 
@@ -439,6 +444,11 @@ class QuestionBank extends React.Component {
     form.reset();
   }
 
+  viewQuestions(id){
+    this.props.mappedshowViewQuestions();
+    browserHistory.push(`/question-bank/${id}/view-questions`);
+  }
+
   render(){
     const styles = {
       AddQuestionToQbDiv:{
@@ -486,7 +496,7 @@ class QuestionBank extends React.Component {
         paddingBottom:5
       }
     }
-    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete,AddNewQuestion } = this.props.mappedQbankState;
+    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete,AddNewQuestion,ViewQbQuestions } = this.props.mappedQbankState;
     //const { user,isLoggedIn } = this.props.mappedUserState;
     return(
       <div style={styles.AddQuestionToQbDiv} className="AddQuestionToQbDiv">
@@ -504,6 +514,7 @@ class QuestionBank extends React.Component {
           UpdateQbankData={this.UpdateQbankData}
           OpenQbEdit={() => this.OpenQbEdit(fetchedQbank)}
           OpenConfirmQbDel={() => this.OpenConfirmQbDelete(fetchedQbank)}
+          viewQuestions={() => this.viewQuestions(fetchedQbank._id)}
           />
              </div>
           }
@@ -525,6 +536,10 @@ class QuestionBank extends React.Component {
                   handleAddNewQuestionChange={(e) => this.handleAddNewQuestionChange(e)}
                   saveNewQuestion={this.saveNewQuestion}
                   />
+           }
+
+           {ViewQbQuestions.showViewQDiv &&
+             <ViewQuestions />
            }
 
           <div align="center">
