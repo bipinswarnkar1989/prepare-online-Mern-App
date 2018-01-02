@@ -378,10 +378,10 @@ export const failedAddNewQuestion = (message) => {
    }
 }
 
-export const fetchQbQuestions = (qBid,page) => {
+export const fetchQbQuestions = (qBid,page,limit) => {
   return (dispatch) => {
-    dispatch(requestFetchQbQuestions());
-    return fetch(`${quesApiUrl}/question/${qBid}/${page}`,{
+    dispatch(requestFetchQbQuestions(qBid,page,limit));
+    return fetch(`${quesApiUrl}/questions/${qBid}/${page}/${limit}`,{
       method:'get'
     }).then(response => {
       if(response.status >= 200 && response.status < 300){
@@ -401,8 +401,25 @@ export const fetchQbQuestions = (qBid,page) => {
   }
 }
 
-export const showViewQuestions = () => {
+export const requestFetchQbQuestions = (qBid,page,limit) => {
   return{
-     type:'SHOW_VIEW_QUESTIONS'
+     type:'REQUEST_FETCH_QB_QUESTIONS',
+     qBid:qBid,
+     page:page,
+     limit:limit
+  }
+}
+
+export const successFetchQbQuestions = (data) => {
+  return{
+    type:'SUCCESS_FETCH_QB_QUESTIONS',
+    data
+  }
+}
+
+export const failedFetchQbQuestions = (message) => {
+  return{
+    type:'FAILED_FETCH_QB_QUESTIONS',
+    message
   }
 }

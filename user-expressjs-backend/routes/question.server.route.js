@@ -7,7 +7,9 @@ import * as questionController from '../controllers/question.server.controller';
 const router = express.Router();
 
 router.route('/question')
-  .post(questionController.createQuestion);
+  .post(userController.authenticate,questionController.createQuestion);
+router.route('/questions/:qBid/:page/:limit')
+  .get(questionController.fetchQuestions)
 
 
 export default router;

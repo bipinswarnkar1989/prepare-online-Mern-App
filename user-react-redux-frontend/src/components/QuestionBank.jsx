@@ -318,8 +318,11 @@ class QuestionBank extends React.Component {
     if(location.pathname === `/question-bank/${this.props.params.id}/add-question`){
       this.props.mappedshowAddQuestion();
     }
-    else if (location.pathname === `/question-bank/${this.props.params.id}/view-questions`) {
-      this.props.mappedshowViewQuestions();
+    else if (location.pathname === `/question-bank/${this.props.params.id}/view-questions/${this.props.params.page}/${this.props.params.limit}`) {
+      let qBid = this.props.params.id;
+      let page = this.props.params.page;
+      let limit = this.props.params.limit;
+      this.props.mappedFetchQbQuestions(qBid,page,limit);
     }
   }
 
@@ -444,9 +447,9 @@ class QuestionBank extends React.Component {
     form.reset();
   }
 
-  viewQuestions(id){
-    this.props.mappedshowViewQuestions();
-    browserHistory.push(`/question-bank/${id}/view-questions`);
+  viewQuestions(qBid,page,limit){
+    this.props.mappedFetchQbQuestions(qBid,page,limit);
+    browserHistory.push(`/question-bank/${qBid}/view-questions/${page}/${limit}`);
   }
 
   render(){
@@ -514,7 +517,7 @@ class QuestionBank extends React.Component {
           UpdateQbankData={this.UpdateQbankData}
           OpenQbEdit={() => this.OpenQbEdit(fetchedQbank)}
           OpenConfirmQbDel={() => this.OpenConfirmQbDelete(fetchedQbank)}
-          viewQuestions={() => this.viewQuestions(fetchedQbank._id)}
+          viewQuestions={() => this.viewQuestions(fetchedQbank._id,1,10)}
           />
              </div>
           }
@@ -539,7 +542,7 @@ class QuestionBank extends React.Component {
            }
 
            {ViewQbQuestions.showViewQDiv &&
-             <ViewQuestions />
+             <ViewQuestions ViewQbQuestionsState={ViewQbQuestions}/>
            }
 
           <div align="center">

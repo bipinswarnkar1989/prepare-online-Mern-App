@@ -530,7 +530,7 @@ case 'REQUEST_DELETE_QB':
         }
       }
 
-  case 'SHOW_VIEW_QUESTIONS':
+  case 'REQUEST_FETCH_QB_QUESTIONS':
     return {
       ...currentState,
       expandQb:false,
@@ -541,6 +541,39 @@ case 'REQUEST_DELETE_QB':
       },
       fetchedQbank:currentState.fetchedQbank,
       successMsg:null,
+      error:null,
+      isFetching:true,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      },
+      AddNewQuestion:{
+        showAddQDiv:false,
+        Question:currentState.AddNewQuestion.Question,
+        OptionsArray:currentState.AddNewQuestion.OptionsArray,
+        isFetching:false,
+        QuestionAdded:null
+      },
+      ViewQbQuestions:{
+        showViewQDiv:true,
+        qBid:action.qBid,
+        page:action.page,
+        Questions:null
+      }
+    }
+
+
+case 'SUCCESS_FETCH_QB_QUESTIONS':
+    return {
+      ...currentState,
+      expandQb:false,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:action.data.message,
       error:null,
       isFetching:false,
       QbankToDelete:{
@@ -556,9 +589,43 @@ case 'REQUEST_DELETE_QB':
       },
       ViewQbQuestions:{
         showViewQDiv:true,
-        Questions:null
+        qBid:currentState.ViewQbQuestions.qBid,
+        page:currentState.ViewQbQuestions.page,
+        Questions:action.data.ques
       }
     }
+
+case 'FAILED_FETCH_QB_QUESTIONS':
+  return {
+    ...currentState,
+    expandQb:false,
+    UpdateQbank:{
+      imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+      openDialog:false,
+      QbankToEdit:null
+    },
+    fetchedQbank:currentState.fetchedQbank,
+    successMsg:null,
+    error:action.data.message,
+    isFetching:false,
+    QbankToDelete:{
+      openDialog:false,
+      Qbank:null
+    },
+    AddNewQuestion:{
+      showAddQDiv:false,
+      Question:currentState.AddNewQuestion.Question,
+      OptionsArray:currentState.AddNewQuestion.OptionsArray,
+      isFetching:false,
+      QuestionAdded:null
+    },
+    ViewQbQuestions:{
+      showViewQDiv:false,
+      qBid:currentState.ViewQbQuestions.qBid,
+      page:currentState.ViewQbQuestions.page,
+      Questions:null
+    }
+  }
 
     default:
       return currentState;

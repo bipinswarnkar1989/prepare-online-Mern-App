@@ -17,6 +17,6 @@ export default (
   <Route path="/question-bank/create" component={CreateQbank}/>
   <Route path="/question-bank/:id" component={QuestionBank}/>
   <Route path="/question-bank/:id/add-question" component={QuestionBank}/>
-  <Route path="/question-bank/:id/view-questions" component={QuestionBank}/>
+  <Route path="/question-bank/:id/view-questions/:page/:limit" component={QuestionBank}/>
   </Route>
 )

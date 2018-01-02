@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch) => {
     mappedAddNewOptionInNewQuestion: option => dispatch(qBankActions.AddNewOptionInNewQuestion(option)),
     mappedupdateNewQuestionState: data => dispatch(qBankActions.updateNewQuestionState(data)),
     mappedaddNewQuestion: data => dispatch(qBankActions.addNewQuestion(data)),
-    mappedshowViewQuestions: () => dispatch(qBankActions.showViewQuestions()),
+    mappedFetchQbQuestions: (qBid,page,limit) => dispatch(qBankActions.fetchQbQuestions(qBid,page,limit)),
   }
 }
 
