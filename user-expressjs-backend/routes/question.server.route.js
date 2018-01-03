@@ -9,7 +9,9 @@ const router = express.Router();
 router.route('/question')
   .post(userController.authenticate,questionController.createQuestion);
 router.route('/questions/:qBid/:page/:limit')
-  .get(questionController.fetchQuestions)
+  .get(questionController.fetchQuestions);
+router.route('/question/:quesId')
+   .delete(userController.authenticate,questionController.deleteQuestion);
 
 
 export default router;

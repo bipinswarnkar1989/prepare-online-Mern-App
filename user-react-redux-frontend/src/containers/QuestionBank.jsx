@@ -30,6 +30,9 @@ const mapDispatchToProps = (dispatch) => {
     mappedupdateNewQuestionState: data => dispatch(qBankActions.updateNewQuestionState(data)),
     mappedaddNewQuestion: data => dispatch(qBankActions.addNewQuestion(data)),
     mappedFetchQbQuestions: (qBid,page,limit) => dispatch(qBankActions.fetchQbQuestions(qBid,page,limit)),
+    mappeddeleteQbQuestion: q => dispatch(qBankActions.deleteQbQuestion(q)),
+    mappedshowDeleteQbQuestion: q => dispatch(qBankActions.showDeleteQbQuestion(q)),
+    mappedcancelDeleteQbQuestion: () => dispatch(qBankActions.cancelDeleteQbQuestion()),
   }
 }
 

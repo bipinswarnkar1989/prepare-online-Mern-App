@@ -1,7 +1,7 @@
 // ./user-react-redux-frontend/src/actions/qBankActions.jsx
 import { browserHistory } from 'react-router';
-const qbApiUrl = '/api/qbank/';
-const quesApiUrl = '/api/question/'
+const qbApiUrl = '/api/qbank';
+const quesApiUrl = '/api/question'
 
 export const fetchQbanks = () => {
   return (dispatch) => {
@@ -420,6 +420,67 @@ export const successFetchQbQuestions = (data) => {
 export const failedFetchQbQuestions = (message) => {
   return{
     type:'FAILED_FETCH_QB_QUESTIONS',
+    message
+  }
+}
+
+export const showDeleteQbQuestion = (q) => {
+  return{
+    type:'SHOW_DELETE_QB_QUESTION',
+    question:q
+  }
+}
+
+export const cancelDeleteQbQuestion = () => {
+  return{
+    type:'CANCEL_DELETE_QB_QUESTION'
+  }
+}
+
+export const deleteQbQuestion = (q) => {
+  return (dispatch) => {
+    let token = localStorage.getItem('userToken');
+    let qId = q._id;
+    dispatch(requestDeleteQbQuestion(q));
+    return fetch(`${quesApiUrl}/question/${qId}`,{
+      method:'delete',
+      headers:{'authorization':token}
+    }).then(response => {
+      if(response.status >= 200 && response.status < 300){
+          response.json().then(data => {
+            if(data.success){
+              dispatch(successDeleteQbQuestion(data));
+            }
+            else if (data.message && !data.success) {
+              dispatch(failedDeleteQbQuestion(data.message));
+            } else {
+
+            }
+          })
+      }else{
+        dispatch(failedDeleteQbQuestion(response.statusText));
+      }
+    })
+  }
+}
+
+export const requestDeleteQbQuestion = (q) => {
+  return{
+    type:'REQUEST_DELETE_QB_QUESTION',
+    question:q
+  }
+}
+
+export const successDeleteQbQuestion = (data) => {
+  return{
+    type:'SUCCESS_DELETE_QB_QUESTION',
+    data
+  }
+}
+
+export const failedDeleteQbQuestion = (message) => {
+  return{
+    type:'FAILED_DELETE_QB_QUESTION',
     message
   }
 }

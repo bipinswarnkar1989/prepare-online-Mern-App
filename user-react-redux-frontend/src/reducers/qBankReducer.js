@@ -46,6 +46,10 @@ const INITIAL_STATE = {
   ViewQbQuestions:{
     showViewQDiv:false,
     Questions:null
+  },
+  DeleteQbQuestion:{
+    showDeleteQues:false,
+    questionToDelete:null,
   }
 }
 
@@ -497,7 +501,7 @@ case 'REQUEST_DELETE_QB':
         OptionsArray:INITIAL_STATE.AddNewQuestion.OptionsArray,
         isFetching:false,
         QuestionAdded:action.data.ques
-      }
+      },
     }
 
     case 'FAILED_ADD_NEW_QUESTION':
@@ -626,6 +630,188 @@ case 'FAILED_FETCH_QB_QUESTIONS':
       Questions:null
     }
   }
+
+  case 'SHOW_DELETE_QB_QUESTION':
+    return {
+      ...currentState,
+      expandQb:false,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:null,
+      error:null,
+      isFetching:false,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      },
+      AddNewQuestion:{
+        showAddQDiv:false,
+        Question:null,
+        OptionsArray:null,
+        isFetching:false,
+        QuestionAdded:null
+      },
+      ViewQbQuestions:{
+        showViewQDiv:currentState.ViewQbQuestions.showViewQDiv,
+        qBid:currentState.ViewQbQuestions.qBid,
+        page:currentState.ViewQbQuestions.page,
+        Questions:currentState.ViewQbQuestions.Questions
+      },
+      DeleteQbQuestion:{
+        showDeleteQues:true,
+        questionToDelete:action.question
+      }
+    }
+
+case 'CANCEL_DELETE_QB_QUESTION':
+  return {
+    ...currentState,
+    expandQb:false,
+    UpdateQbank:{
+      imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+      openDialog:false,
+      QbankToEdit:null
+    },
+    fetchedQbank:currentState.fetchedQbank,
+    successMsg:null,
+    error:null,
+    isFetching:false,
+    QbankToDelete:{
+      openDialog:false,
+      Qbank:null
+    },
+    AddNewQuestion:{
+      showAddQDiv:false,
+      Question:null,
+      OptionsArray:null,
+      isFetching:false,
+      QuestionAdded:null
+    },
+    ViewQbQuestions:{
+      showViewQDiv:currentState.ViewQbQuestions.showViewQDiv,
+      qBid:currentState.ViewQbQuestions.qBid,
+      page:currentState.ViewQbQuestions.page,
+      Questions:currentState.ViewQbQuestions.Questions
+    },
+    DeleteQbQuestion:{
+      showDeleteQues:false,
+      questionToDelete:null
+    }
+  }
+
+
+case 'REQUEST_DELETE_QB_QUESTION':
+  return {
+    ...currentState,
+    expandQb:false,
+    UpdateQbank:{
+      imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+      openDialog:false,
+      QbankToEdit:null
+    },
+    fetchedQbank:currentState.fetchedQbank,
+    successMsg:null,
+    error:null,
+    isFetching:true,
+    QbankToDelete:{
+      openDialog:false,
+      Qbank:null
+    },
+    AddNewQuestion:{
+      showAddQDiv:false,
+      Question:null,
+      OptionsArray:null,
+      isFetching:false,
+      QuestionAdded:null
+    },
+    ViewQbQuestions:{
+      showViewQDiv:currentState.ViewQbQuestions.showViewQDiv,
+      qBid:currentState.ViewQbQuestions.qBid,
+      page:currentState.ViewQbQuestions.page,
+      Questions:currentState.ViewQbQuestions.Questions
+    },
+    DeleteQbQuestion:{
+      showDeleteQues:true,
+      questionToDelete:action.question
+    }
+  }
+
+case 'SUCCESS_DELETE_QB_QUESTION':
+  const QuestionsAfterDeleted = currentState.ViewQbQuestions.Questions.filter((item) => {return item._id !== action.data.ques._id})
+  return {
+    ...currentState,
+    expandQb:false,
+    UpdateQbank:{
+      imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+      openDialog:false,
+      QbankToEdit:null
+    },
+    fetchedQbank:currentState.fetchedQbank,
+    successMsg:action.data.message,
+    error:null,
+    isFetching:false,
+    QbankToDelete:{
+      openDialog:false,
+      Qbank:null
+    },
+    AddNewQuestion:{
+      showAddQDiv:false,
+      Question:null,
+      OptionsArray:null,
+      isFetching:false,
+      QuestionAdded:null
+    },
+    ViewQbQuestions:{
+      showViewQDiv:currentState.ViewQbQuestions.showViewQDiv,
+      qBid:currentState.ViewQbQuestions.qBid,
+      page:currentState.ViewQbQuestions.page,
+      Questions:QuestionsAfterDeleted
+    },
+    DeleteQbQuestion:{
+      showDeleteQues:false,
+      questionToDelete:null
+    }
+  }
+
+case 'FAILED_DELETE_QB_QUESTION':
+    return {
+      ...currentState,
+      expandQb:false,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:null,
+      error:action.message,
+      isFetching:false,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      },
+      AddNewQuestion:{
+        showAddQDiv:false,
+        Question:null,
+        OptionsArray:null,
+        isFetching:false,
+        QuestionAdded:null
+      },
+      ViewQbQuestions:{
+        showViewQDiv:currentState.ViewQbQuestions.showViewQDiv,
+        qBid:currentState.ViewQbQuestions.qBid,
+        page:currentState.ViewQbQuestions.page,
+        Questions:currentState.ViewQbQuestions.Questions
+      },
+      DeleteQbQuestion:{
+        showDeleteQues:false,
+        questionToDelete:null
+      }
+    }
 
     default:
       return currentState;

@@ -16,6 +16,7 @@ import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import {AddQuestion} from './AddQuestion';
 import ViewQuestions from './ViewQuestions';
+import DeleteQbQuestionDialog from './DeleteQbQuestionDialog';
 
 const qbCardstyles = {
   EditQb:{
@@ -452,6 +453,17 @@ class QuestionBank extends React.Component {
     browserHistory.push(`/question-bank/${qBid}/view-questions/${page}/${limit}`);
   }
 
+  showDeleteQuestion(q){
+    this.props.mappedshowDeleteQbQuestion(q);
+  }
+  deleteQuestion(){
+    let ques = this.props.mappedQbankState.DeleteQbQuestion.questionToDelete;
+    this.props.mappeddeleteQbQuestion(ques);
+  }
+  canceldeleteQuestion(){
+    this.props.mappedcancelDeleteQbQuestion();
+  }
+
   render(){
     const styles = {
       AddQuestionToQbDiv:{
@@ -499,7 +511,7 @@ class QuestionBank extends React.Component {
         paddingBottom:5
       }
     }
-    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete,AddNewQuestion,ViewQbQuestions } = this.props.mappedQbankState;
+    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete,AddNewQuestion,ViewQbQuestions,DeleteQbQuestion } = this.props.mappedQbankState;
     //const { user,isLoggedIn } = this.props.mappedUserState;
     return(
       <div style={styles.AddQuestionToQbDiv} className="AddQuestionToQbDiv">
@@ -542,8 +554,17 @@ class QuestionBank extends React.Component {
            }
 
            {ViewQbQuestions.showViewQDiv &&
-             <ViewQuestions ViewQbQuestionsState={ViewQbQuestions}/>
+             <ViewQuestions
+               ViewQbQuestionsState={ViewQbQuestions}
+               showDelQuestion={(q) => this.showDeleteQuestion(q)}
+               />
            }
+
+           <DeleteQbQuestionDialog
+            DeleteQbQuestion={DeleteQbQuestion}
+            deleteQuestion={this.deleteQuestion.bind(this)}
+            closeQbQuestionDelete={this.canceldeleteQuestion.bind(this)}
+              />
 
           <div align="center">
             <Snackbar

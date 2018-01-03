@@ -56,3 +56,27 @@ export const fetchQuestions = (req,res) => {
                })
   }
 }
+
+export const deleteQuestion = (req,res) => {
+  console.log('deleteQuestion: '+JSON.stringify(req.params));
+  let quesId = req.params.quesId;
+  if(quesId){
+    Question.findByIdAndRemove(quesId,(err,ques) => {
+      if(err) {
+           console.log(err);
+           return res.json({success:false,message:'Something going wrong',err});
+      }
+      else{
+        if(ques){console.log(ques)
+          return res.json({
+            success:true,
+            message:'Question Delete Successfully',
+            ques
+          });
+        }else{
+          return res.json({success:false,message:'Something going wrong'});
+        }
+      }
+    })
+  }
+}
