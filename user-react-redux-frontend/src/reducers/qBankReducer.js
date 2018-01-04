@@ -50,6 +50,10 @@ const INITIAL_STATE = {
   DeleteQbQuestion:{
     showDeleteQues:false,
     questionToDelete:null,
+  },
+  EditQbQuestion:{
+    showEditQues:false,
+    questionToEdit:null,
   }
 }
 
@@ -116,7 +120,36 @@ const qBankReducer = (currentState = INITIAL_STATE, action) => {
         isFetching:false,
         fetchedQbank:action.data.qb,
         successMsg:action.data.message,
-        error:null
+        error:null,
+        expandQb:true,
+        ViewQbQuestions:{
+          showViewQDiv:false,
+          Questions:null
+        },
+        AddNewQuestion:{
+          showAddQDiv:false,
+          Question:null,
+          OptionsArray:[
+            {
+              number:1,
+              value:null
+            },
+            {
+              number:2,
+              value:null
+            },
+            {
+              number:3,
+              value:null
+            },
+             {
+              number:4,
+              value:null
+            }
+          ],
+          isFetching:false,
+          QuestionAdded:null
+        },
       }
 
    case 'FAILED_FETCH_QBANK':
@@ -812,6 +845,204 @@ case 'FAILED_DELETE_QB_QUESTION':
         questionToDelete:null
       }
     }
+
+  case 'SHOW_EDIT_QB_QUESTION':
+    return {
+      ...currentState,
+      successMsg:null,
+      error:null,
+      EditQbQuestion:{
+        showEditQues:true,
+        questionToEdit:action.question,
+      }
+    }
+
+case 'CANCEL_EDIT_QB_QUESTION':
+  return {
+    ...currentState,
+    EditQbQuestion:{
+      showEditQues:false,
+      questionToEdit:null,
+    }
+  }
+
+  case 'UPDATE_EDIT_QUESTION_STATE':
+  console.log(action.data)
+      if(action.data.fieldname === 'question'){
+          currentState.EditQbQuestion.questionToEdit.question = action.data.fieldvalue;
+      }
+      else{
+        currentState.EditQbQuestion.questionToEdit.options = currentState.EditQbQuestion.questionToEdit.options.map((op) => {
+          if(op.number === action.data.number){
+            let newOpt = {number:action.data.number,value:action.data.fieldvalue}
+            return {...op, ...newOpt}
+          }
+          return op;
+        })
+      }
+      return{
+        ...currentState,
+        expandQb:false,
+        UpdateQbank:{
+          imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+          openDialog:false,
+          QbankToEdit:null
+        },
+        fetchedQbank:currentState.fetchedQbank,
+        successMsg:null,
+        error:null,
+        isFetching:false,
+        QbankToDelete:{
+          openDialog:false,
+          Qbank:null
+        },
+        AddNewQuestion:{
+          showAddQDiv:false,
+          Question:null,
+          OptionsArray:null,
+          QuestionAdded:null,
+        },
+        EditQbQuestion:{
+          showEditQues:true,
+          questionToEdit:currentState.EditQbQuestion.questionToEdit,
+        }
+      }
+
+  case 'ADD_NEW_OPTION_IN_EDIT_QUESTION':
+    currentState.EditQbQuestion.questionToEdit.options = [
+      ...currentState.EditQbQuestion.questionToEdit.options, action.option
+    ];
+     return{
+       ...currentState,
+       expandQb:false,
+       UpdateQbank:{
+         imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+         openDialog:false,
+         QbankToEdit:null
+       },
+       fetchedQbank:currentState.fetchedQbank,
+       successMsg:null,
+       error:null,
+       isFetching:false,
+       QbankToDelete:{
+         openDialog:false,
+         Qbank:null
+       },
+       AddNewQuestion:{
+         showAddQDiv:false,
+         Question:null,
+         OptionsArray:null
+       },
+       EditQbQuestion:{
+         showEditQues:true,
+         questionToEdit:currentState.EditQbQuestion.questionToEdit,
+       }
+     }
+
+case 'REQUEST_UPDATE_QB_QUESTION':
+    return{
+      ...currentState,
+      expandQb:false,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:null,
+      error:null,
+      isFetching:true,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      },
+      AddNewQuestion:{
+        showAddQDiv:false,
+        Question:null,
+        OptionsArray:null
+      },
+      EditQbQuestion:{
+        showEditQues:true,
+        questionToEdit:currentState.EditQbQuestion.questionToEdit,
+      }
+    }
+
+case 'SUCCESS_UPDATE_QB_QUESTION':
+   currentState.ViewQbQuestions.Questions = currentState.ViewQbQuestions.Questions.map((q) => {
+     if(q._id === action.data.ques._id){
+       return {...q,...action.data.ques}
+     }
+     return q;
+   })
+    return{
+      ...currentState,
+      expandQb:false,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:action.data.message,
+      error:null,
+      isFetching:false,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      },
+      AddNewQuestion:{
+        showAddQDiv:false,
+        Question:null,
+        OptionsArray:null
+      },
+      EditQbQuestion:{
+        showEditQues:false,
+        questionToEdit:null,
+      },
+      ViewQbQuestions:{
+        showViewQDiv:currentState.ViewQbQuestions.showViewQDiv,
+        qBid:currentState.ViewQbQuestions.qBid,
+        page:currentState.ViewQbQuestions.page,
+        Questions:currentState.ViewQbQuestions.Questions
+      },
+    }
+
+case 'FAILED_UPDATE_QB_QUESTION':
+    return{
+      ...currentState,
+      expandQb:false,
+      UpdateQbank:{
+        imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+        openDialog:false,
+        QbankToEdit:null
+      },
+      fetchedQbank:currentState.fetchedQbank,
+      successMsg:null,
+      error:action.message,
+      isFetching:false,
+      QbankToDelete:{
+        openDialog:false,
+        Qbank:null
+      },
+      AddNewQuestion:{
+        showAddQDiv:false,
+        Question:null,
+        OptionsArray:null
+      },
+      EditQbQuestion:{
+        showEditQues:false,
+        questionToEdit:null,
+      },
+      ViewQbQuestions:{
+        showViewQDiv:currentState.ViewQbQuestions.showViewQDiv,
+        qBid:currentState.ViewQbQuestions.qBid,
+        page:currentState.ViewQbQuestions.page,
+        Questions:currentState.ViewQbQuestions.Questions
+      },
+    }
+
+
+
 
     default:
       return currentState;

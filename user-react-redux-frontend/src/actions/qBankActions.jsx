@@ -484,3 +484,80 @@ export const failedDeleteQbQuestion = (message) => {
     message
   }
 }
+
+export const showEditQbQuestion = (q) => {
+  return{
+    type:'SHOW_EDIT_QB_QUESTION',
+    question:q
+  }
+}
+
+export const cancelEditQbQuestion = () => {
+  return{
+    type:'CANCEL_EDIT_QB_QUESTION'
+  }
+}
+
+export const updateEditQuestionState = (data) => {
+  return{
+    type:'UPDATE_EDIT_QUESTION_STATE',
+    data
+  }
+}
+
+export const AddNewOptionInEditQuestion = (option) => {
+  return{
+    type:'ADD_NEW_OPTION_IN_EDIT_QUESTION',
+    option
+  }
+}
+
+export const updateQuestion = (q) => {
+  return (dispatch) => {
+    let token = localStorage.getItem('userToken');
+    dispatch(requestUpdateQuestion());
+    return fetch(`${quesApiUrl}/question`,{
+      method:'put',
+      body:JSON.stringify(q),
+      headers:{
+        'authorization':token,
+        'Accept': 'application/json',
+      'Content-Type': 'application/json'
+      }
+    }).then(response => {
+      if(response.status >= 200 && response.status < 300){
+         response.json().then(data => {
+           if(data.success){
+             console.log(data)
+             dispatch(successUpdateQuestion(data));
+           }else if (data.message && !data.success) {
+             dispatch(failedUpdateQuestion(data.message));
+           }
+         })
+      }else {
+        let error = response.statusText;
+        dispatch(failedUpdateQuestion(error));
+      }
+    })
+  }
+}
+
+export const requestUpdateQuestion = () => {
+  return {
+    type:'REQUEST_UPDATE_QB_QUESTION'
+  }
+}
+
+export const successUpdateQuestion = (data) => {
+  return {
+    type:'SUCCESS_UPDATE_QB_QUESTION',
+    data
+  }
+}
+
+export const failedUpdateQuestion = (message) => {
+  return {
+    type:'FAILED_UPDATE_QB_QUESTION',
+    message
+  }
+}

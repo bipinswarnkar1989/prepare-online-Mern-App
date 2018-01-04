@@ -33,6 +33,11 @@ const mapDispatchToProps = (dispatch) => {
     mappeddeleteQbQuestion: q => dispatch(qBankActions.deleteQbQuestion(q)),
     mappedshowDeleteQbQuestion: q => dispatch(qBankActions.showDeleteQbQuestion(q)),
     mappedcancelDeleteQbQuestion: () => dispatch(qBankActions.cancelDeleteQbQuestion()),
+    mappedshowEditQbQuestion: q => dispatch(qBankActions.showEditQbQuestion(q)),
+    mappedcancelEditQbQuestion: () => dispatch(qBankActions.cancelEditQbQuestion()),
+    mappedupdateEditQuestionState: data => dispatch(qBankActions.updateEditQuestionState(data)),
+    mappedAddNewOptionInEditQuestion: option => dispatch(qBankActions.AddNewOptionInEditQuestion(option)),
+    mappedupdateQuestion: q => dispatch(qBankActions.updateQuestion(q)),
   }
 }
 

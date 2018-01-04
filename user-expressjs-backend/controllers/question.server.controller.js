@@ -80,3 +80,28 @@ export const deleteQuestion = (req,res) => {
     })
   }
 }
+
+export const updateQuestion = (req,res) => {
+  console.log('updateQuestion: '+JSON.stringify(req.body));
+  if(req.body){
+    let id = req.body._id;
+    Question.findOneAndUpdate(
+      { _id:id },
+      { $set:req.body },
+      { 'new':true }
+    ).exec((err,ques) => {
+      if(err) {
+           return res.json({success:false,message:'Something going wrong',err});
+      }
+      else{
+        if(ques){
+          return res.json({
+            success:true,
+            message:'Question Updated Successfully',
+            ques
+          });
+        }
+      }
+    });
+  }
+}

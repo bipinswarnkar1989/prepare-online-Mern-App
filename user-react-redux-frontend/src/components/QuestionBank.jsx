@@ -17,6 +17,7 @@ import TextField from 'material-ui/TextField';
 import {AddQuestion} from './AddQuestion';
 import ViewQuestions from './ViewQuestions';
 import DeleteQbQuestionDialog from './DeleteQbQuestionDialog';
+import EditQuestion from './EditQuestion';
 
 const qbCardstyles = {
   EditQb:{
@@ -464,6 +465,41 @@ class QuestionBank extends React.Component {
     this.props.mappedcancelDeleteQbQuestion();
   }
 
+  showEditQuestion(q){
+    this.props.mappedshowEditQbQuestion(q);
+  }
+  cancelQuestionUpdate(){
+    this.props.mappedcancelEditQbQuestion();
+  }
+  handleEditQuestionChange(e){
+    let fieldname = e.target.name;
+    let fieldvalue = e.target.value;
+    var data = {};
+    if(fieldname !== 'question'){
+      fieldname = parseInt(fieldname);
+       data = {
+        number:fieldname,
+        fieldvalue:fieldvalue,
+        fieldname:'option'
+      }
+    }else{
+       data = {
+        fieldname:fieldname,
+        fieldvalue:fieldvalue
+      }
+    }
+    //alert(JSON.stringify(data))
+    this.props.mappedupdateEditQuestionState(data);
+  }
+
+  AddNewOptionInEditQuestion(option){
+    this.props.mappedAddNewOptionInEditQuestion(option);
+  }
+
+  updateQuestion(){
+    this.props.mappedupdateQuestion(this.props.mappedQbankState.EditQbQuestion.questionToEdit);
+  }
+
   render(){
     const styles = {
       AddQuestionToQbDiv:{
@@ -511,7 +547,7 @@ class QuestionBank extends React.Component {
         paddingBottom:5
       }
     }
-    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete,AddNewQuestion,ViewQbQuestions,DeleteQbQuestion } = this.props.mappedQbankState;
+    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete,AddNewQuestion,ViewQbQuestions,DeleteQbQuestion,EditQbQuestion } = this.props.mappedQbankState;
     //const { user,isLoggedIn } = this.props.mappedUserState;
     return(
       <div style={styles.AddQuestionToQbDiv} className="AddQuestionToQbDiv">
@@ -557,6 +593,7 @@ class QuestionBank extends React.Component {
              <ViewQuestions
                ViewQbQuestionsState={ViewQbQuestions}
                showDelQuestion={(q) => this.showDeleteQuestion(q)}
+               showEditQbQuestion={(q) => this.showEditQuestion(q)}
                />
            }
 
@@ -564,6 +601,13 @@ class QuestionBank extends React.Component {
             DeleteQbQuestion={DeleteQbQuestion}
             deleteQuestion={this.deleteQuestion.bind(this)}
             closeQbQuestionDelete={this.canceldeleteQuestion.bind(this)}
+              />
+            <EditQuestion
+              EditQbQuestion={EditQbQuestion}
+              closeQbQuestionEdit={this.cancelQuestionUpdate.bind(this)}
+              handleQuestionChange={(e) => this.handleEditQuestionChange(e)}
+              AddNewOption={(option) => this.AddNewOptionInEditQuestion(option)}
+              updateQuestion={this.updateQuestion.bind(this)}
               />
 
           <div align="center">
