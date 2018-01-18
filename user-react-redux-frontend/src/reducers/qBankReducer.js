@@ -853,8 +853,14 @@ case 'FAILED_DELETE_QB_QUESTION':
       error:null,
       EditQbQuestion:{
         showEditQues:true,
-        questionToEdit:action.question,
-      }
+        questionToEdit:Object.assign({}, action.question),
+      },
+      ViewQbQuestions:{
+        showViewQDiv:currentState.ViewQbQuestions.showViewQDiv,
+        qBid:currentState.ViewQbQuestions.qBid,
+        page:currentState.ViewQbQuestions.page,
+        Questions:currentState.ViewQbQuestions.Questions
+      },
     }
 
 case 'CANCEL_EDIT_QB_QUESTION':
@@ -863,7 +869,13 @@ case 'CANCEL_EDIT_QB_QUESTION':
     EditQbQuestion:{
       showEditQues:false,
       questionToEdit:null,
-    }
+    },
+    ViewQbQuestions:{
+      showViewQDiv:currentState.ViewQbQuestions.showViewQDiv,
+      qBid:currentState.ViewQbQuestions.qBid,
+      page:currentState.ViewQbQuestions.page,
+      Questions:currentState.ViewQbQuestions.Questions
+    },
   }
 
   case 'UPDATE_EDIT_QUESTION_STATE':
@@ -905,7 +917,13 @@ case 'CANCEL_EDIT_QB_QUESTION':
         EditQbQuestion:{
           showEditQues:true,
           questionToEdit:currentState.EditQbQuestion.questionToEdit,
-        }
+        },
+        ViewQbQuestions:{
+          showViewQDiv:currentState.ViewQbQuestions.showViewQDiv,
+          qBid:currentState.ViewQbQuestions.qBid,
+          page:currentState.ViewQbQuestions.page,
+          Questions:currentState.ViewQbQuestions.Questions
+        },
       }
 
   case 'ADD_NEW_OPTION_IN_EDIT_QUESTION':

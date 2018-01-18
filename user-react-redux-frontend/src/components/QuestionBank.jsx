@@ -489,6 +489,7 @@ class QuestionBank extends React.Component {
       }
     }
     //alert(JSON.stringify(data))
+    //alert(JSON.stringify(this.props.mappedQbankState.ViewQbQuestions.Questions));
     this.props.mappedupdateEditQuestionState(data);
   }
 
