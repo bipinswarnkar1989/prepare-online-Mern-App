@@ -38,6 +38,8 @@ const mapDispatchToProps = (dispatch) => {
     mappedupdateEditQuestionState: data => dispatch(qBankActions.updateEditQuestionState(data)),
     mappedAddNewOptionInEditQuestion: option => dispatch(qBankActions.AddNewOptionInEditQuestion(option)),
     mappedupdateQuestion: q => dispatch(qBankActions.updateQuestion(q)),
+    mappededitQoptionMouseOver: data => dispatch(qBankActions.editQoptionMouseOver(data)),
+    mappedremoveOptionInEditQuestion: option => dispatch(qBankActions.removeOptionInEditQuestion(option))
   }
 }
 

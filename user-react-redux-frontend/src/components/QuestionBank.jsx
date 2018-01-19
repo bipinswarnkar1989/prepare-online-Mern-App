@@ -501,6 +501,14 @@ class QuestionBank extends React.Component {
     this.props.mappedupdateQuestion(this.props.mappedQbankState.EditQbQuestion.questionToEdit);
   }
 
+  onMouseOverTextField(data){
+    this.props.mappededitQoptionMouseOver(data);
+  }
+
+  removeOptionInEditQuestion(option){
+    this.props.mappedremoveOptionInEditQuestion(option);
+  }
+
   render(){
     const styles = {
       AddQuestionToQbDiv:{
@@ -609,6 +617,8 @@ class QuestionBank extends React.Component {
               handleQuestionChange={(e) => this.handleEditQuestionChange(e)}
               AddNewOption={(option) => this.AddNewOptionInEditQuestion(option)}
               updateQuestion={this.updateQuestion.bind(this)}
+              onMouseOverTextField={(e) => this.onMouseOverTextField(e)}
+              removeOption={(e) => this.removeOptionInEditQuestion(e)}
               />
 
           <div align="center">

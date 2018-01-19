@@ -1059,7 +1059,34 @@ case 'FAILED_UPDATE_QB_QUESTION':
       },
     }
 
+case 'EDIT_QUESTION_OPTION_MOUSE_OVER':
+currentState.EditQbQuestion.questionToEdit.options = currentState.EditQbQuestion.questionToEdit.options.map((opt) => {
+  if(opt.number === action.data.option.number){
+    return {...opt, ...action.data.option}
+  }
+  opt.mouseOver = false
+  return opt;
+})
 
+  return {
+    ...currentState,
+    EditQbQuestion:{
+      showEditQues:true,
+      questionToEdit:currentState.EditQbQuestion.questionToEdit,
+    }
+  }
+
+case 'REMOVE_OPTION_IN_EDIT_QUESTION':
+  currentState.EditQbQuestion.questionToEdit.options = currentState.EditQbQuestion.questionToEdit.options.filter((item) => {
+     return item.number !== action.option.number;
+   })
+   return {
+     ...currentState,
+     EditQbQuestion:{
+       showEditQues:true,
+       questionToEdit:currentState.EditQbQuestion.questionToEdit,
+     }
+   }
 
 
     default:

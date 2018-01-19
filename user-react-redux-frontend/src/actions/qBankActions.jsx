@@ -561,3 +561,17 @@ export const failedUpdateQuestion = (message) => {
     message
   }
 }
+
+export const editQoptionMouseOver = (data) => {
+  return {
+    type:'EDIT_QUESTION_OPTION_MOUSE_OVER',
+    data
+  }
+}
+
+export const removeOptionInEditQuestion = (option) => {
+  return {
+    type:'REMOVE_OPTION_IN_EDIT_QUESTION',
+    option
+  }
+}

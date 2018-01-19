@@ -6,6 +6,7 @@ import { Grid, Row, Col } from 'react-material-responsive-grid';
 import RaisedButton from 'material-ui/RaisedButton';
 import AddCirle from 'material-ui/svg-icons/content/add-circle-outline';
 import {fullWhite,grey800} from 'material-ui/styles/colors';
+import ClearIcon from 'material-ui/svg-icons/content/clear'
 
 class EditQuestion extends React.Component {
   constructor(props){
@@ -21,6 +22,27 @@ class EditQuestion extends React.Component {
      };
      this.props.AddNewOption(newOption);
   }
+
+  removeOption = (opt) => {
+    this.props.removeOption(opt);
+  }
+
+  onMouseOverTextField = (opt) => {
+    const data = {
+      option:opt
+    }
+    opt.mouseOver = true;
+    this.props.onMouseOverTextField(data);
+  }
+
+  oMouseOutTextField = (opt) => {
+    const data = {
+      option:opt
+    }
+    opt.mouseOver = false;
+    this.props.onMouseOverTextField(data);
+  }
+
   render(){
     const EditQbQuestionActions = [
       <FlatButton
@@ -46,6 +68,16 @@ class EditQuestion extends React.Component {
       overRideRaisedButtonUppercase:{
         textTransform: 'none',
         fontSize:18
+      },
+      clearIcon:{
+        position: 'absolute',
+        right: 0,
+        top: 15,
+        width: 20,
+        height: 20,
+        cursor:'pointer',
+        color:'red',
+        zIndex:12
       }
     }
 
@@ -81,6 +113,10 @@ class EditQuestion extends React.Component {
                                 return (
                                   <Col key={i} md={6}>
                                     {/*JSON.stringify(opt)*/}
+                                    <div style={{position: 'relative'}} onMouseLeave={() => this.oMouseOutTextField(opt)} onMouseEnter={() => this.onMouseOverTextField(opt)}>
+                                    {opt.mouseOver &&
+                                      <ClearIcon onClick={() => this.removeOption(opt)} style={styles.clearIcon}/>
+                                    }
                                     <TextField
                                       name={`${opt.number}`}
                                       required={true}
@@ -91,7 +127,9 @@ class EditQuestion extends React.Component {
                                       style={styles.summaryfloatingLabelStyle}
                                       onChange={e => this.props.handleQuestionChange(e)}
                                       value={opt.value === null ? '' : opt.value}
+
                                       />
+                                  </div>
                                   </Col>
                                 )
                               })
