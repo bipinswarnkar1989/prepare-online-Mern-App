@@ -1080,6 +1080,10 @@ case 'REMOVE_OPTION_IN_EDIT_QUESTION':
   currentState.EditQbQuestion.questionToEdit.options = currentState.EditQbQuestion.questionToEdit.options.filter((item) => {
      return item.number !== action.option.number;
    })
+   currentState.EditQbQuestion.questionToEdit.options = currentState.EditQbQuestion.questionToEdit.options.map((item,i) => {
+      item.number = i+1;
+      return item;
+    })
    return {
      ...currentState,
      EditQbQuestion:{
