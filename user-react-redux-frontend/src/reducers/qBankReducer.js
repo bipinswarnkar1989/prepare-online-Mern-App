@@ -847,6 +847,12 @@ case 'FAILED_DELETE_QB_QUESTION':
     }
 
   case 'SHOW_EDIT_QB_QUESTION':
+  console.log(action.question);
+  let mD = {mouseOver: false}
+  action.question.options.map((opt) => {
+    opt.mouseOver = false;
+    return opt;
+  })
     return {
       ...currentState,
       successMsg:null,
@@ -1062,9 +1068,9 @@ case 'FAILED_UPDATE_QB_QUESTION':
 case 'EDIT_QUESTION_OPTION_MOUSE_OVER':
 currentState.EditQbQuestion.questionToEdit.options = currentState.EditQbQuestion.questionToEdit.options.map((opt) => {
   if(opt.number === action.data.option.number){
-    return {...opt, ...action.data.option}
+    return {...opt, ...action.data.option};
   }
-  opt.mouseOver = false
+
   return opt;
 })
 

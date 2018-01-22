@@ -498,7 +498,27 @@ class QuestionBank extends React.Component {
   }
 
   updateQuestion(){
-    this.props.mappedupdateQuestion(this.props.mappedQbankState.EditQbQuestion.questionToEdit);
+    let isValid = true;
+    let question = this.props.mappedQbankState.EditQbQuestion.questionToEdit.question;
+    let options = this.props.mappedQbankState.EditQbQuestion.questionToEdit.options;
+    if (question === '' || question === undefined || question.length < 5) {
+      this.props.mappedfailedUpdateQuestion('Failed.Enter a valid question to update.');
+    }
+    else if(options.length < 2){
+      this.props.mappedfailedUpdateQuestion('Failed.Question must have 2 options to update.');
+    }
+    else{
+      options.map((opt) => {
+        if(opt.value === '' || opt.value === undefined || opt.value === null){
+          isValid = false;
+          this.props.mappedfailedUpdateQuestion('Failed.Options must have values to update.');
+          return;
+        }
+      })
+      if (isValid) {
+        this.props.mappedupdateQuestion(this.props.mappedQbankState.EditQbQuestion.questionToEdit);
+      }
+    }
   }
 
   onMouseOverTextField(data){

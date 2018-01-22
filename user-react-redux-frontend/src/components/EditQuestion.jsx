@@ -114,7 +114,7 @@ class EditQuestion extends React.Component {
                                   <Col key={i} md={6}>
                                     {/*JSON.stringify(opt)*/}
                                     <div style={{position: 'relative'}} onMouseLeave={() => this.oMouseOutTextField(opt)} onMouseEnter={() => this.onMouseOverTextField(opt)}>
-                                    {opt.mouseOver &&
+                                    {opt.mouseOver && opt.mouseOver === true &&
                                       <ClearIcon onClick={() => this.removeOption(opt)} style={styles.clearIcon}/>
                                     }
                                     <TextField
