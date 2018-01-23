@@ -138,3 +138,15 @@ export const deleteqBankById = (req,res) => {
     })
   }
 }
+
+export const getLatestqBanks = (req,res) => {
+  console.log('getLatestqBanks:');
+  qBank.find().sort('-createdAt').populate('author').limit(3).exec((err,qb) => {
+    if(err) {
+      return res.json({success:false,message:'Something going wrong'});
+    }
+    else{
+      return res.json({success:true,message:'Question Banks Fetched Successfully',qb});
+    }
+  })
+}

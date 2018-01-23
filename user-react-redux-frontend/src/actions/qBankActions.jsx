@@ -575,3 +575,50 @@ export const removeOptionInEditQuestion = (option) => {
     option
   }
 }
+
+export const getLatestqBanks = () => {
+  return (dispatch) => {
+    dispatch(requestgetLatestqBanks());
+    return fetch(`${qbApiUrl}/Qbank/latestQbanks`, {
+      method:'get'
+    }).then(response => {
+      if(response.status >= 200 && response.status < 300){
+        response.json().then((data) => {
+          if(data.success){
+            dispatch(successgetLatestqBanks(data))
+          }
+          else if(data.message && !data.success){
+            dispatch(failedgetLatestqBanks(data.message));
+          }
+          else{
+            dispatch(failedgetLatestqBanks('Something going wrong!'));
+          }
+        })
+      }
+      else{
+        let message = response.statusText;
+        dispatch(failedgetLatestqBanks(message));
+      }
+    })
+  }
+}
+
+export const requestgetLatestqBanks = () => {
+  return {
+    type:'REQUEST_FETCH_LATEST_QBANKS'
+  }
+}
+
+export const failedgetLatestqBanks = (message) => {
+  return {
+    type:'FAILED_FETCH_LATEST_QBANKS',
+    message
+  }
+}
+
+export const successgetLatestqBanks = (data) => {
+  return {
+    type:'SUCCESS_FETCH_LATEST_QBANKS',
+    data
+  }
+}

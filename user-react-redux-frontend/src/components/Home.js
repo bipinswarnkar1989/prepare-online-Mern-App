@@ -10,6 +10,7 @@ import Qlist from 'material-ui/svg-icons/action/view-list';
 import QBankbox from './QBankbox';
 import {cyan600, pink600, purple600, orange600} from 'material-ui/styles/colors';
 import { Grid, Row, Col } from 'react-material-responsive-grid';
+import { Link } from 'react-router';
 
 
 export default class Home extends React.Component {
@@ -18,6 +19,7 @@ export default class Home extends React.Component {
   // }
   componentWillMount(){
     this.props.mappedfetchUserIfLoggedIn();
+    this.props.mappedgetLatestqBanks();
   }
 
   render(){
@@ -30,6 +32,7 @@ export default class Home extends React.Component {
       }
     }
       const user = this.props.mappedUserState.user;
+      const { latestQbanks } = this.props.mappedQbankState;
     return(
       <div style={styles.homeContainer}>
       <div styles={styles.qBContainer}>
@@ -39,30 +42,20 @@ export default class Home extends React.Component {
         <h3>Latest Question Banks</h3>
           <Grid>
            <Row>
-              <Col md={4}>
-                 <QBankbox Icon={Qlist}
-                   color={orange600}
-                   title="Chattisgarh G.K"
-                   countQuestions="248"
-                   username="Bipin Swarnkar"
-                   lastUpdated="September 19, 2015"/>
-              </Col>
-              <Col md={4}>
-                <QBankbox Icon={Qlist}
-                  color={orange600}
-                  title="Indian History"
-                  countQuestions="248"
-                  username="Manav Shrivastava"
-                  lastUpdated="September 19, 2015"/>
-              </Col>
-              <Col md={4}>
-                <QBankbox Icon={Qlist}
-                  color={orange600}
-                  title="Indian Constitution"
-                  countQuestions="248"
-                  username="Praveen Agrawal"
-                  lastUpdated="September 19, 2015"/>
-              </Col>
+              {latestQbanks.Qbanks && latestQbanks.Qbanks.length > 0 &&
+                    latestQbanks.Qbanks.map((qb,i) =>
+                    <Col key={i} md={4}>
+                       <Link to={`/question-bank/${qb._id}`}>
+                         <QBankbox Icon={Qlist}
+                           color={orange600}
+                           title={qb.title}
+                           countQuestions="248"
+                           author={qb.author.fullName}
+                           lastUpdated={qb.createdAt}/>
+                       </Link>
+                    </Col>
+                  )
+                  }
 
            </Row>
         </Grid>

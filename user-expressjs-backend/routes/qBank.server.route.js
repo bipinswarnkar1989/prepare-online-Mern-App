@@ -11,9 +11,14 @@ router.route('/Qbanks')
   .post(userController.authenticate,qBankController.UploadImage,qBankController.createQbank)
   .put(userController.authenticate,qBankController.UploadImage,qBankController.updateQbank);
 
+router.route('/Qbank/latestQbanks')
+    .get(qBankController.getLatestqBanks);
+
 router.route('/Qbank/:id')
   .get(qBankController.getqBankById)
   .delete(userController.authenticate,qBankController.deleteqBankById);
+
+
 
 
 

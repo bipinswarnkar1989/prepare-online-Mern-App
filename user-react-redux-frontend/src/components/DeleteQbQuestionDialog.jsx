@@ -34,7 +34,7 @@ class DeleteQbQuestionDialog extends React.Component {
     return(
       <div>
         <Dialog
-              title="Delete Question Bank"
+              title="Delete Question From Question Bank"
               actions={DeleteQbQuestionActions}
               modal={true}
               open={this.props.DeleteQbQuestion.showDeleteQues || false}
@@ -42,7 +42,7 @@ class DeleteQbQuestionDialog extends React.Component {
               {this.props.DeleteQbQuestion.questionToDelete &&
                  <div className="QbEditFormDiv">
                    <div style={styles.QbDetailsFormDiv}>
-                       <h4>Are you sure want to delete QuestionBank</h4>
+                       <h4>Are you sure want to delete this Question from Question Bank</h4>
                  </div>
                </div>
               }

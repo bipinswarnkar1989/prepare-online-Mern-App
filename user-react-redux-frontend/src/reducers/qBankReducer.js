@@ -54,6 +54,12 @@ const INITIAL_STATE = {
   EditQbQuestion:{
     showEditQues:false,
     questionToEdit:null,
+  },
+  latestQbanks:{
+    Qbanks:null,
+    isFetching:false,
+    successMsg:null,
+    error:null
   }
 }
 
@@ -847,8 +853,6 @@ case 'FAILED_DELETE_QB_QUESTION':
     }
 
   case 'SHOW_EDIT_QB_QUESTION':
-  console.log(action.question);
-  let mD = {mouseOver: false}
   action.question.options.map((opt) => {
     opt.mouseOver = false;
     return opt;
@@ -885,7 +889,6 @@ case 'CANCEL_EDIT_QB_QUESTION':
   }
 
   case 'UPDATE_EDIT_QUESTION_STATE':
-  console.log(action.data)
       if(action.data.fieldname === 'question'){
           currentState.EditQbQuestion.questionToEdit.question = action.data.fieldvalue;
       }
@@ -1097,6 +1100,39 @@ case 'REMOVE_OPTION_IN_EDIT_QUESTION':
        questionToEdit:currentState.EditQbQuestion.questionToEdit,
      }
    }
+
+case 'REQUEST_FETCH_LATEST_QBANKS':
+  return {
+    ...currentState,
+    latestQbanks:{
+      Qbanks:null,
+      isFetching:true,
+      successMsg:null,
+      error:null
+    }
+  }
+
+case 'FAILED_FETCH_LATEST_QBANKS':
+return {
+  ...currentState,
+  latestQbanks:{
+    Qbanks:null,
+    isFetching:false,
+    successMsg:null,
+    error:action.message
+  }
+}
+
+case 'SUCCESS_FETCH_LATEST_QBANKS':
+return {
+  ...currentState,
+  latestQbanks:{
+    Qbanks:action.data.qb,
+    isFetching:false,
+    successMsg:action.data.message,
+    error:null
+  }
+}
 
 
     default:
