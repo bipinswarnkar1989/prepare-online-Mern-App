@@ -1,4 +1,6 @@
 // ./user-react-redux-frontend/src/reducers/qBankReducer.js
+import Pagination from '../middlewares/pagination';
+
 const INITIAL_STATE = {
   qBanks:null,
   isFetching:false,
@@ -60,6 +62,13 @@ const INITIAL_STATE = {
     isFetching:false,
     successMsg:null,
     error:null
+  },
+  qBanksPagination:{
+    maxButtons: 5,
+    qBanksCount:null,
+    currentPage:null,
+    buttonsRangeArray:null,
+    totalNumberOfPagination:null
   }
 }
 
@@ -71,8 +80,21 @@ const qBankReducer = (currentState = INITIAL_STATE, action) => {
        }
 
     case 'SUCCESS_FETCH_QBANKS':
+    let count = action.paginationData.qBanksCount;
+    let maxButtons = 5;
+    let page = action.paginationData.currentPage;
+    let limit = action.paginationData.limit;
+     const pgObject = new Pagination();
+     let pgState = pgObject.pagination(count,maxButtons,page,limit);
        return {
-         ...currentState, isFetching:false,qBanks:action.data.qb,successMsg:action.data.message
+         ...currentState, isFetching:false,qBanks:action.data.qb,successMsg:action.data.message,
+         qBanksPagination:{
+           maxButtons: 5,
+           qBanksCount:action.data.count,
+           currentPage:pgState.currentPage,
+           buttonsRangeArray:pgState.buttonsRangeArray,
+           totalNumberOfPagination:pgState.totalNumberOfPagination
+         }
        }
 
     case 'FAILED_FETCH_QBANKS':

@@ -7,9 +7,11 @@ import * as userController from '../controllers/user.server.controller';
 const router = express.Router();
 
 router.route('/Qbanks')
-  .get(qBankController.getAllQbanks)
   .post(userController.authenticate,qBankController.UploadImage,qBankController.createQbank)
   .put(userController.authenticate,qBankController.UploadImage,qBankController.updateQbank);
+
+router.route('/Qbanks/:page/:limit')
+   .get(qBankController.countQbanks,qBankController.getAllQbanks);
 
 router.route('/Qbank/latestQbanks')
     .get(qBankController.getLatestqBanks);

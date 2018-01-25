@@ -91,32 +91,47 @@ export const updateQbank = (req,res,next) => {
 }
 
 export const getAllQbanks = (req,res) => {
-  qBank.find().populate('author').exec((err,qb) => {
-    if(err) {
-      return res.json({success:false,message:'Something going wrong'});
-    }
-    else{
-      return res.json({success:true,message:'Question Banks Fetched Successfully',qb});
-    }
-  })
+  console.log('getAllQbanks: '+JSON.stringify(req.params));
+  let page = parseInt(req.params.page);
+  let limit = parseInt(req.params.limit);
+  if(page && limit){
+    limit = limit < 30 ? limit : 30;
+    let skip_value = (page * limit) - limit;
+    qBank.find().limit(limit).skip(skip_value).populate('author').exec((err,qb) => {
+      if(err) {
+        return res.json({success:false,message:'Something going wrong'});
+      }
+      else{console.log('count: '+req.count);
+        return res.json({success:true,message:'Question Banks Fetched Successfully',count:req.count,qb});
+      }
+    })
+  }
+  else {
+    return res.json({success:false,message:'Something going wrong'});
+  }
 }
 
 export const getqBankById = (req,res) => {
   let id = req.params.id;
   console.log('getqBankById: '+id);
-  qBank.findOne({_id:id}).populate('author').exec((err,qb) => {
-    if(err) {
-      return res.json({success:false,message:'Something going wrong'});
-    }
-    else{
-      if(qb){
-        return res.json({success:true,message:'Question Bank Fetched Successfully',qb});
+  if(id){
+    qBank.findOne({_id:id}).populate('author').exec((err,qb) => {
+      if(err) {
+        return res.json({success:false,message:'Something going wrong'});
       }
       else{
-        return res.json({success:false,message:'Question Banks Not Found'});
+        if(qb){
+          return res.json({success:true,message:'Question Bank Fetched Successfully',qb});
+        }
+        else{
+          return res.json({success:false,message:'Question Banks Not Found'});
+        }
       }
-    }
-  })
+    })
+  }
+  else{
+    return res.json({success:false,message:'Question Bank Id is required'});
+  }
 }
 
 export const deleteqBankById = (req,res) => {
@@ -147,6 +162,19 @@ export const getLatestqBanks = (req,res) => {
     }
     else{
       return res.json({success:true,message:'Question Banks Fetched Successfully',qb});
+    }
+  })
+}
+
+export const countQbanks = (req,res,next) => {
+  console.log('countQbanks: ');
+  qBank.count().exec((err,count) => {
+    if(err) {
+      return res.json({success:false,message:'Something going wrong'});
+    }
+    else{
+      req.count = count;
+      next();
     }
   })
 }

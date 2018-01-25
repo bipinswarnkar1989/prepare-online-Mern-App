@@ -12,7 +12,7 @@ import Web from 'material-ui/svg-icons/av/web';
 
 let  menuRoutes =  [
     { text: 'Home', icon: <Assessment/>, link: '/' },
-    { text: 'Question Banks', icon: <Web/>, link: '/question-banks' },
+    { text: 'Question Banks', icon: <Web/>, link: '/question-banks/1/10' },
     { text: 'Mock Tests', icon: <GridOn/>, link: '/table' },
     { text: 'Login', icon: <PermIdentity/>, link: '/login' },
     { text: 'Register', icon: <PermIdentity/>, link: '/register' }

@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
      mappedfetchUserIfLoggedIn: () => dispatch(userActions.fetchUserIfLoggedIn()),
-     mappedfetchQbanks: () => dispatch(qBankActions.fetchQbanks())
+     mappedfetchQbanks: (data) => dispatch(qBankActions.fetchQbanks(data))
   };
 }
 

@@ -3,11 +3,11 @@ import { browserHistory } from 'react-router';
 const qbApiUrl = '/api/qbank';
 const quesApiUrl = '/api/question'
 
-export const fetchQbanks = () => {
+export const fetchQbanks = (d) => {
   return (dispatch) => {
     const token = localStorage.getItem('userToken');
     dispatch(requestFetchQbanks());
-    return fetch(`${qbApiUrl}/Qbanks`,{
+    return fetch(`${qbApiUrl}/Qbanks/${d.page}/${d.limit}`,{
       method:'get',
       headers:{ 'authorization':token }
     }).then(response => {
@@ -15,7 +15,12 @@ export const fetchQbanks = () => {
         response.json().then(data => {
           console.log(data);
           if(data.success){
-            dispatch(successFetchQbanks(data));
+            let paginationData = {
+              currentPage:d.page,
+              limit:d.limit,
+              qBanksCount:data.count
+            }
+            dispatch(successFetchQbanks(data,paginationData));
           }
           else if(!data.success && data.message){
             dispatch(failedFetchQbanks(data.message));
@@ -35,10 +40,11 @@ export const requestFetchQbanks = () => {
   }
 }
 
-export const successFetchQbanks = (data) => {
+export const successFetchQbanks = (data,paginationData) => {
   return{
     type:'SUCCESS_FETCH_QBANKS',
-    data
+    data:data,
+    paginationData:paginationData
   }
 }
 

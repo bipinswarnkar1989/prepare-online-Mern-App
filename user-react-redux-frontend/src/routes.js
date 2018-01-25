@@ -13,7 +13,7 @@ export default (
   <IndexRoute component={Home}/>
   <Route path='/register' component={Register}/>
   <Route path='/login' component={Login}/>
-  <Route path="/question-banks" component={QBanksList}/>
+  <Route path="/question-banks/:page/:limit" component={QBanksList}/>
   <Route path="/question-bank/create" component={CreateQbank}/>
   <Route path="/question-bank/:id" component={QuestionBank}/>
   <Route path="/question-bank/:id/add-question" component={QuestionBank}/>

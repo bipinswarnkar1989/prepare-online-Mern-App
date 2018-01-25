@@ -5,7 +5,10 @@ import { orange600 } from 'material-ui/styles/colors';
 import { Grid, Row, Col } from 'react-material-responsive-grid';
 import QBankbox from './QBankbox';
 import { Link,browserHistory } from 'react-router';
-
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
+import ArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+//import RaisedButton from 'material-ui/RaisedButton';
 class QBanksList extends React.Component {
   constructor(props) {
     super(props);
@@ -16,18 +19,40 @@ class QBanksList extends React.Component {
   }
 
   componentDidMount(){
-    this.props.mappedfetchQbanks();
+    let page = this.props.params.page;
+    let limit = this.props.params.limit;
+    let data = {
+      page:page,
+      limit:limit
+    }
+    this.props.mappedfetchQbanks(data);
+  }
+
+  getQbanksUsingPntn(page,limit){
+    browserHistory.push(`/question-banks/${page}/${limit}`);
+    let data = {
+      page:page,
+      limit:limit
+    }
+    this.props.mappedfetchQbanks(data);
   }
 
   render(){
     const styles = {
       QBanksList:{
 
-      }
+      },
+      floatButton:{
+        marginRight: 20,
+      },
+
     }
 
     const { user,isLoggedIn } = this.props.mappedUserState;
-    const {qBanks} = this.props.mappedQbankState;
+    const { qBanks,qBanksPagination} = this.props.mappedQbankState;
+    const currentPage = parseInt(qBanksPagination.currentPage);
+    const paginationLimit = parseInt(this.props.params.limit);
+    const totalNumberOfPagination = parseInt(qBanksPagination.totalNumberOfPagination);
     return(
       <div style={styles.QBanksList} className="QBanksList">
         <h3 align="center">Question Banks </h3>
@@ -50,6 +75,42 @@ class QBanksList extends React.Component {
 
            </Row>
         </Grid>
+
+        <div className="pagination_div">
+          <ul className="pgntion-ui component-pagination">
+            <li onClick={()=> this.getQbanksUsingPntn(1,paginationLimit)} className="pagination-number">
+              <FloatingActionButton  mini={false} secondary={true} style={styles.floatButton}>
+              <span className="paginationNumber">First</span>
+              </FloatingActionButton>
+            </li>
+      	<li onClick={()=> this.getQbanksUsingPntn(currentPage-1,paginationLimit)} className="pagination-arrow arrow-left">
+          <FloatingActionButton mini={true} secondary={true} style={styles.floatButton}>
+           <ArrowLeft/>
+           </FloatingActionButton>
+        </li>
+      {qBanksPagination && qBanksPagination.buttonsRangeArray &&
+        qBanksPagination.buttonsRangeArray.map((n,i) => {
+          return (
+            <li key={i} onClick={()=> this.getQbanksUsingPntn(n,paginationLimit)} className="pagination-number">
+              <FloatingActionButton  mini={true} secondary={true} style={styles.floatButton}>
+              <span className="paginationNumber">{n}</span>
+              </FloatingActionButton>
+            </li>
+          )
+        })
+      }
+      	<li onClick={()=> this.getQbanksUsingPntn(currentPage+1,paginationLimit)} className="pagination-arrow arrow-right">
+          <FloatingActionButton mini={true} secondary={true} style={styles.floatButton}>
+         <ArrowRight/>
+         </FloatingActionButton>
+        </li>
+        <li onClick={()=> this.getQbanksUsingPntn(totalNumberOfPagination,paginationLimit)} className="pagination-number">
+          <FloatingActionButton  mini={false} secondary={true} style={styles.floatButton}>
+          <span className="paginationNumber">Last</span>
+          </FloatingActionButton>
+        </li>
+      </ul>
+        </div>
 
       </div>
     )

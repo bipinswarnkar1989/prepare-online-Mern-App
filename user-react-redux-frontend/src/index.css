@@ -18,3 +18,27 @@ body {
  a{
   text-decoration: none;
  }
+
+ .pagination_div{
+   text-align: center;
+   margin-top: 10%;
+ }
+
+ .pgntion-ui{
+   list-style: none;
+	padding: 2px;
+
+ }
+ .pgntion-ui li {
+   display: inline-block;
+   transition: .15s ease-in;
+		cursor: pointer;
+ }
+ .pagination-number {
+		font-family: "Roboto", sans-serif;
+		font-size: 14px;
+		text-align: center;
+		padding: 8px 0;
+    color:white;
+  }
+  .paginationNumber{color: white;}
