@@ -15,7 +15,11 @@ class Pagination {
       if (totalNumberOfPagination >= (currentPage + 2)) {
         end_loop = currentPage + 2;
       }
-      else if(totalNumberOfPagination <= (currentPage + 2)){
+      else if(currentPage >= maxButtons && currentPage >= totalNumberOfPagination - 4){
+        start_loop = totalNumberOfPagination - 4;
+        end_loop = totalNumberOfPagination;
+      }
+      else{
         end_loop = totalNumberOfPagination;
       }
     }

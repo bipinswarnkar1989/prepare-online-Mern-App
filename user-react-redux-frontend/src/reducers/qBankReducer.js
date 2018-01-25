@@ -1,5 +1,5 @@
 // ./user-react-redux-frontend/src/reducers/qBankReducer.js
-import Pagination from '../middlewares/pagination';
+import Pagination from '../middlewares/pagination.jsx';
 
 const INITIAL_STATE = {
   qBanks:null,

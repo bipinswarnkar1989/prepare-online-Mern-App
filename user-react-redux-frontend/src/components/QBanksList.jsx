@@ -78,37 +78,46 @@ class QBanksList extends React.Component {
 
         <div className="pagination_div">
           <ul className="pgntion-ui component-pagination">
+          {currentPage !== 1 &&
             <li onClick={()=> this.getQbanksUsingPntn(1,paginationLimit)} className="pagination-number">
-              <FloatingActionButton  mini={false} secondary={true} style={styles.floatButton}>
+              <FloatingActionButton  mini={false}  style={styles.floatButton}>
               <span className="paginationNumber">First</span>
               </FloatingActionButton>
             </li>
-      	<li onClick={()=> this.getQbanksUsingPntn(currentPage-1,paginationLimit)} className="pagination-arrow arrow-left">
-          <FloatingActionButton mini={true} secondary={true} style={styles.floatButton}>
-           <ArrowLeft/>
-           </FloatingActionButton>
-        </li>
+          }
+      	{currentPage !== 1 &&
+          <li onClick={()=> this.getQbanksUsingPntn(currentPage-1,paginationLimit)} className="pagination-arrow arrow-left">
+            <FloatingActionButton mini={true}  style={styles.floatButton}>
+             <ArrowLeft/>
+             </FloatingActionButton>
+          </li>
+        }
       {qBanksPagination && qBanksPagination.buttonsRangeArray &&
         qBanksPagination.buttonsRangeArray.map((n,i) => {
           return (
             <li key={i} onClick={()=> this.getQbanksUsingPntn(n,paginationLimit)} className="pagination-number">
-              <FloatingActionButton  mini={true} secondary={true} style={styles.floatButton}>
+              <FloatingActionButton  mini={true} secondary={n === currentPage} style={styles.floatButton}>
               <span className="paginationNumber">{n}</span>
               </FloatingActionButton>
             </li>
           )
         })
       }
-      	<li onClick={()=> this.getQbanksUsingPntn(currentPage+1,paginationLimit)} className="pagination-arrow arrow-right">
-          <FloatingActionButton mini={true} secondary={true} style={styles.floatButton}>
-         <ArrowRight/>
-         </FloatingActionButton>
-        </li>
-        <li onClick={()=> this.getQbanksUsingPntn(totalNumberOfPagination,paginationLimit)} className="pagination-number">
-          <FloatingActionButton  mini={false} secondary={true} style={styles.floatButton}>
-          <span className="paginationNumber">Last</span>
-          </FloatingActionButton>
-        </li>
+
+      {totalNumberOfPagination > currentPage &&
+          <li onClick={()=> this.getQbanksUsingPntn(currentPage+1,paginationLimit)} className="pagination-arrow arrow-right">
+            <FloatingActionButton mini={true}  style={styles.floatButton}>
+           <ArrowRight/>
+           </FloatingActionButton>
+          </li>
+        }
+        {currentPage !== totalNumberOfPagination &&
+            <li onClick={()=> this.getQbanksUsingPntn(totalNumberOfPagination,paginationLimit)} className="pagination-number">
+              <FloatingActionButton  mini={false} style={styles.floatButton}>
+              <span className="paginationNumber">Last</span>
+              </FloatingActionButton>
+            </li>
+        }
       </ul>
         </div>
 
