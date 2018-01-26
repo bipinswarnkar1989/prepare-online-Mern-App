@@ -178,3 +178,29 @@ export const countQbanks = (req,res,next) => {
     }
   })
 }
+
+export const searchQbanks = (req,res) => {
+  console.log('searchQbanks: '+req.params);
+  let q = req.params.q;
+  let search = eval('/.*'+q+'.*/i');
+  let regex = {$regex:search};
+  if(q && q !== ''){
+    qBank.find({$or:[{title:regex},{summary:regex}]})
+         .exec((err,qb) => {
+           if(err) {
+             return res.json({success:false,message:'Something going wrong'});
+           }
+           else{
+             if(!qb || qb === null){
+               return res.json({success:true,message:'No Matches found'})
+             }
+             else{
+               return res.json({success:true,message:'Question Banks Fetched Successfully',qb});
+             }
+           }
+         })
+  }
+  else{
+    return res.json({success:false,message:'Enter text to search'});
+  }
+}
