@@ -9,7 +9,6 @@ import Menu from 'material-ui/svg-icons/navigation/menu';
 import ViewModule from 'material-ui/svg-icons/action/view-module';
 import {white} from 'material-ui/styles/colors';
 import Add from 'material-ui/svg-icons/content/add';
-import SearchBox from './SearchBox';
 
 class Header extends React.Component {
 
@@ -36,7 +35,7 @@ class Header extends React.Component {
             <AppBar
               style={{...styles, ...style.appBar}}
               title={
-                <SearchBox />
+                `MockOnline`
               }
               iconElementLeft={
                   <IconButton style={style.menuButton} onClick={handleChangeRequestNavDrawer}>

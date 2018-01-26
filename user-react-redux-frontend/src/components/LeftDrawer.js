@@ -51,9 +51,6 @@ const LeftDrawer = (props) => {
     <Drawer
       docked={true}
       open={navDrawerOpen}>
-        <div style={styles.logo}>
-          MockOnline
-        </div>
         <div style={styles.avatar.div}>
           <Avatar src={props.userprofilepic}
                   size={50}
