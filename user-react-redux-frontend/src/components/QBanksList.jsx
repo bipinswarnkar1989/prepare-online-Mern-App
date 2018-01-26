@@ -8,6 +8,7 @@ import { Link,browserHistory } from 'react-router';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import ArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import QuestionBankSearch from './QuestionBankSearch';
 //import RaisedButton from 'material-ui/RaisedButton';
 class QBanksList extends React.Component {
   constructor(props) {
@@ -56,6 +57,7 @@ class QBanksList extends React.Component {
     return(
       <div style={styles.QBanksList} className="QBanksList">
         <h3 align="center">Question Banks </h3>
+        <QuestionBankSearch/>
           <Grid>
            <Row>
               {qBanks && qBanks.length > 0 &&
