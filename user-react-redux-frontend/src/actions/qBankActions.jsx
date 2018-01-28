@@ -628,3 +628,45 @@ export const successgetLatestqBanks = (data) => {
     data
   }
 }
+
+export const searchQbanks = (q) => {
+  return (dispatch) => {
+    dispatch(requestSearchQbanks());
+    return fetch(`${qbApiUrl}/Qbank/search/${q}`,{
+      method:'get'
+    }).then(response => {
+      if(response.status >= 200 && response.status < 300){
+        response.json().then((data) => {
+          if (data.success) {
+            dispatch(successSearchQbanks(data));
+          }
+          else if (!data.success && data.message) {
+            dispatch(failedSearchQbanks(data.message));
+          }
+        })
+      }else{
+        dispatch(failedSearchQbanks(response.statusText));
+      }
+    })
+  }
+}
+
+export const requestSearchQbanks = () => {
+  return {
+    type:'REQUEST_SEARCH_QBANKS'
+  }
+}
+
+export const successSearchQbanks = (data) => {
+  return {
+    type:'SUCCESS_SEARCH_QBANKS',
+    data
+  }
+}
+
+export const failedSearchQbanks = (message) => {
+  return {
+    type:'FAILED_SEARCH_QBANKS',
+    message
+  }
+}

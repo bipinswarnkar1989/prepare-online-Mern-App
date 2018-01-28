@@ -195,7 +195,7 @@ export const searchQbanks = (req,res) => {
                return res.json({success:true,message:'No Matches found'})
              }
              else{
-               return res.json({success:true,message:'Question Banks Fetched Successfully',qb});
+               return res.json({success:true,message:'Question Banks Fetched Successfully',count:qb.length,qb});
              }
            }
          })

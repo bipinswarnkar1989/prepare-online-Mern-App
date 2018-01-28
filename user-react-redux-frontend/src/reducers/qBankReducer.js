@@ -1156,6 +1156,39 @@ return {
   }
 }
 
+case 'REQUEST_SEARCH_QBANKS':
+  return {
+    ...currentState,
+    isFetching:true,
+    successMsg:null,
+    error:null,
+    QbSearch:{
+      Qbanks:null,
+    }
+  }
+
+case 'SUCCESS_SEARCH_QBANKS':
+  return {
+    ...currentState,
+    isFetching:false,
+    successMsg:action.data.message,
+    error:null,
+    QbSearch:{
+      Qbanks:action.data.qb
+    }
+  }
+
+case 'FAILED_SEARCH_QBANKS':
+  return {
+    ...currentState,
+    isFetching:false,
+    successMsg:null,
+    error:action.data.message,
+    QbSearch:{
+      Qbanks:null
+    }
+  }
+
 
     default:
       return currentState;
