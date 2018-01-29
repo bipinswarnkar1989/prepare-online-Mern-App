@@ -64,6 +64,9 @@ class QBanksList extends React.Component {
         <QuestionBankSearch
           search={e => this.searchQbank(e)}
           QbSearch={QbSearch}
+          requestSearchQbanks={() => this.props.mappedrequestSearchQbanks()}
+          successSearchQbanks={e => this.props.mappedsuccessSearchQbanks(e)}
+          failedSearchQbanks={m => this.props.mappedfailedSearchQbanks(m)}
           />
           <Grid>
            <Row>

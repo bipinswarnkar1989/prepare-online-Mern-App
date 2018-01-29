@@ -11,9 +11,11 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
+ import 'rxjs/add/operator/do';
+// import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/fromPromise';
+import { searchQbanks } from '../middlewares/api';
 
 export default class QuestionBankSearch extends React.Component{
   searchObj;
@@ -28,11 +30,32 @@ export default class QuestionBankSearch extends React.Component{
     this.searchObj
     .debounceTime(400)
     .distinctUntilChanged()
+    .do(() => this.props.requestSearchQbanks())
     .switchMap(term => {
-      if(term.length > 0) this.props.search(term);
+      if(term.length > 0) {
+        let promise = searchQbanks(term);
+        return Observable.fromPromise(promise);
+      }
       return Observable.of({success:true})
     })
-    .subscribe( e => console.log(e))
+    .subscribe(
+      resp => {
+      console.log(resp);
+      if (resp.success) {
+        this.props.successSearchQbanks(resp);
+      }
+      else if (!resp.success && resp.message) {
+        this.props.failedSearchQbanks(resp.message);
+      }
+      else {
+        this.props.failedSearchQbanks('Something going wrong!');
+      }
+    },
+    error => {
+      console.log(error);
+      this.props.failedSearchQbanks(error);
+    }
+  )
   }
 
   handleChange = (e)=> {
@@ -122,7 +145,7 @@ export default class QuestionBankSearch extends React.Component{
        </div>
        <div id="results" style={styles.results}>
        <ul style={styles.autoComplete}>
-       {Qbanks && Qbanks.length > 0 &&
+       {Qbanks && Qbanks.length > 0 && Qbanks !== null  &&
           Qbanks.map((qb,i) => {
             return (
               <Link key={i} to={`/question-bank/${qb._id}`}>
@@ -130,6 +153,9 @@ export default class QuestionBankSearch extends React.Component{
               </Link>
             )
           })
+       }
+       {Qbanks && Qbanks.length <= 0 || Qbanks === null &&
+        <li>loading...</li>
        }
        </ul>
        </div>
