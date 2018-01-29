@@ -186,6 +186,7 @@ export const searchQbanks = (req,res) => {
   let regex = {$regex:search};
   if(q && q !== ''){
     qBank.find({$or:[{title:regex},{summary:regex}]})
+         .limit(20)
          .exec((err,qb) => {
            if(err) {
              return res.json({success:false,message:'Something going wrong'});

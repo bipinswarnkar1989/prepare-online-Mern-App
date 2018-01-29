@@ -43,3 +43,10 @@ body {
   }
   .activePaginationNumber{color: white;}
   .paginationNumber{color: rgba(33,33,33 ,1) !important;}
+
+li.autoCompleteItem{color:#555555;}
+
+  li.autoCompleteItem:hover{
+    background-color: #303F9F;
+    color: white
+  }

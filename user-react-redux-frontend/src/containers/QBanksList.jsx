@@ -16,7 +16,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
      mappedfetchUserIfLoggedIn: () => dispatch(userActions.fetchUserIfLoggedIn()),
-     mappedfetchQbanks: (data) => dispatch(qBankActions.fetchQbanks(data))
+     mappedfetchQbanks: (data) => dispatch(qBankActions.fetchQbanks(data)),
+     mappedsearchQbanks: (q) => dispatch(qBankActions.searchQbanks(q)),
+     mappedrequestSearchQbanks: () => dispatch(qBankActions.requestSearchQbanks()),
+     mappedsuccessSearchQbanks: data => dispatch(qBankActions.successSearchQbanks(data)),
+     mappedfailedSearchQbanks: message => dispatch(qBankActions.failedSearchQbanks(message))
   };
 }
 

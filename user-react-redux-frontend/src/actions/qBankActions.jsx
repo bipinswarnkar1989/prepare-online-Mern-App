@@ -632,7 +632,7 @@ export const successgetLatestqBanks = (data) => {
 export const searchQbanks = (q) => {
   return (dispatch) => {
     dispatch(requestSearchQbanks());
-    return fetch(`${qbApiUrl}/Qbank/search/${q}`,{
+    return fetch(`${qbApiUrl}/Qbanks/search/${q}`,{
       method:'get'
     }).then(response => {
       if(response.status >= 200 && response.status < 300){

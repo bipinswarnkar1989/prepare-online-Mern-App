@@ -69,6 +69,9 @@ const INITIAL_STATE = {
     currentPage:null,
     buttonsRangeArray:null,
     totalNumberOfPagination:null
+  },
+  QbSearch:{
+    Qbanks:null,
   }
 }
 
@@ -1183,7 +1186,7 @@ case 'FAILED_SEARCH_QBANKS':
     ...currentState,
     isFetching:false,
     successMsg:null,
-    error:action.data.message,
+    error:action.message,
     QbSearch:{
       Qbanks:null
     }

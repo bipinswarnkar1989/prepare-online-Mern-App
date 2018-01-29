@@ -38,6 +38,10 @@ class QBanksList extends React.Component {
     this.props.mappedfetchQbanks(data);
   }
 
+  searchQbank(q){
+    this.props.mappedsearchQbanks(q);
+  }
+
   render(){
     const styles = {
       QBanksList:{
@@ -50,14 +54,17 @@ class QBanksList extends React.Component {
     }
 
     const { user,isLoggedIn } = this.props.mappedUserState;
-    const { qBanks,qBanksPagination} = this.props.mappedQbankState;
+    const { qBanks,qBanksPagination,QbSearch } = this.props.mappedQbankState;
     const currentPage = parseInt(qBanksPagination.currentPage);
     const paginationLimit = parseInt(this.props.params.limit);
     const totalNumberOfPagination = parseInt(qBanksPagination.totalNumberOfPagination);
     return(
       <div style={styles.QBanksList} className="QBanksList">
         <h3 align="center">Question Banks </h3>
-        <QuestionBankSearch/>
+        <QuestionBankSearch
+          search={e => this.searchQbank(e)}
+          QbSearch={QbSearch}
+          />
           <Grid>
            <Row>
               {qBanks && qBanks.length > 0 &&
