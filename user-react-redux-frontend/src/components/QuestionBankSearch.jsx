@@ -11,8 +11,8 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
- import 'rxjs/add/operator/do';
-// import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
+//import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromPromise';
 import { searchQbanks } from '../middlewares/api';
@@ -36,7 +36,7 @@ export default class QuestionBankSearch extends React.Component{
         let promise = searchQbanks(term);
         return Observable.fromPromise(promise);
       }
-      return Observable.of({success:true})
+      return Observable.of({success:false})
     })
     .subscribe(
       resp => {

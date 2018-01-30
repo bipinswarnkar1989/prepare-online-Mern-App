@@ -9,7 +9,11 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import ArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import QuestionBankSearch from './QuestionBankSearch';
+import Checkbox from 'material-ui/Checkbox';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 //import RaisedButton from 'material-ui/RaisedButton';
+
 class QBanksList extends React.Component {
   constructor(props) {
     super(props);
@@ -50,7 +54,19 @@ class QBanksList extends React.Component {
       floatButton:{
         marginRight: 20,
       },
-
+      Checkbox:{
+        position:'absolute',
+        right:1,
+        top:1,
+        backgroundColor:'white',
+        width:'10%'
+      },
+      SelectAction:{
+        position:'absolute',
+        right:20,
+        top:0,
+        width:'15%'
+      }
     }
 
     const { user,isLoggedIn } = this.props.mappedUserState;
@@ -58,8 +74,25 @@ class QBanksList extends React.Component {
     const currentPage = parseInt(qBanksPagination.currentPage);
     const paginationLimit = parseInt(this.props.params.limit);
     const totalNumberOfPagination = parseInt(qBanksPagination.totalNumberOfPagination);
+
     return(
       <div style={styles.QBanksList} className="QBanksList">
+        <div style={{position:'relative'}}>
+        <div style={styles.SelectAction}>
+          <DropDownMenu
+          value={1}
+          onChange={this.handleChange}
+          style={styles.customWidth}
+          autoWidth={false}
+        >
+          <MenuItem value={1} primaryText="Custom width" />
+          <MenuItem value={2} primaryText="Every Night" />
+          <MenuItem value={3} primaryText="Weeknights" />
+          <MenuItem value={4} primaryText="Weekends" />
+          <MenuItem value={5} primaryText="Weekly" />
+        </DropDownMenu>
+        </div>
+      </div>
         <h3 align="center">Question Banks </h3>
         <QuestionBankSearch
           search={e => this.searchQbank(e)}
@@ -73,6 +106,11 @@ class QBanksList extends React.Component {
               {qBanks && qBanks.length > 0 &&
                     qBanks.map((qb,i) =>
                     <Col key={i} md={4}>
+                      <div style={{position:'relative'}}>
+                      {user && user._id && user._id === qb.author._id &&
+                      <Checkbox style={styles.Checkbox}/>
+                       }
+                      </div>
                        <Link to={`/question-bank/${qb._id}`}>
                          <QBankbox Icon={Qlist}
                            color={orange600}
