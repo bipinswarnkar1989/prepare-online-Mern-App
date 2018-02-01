@@ -3,6 +3,7 @@ import Pagination from '../middlewares/pagination.jsx';
 
 const INITIAL_STATE = {
   qBanks:null,
+  qBanksToDelete:[],
   isFetching:false,
   error:null,
   successMsg:null,
@@ -1191,6 +1192,15 @@ case 'FAILED_SEARCH_QBANKS':
       Qbanks:null
     }
   }
+
+case 'ADD_QBANKS_TO_DELETE':
+   let qb = action.qb._id;
+    const qBanksToDelete = [...currentState.qBanksToDelete, qb];
+   return {
+     ...currentState,
+     qBanks:currentState.qBanks,
+     qBanksToDelete:qBanksToDelete
+   }
 
 
     default:

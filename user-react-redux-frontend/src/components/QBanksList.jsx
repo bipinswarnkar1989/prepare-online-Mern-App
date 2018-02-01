@@ -46,6 +46,10 @@ class QBanksList extends React.Component {
     this.props.mappedsearchQbanks(q);
   }
 
+  multiSelect(qb){
+    this.props.mappedaddQbanksToDelete(qb);
+  }
+
   render(){
     const styles = {
       QBanksList:{
@@ -59,7 +63,7 @@ class QBanksList extends React.Component {
         right:1,
         top:1,
         backgroundColor:'white',
-        width:'10%'
+        width:'22px'
       },
       SelectAction:{
         position:'absolute',
@@ -85,7 +89,7 @@ class QBanksList extends React.Component {
           style={styles.customWidth}
           autoWidth={false}
         >
-          <MenuItem value={1} primaryText="Custom width" />
+          <MenuItem value={1} primaryText="Select Action" />
           <MenuItem value={2} primaryText="Every Night" />
           <MenuItem value={3} primaryText="Weeknights" />
           <MenuItem value={4} primaryText="Weekends" />
@@ -108,7 +112,7 @@ class QBanksList extends React.Component {
                     <Col key={i} md={4}>
                       <div style={{position:'relative'}}>
                       {user && user._id && user._id === qb.author._id &&
-                      <Checkbox style={styles.Checkbox}/>
+                      <Checkbox style={styles.Checkbox} onCheck={() => this.multiSelect(qb)}/>
                        }
                       </div>
                        <Link to={`/question-bank/${qb._id}`}>
