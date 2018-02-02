@@ -12,6 +12,8 @@ import QuestionBankSearch from './QuestionBankSearch';
 import Checkbox from 'material-ui/Checkbox';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 //import RaisedButton from 'material-ui/RaisedButton';
 
 class QBanksList extends React.Component {
@@ -50,9 +52,17 @@ class QBanksList extends React.Component {
     this.props.mappedaddQbanksToDelete(qb);
   }
 
-  DeleteMultipleQb(){
+  askDeleteMultipleQb(){
+    this.props.mappedshowMultipleDeleteQbanks(true);
+  }
+
+  cancelMultipleQbDelete(){
+    this.props.mappedshowMultipleDeleteQbanks(false);
+  }
+
+  confirmMultipleQbDelete(){
     let qbIds = this.props.mappedQbankState.qBanksToDelete;
-    
+    this.props.mappeddeleteMultipleQbanks(qbIds);
   }
 
   render(){
@@ -79,7 +89,7 @@ class QBanksList extends React.Component {
     }
 
     const { user,isLoggedIn } = this.props.mappedUserState;
-    const { qBanks,qBanksPagination,QbSearch,qBanksToDelete } = this.props.mappedQbankState;
+    const { qBanks,qBanksPagination,QbSearch,qBanksToDelete,showMultipleQbDelete } = this.props.mappedQbankState;
     const currentPage = parseInt(qBanksPagination.currentPage);
     const paginationLimit = parseInt(this.props.params.limit);
     const totalNumberOfPagination = parseInt(qBanksPagination.totalNumberOfPagination);
@@ -96,10 +106,7 @@ class QBanksList extends React.Component {
            autoWidth={false}
          >
            <MenuItem value={1} primaryText="Select Action" />
-           <MenuItem value={2} primaryText="Delete" onClick={this.DeleteMultipleQb.bind(this)}/>
-           <MenuItem value={3} primaryText="Weeknights" />
-           <MenuItem value={4} primaryText="Weekends" />
-           <MenuItem value={5} primaryText="Weekly" />
+           <MenuItem value={2} primaryText="Delete" onClick={this.askDeleteMultipleQb.bind(this)}/>
          </DropDownMenu>
          }
         </div>
@@ -181,10 +188,42 @@ class QBanksList extends React.Component {
         }
       </ul>
         </div>
-
+         <MultiDeleteDialog
+          showMultipleQbDelete={showMultipleQbDelete}
+          cancelMultipleQbDelete={this.cancelMultipleQbDelete.bind(this)}
+          qBanksToDelete={qBanksToDelete}
+          confirmMultipleQbDelete={this.confirmMultipleQbDelete.bind(this)}
+          />
       </div>
     )
   }
+}
+
+const MultiDeleteDialog = (props) => {
+  const MultiDeleteActions = [
+   <FlatButton
+     label="Cancel"
+     primary={true}
+     onClick={props.cancelMultipleQbDelete}
+   />,
+   <FlatButton
+     label="Confirm"
+     primary={true}
+     keyboardFocused={true}
+     onClick={props.confirmMultipleQbDelete}
+   />,
+ ];
+    return (
+      <Dialog
+     title="Delete Multiple Question Banks"
+     actions={MultiDeleteActions}
+     modal={false}
+     open={props.showMultipleQbDelete}
+     onRequestClose={props.cancelMultipleQbDelete}
+    >
+     {`Are you sure want to delete these ${props.qBanksToDelete.length} question banlks?`}
+    </Dialog>
+    )
 }
 
 export default QBanksList;

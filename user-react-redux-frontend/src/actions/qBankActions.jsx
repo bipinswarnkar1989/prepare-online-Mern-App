@@ -656,3 +656,60 @@ export const addQbanksToDelete = (qb) => {
     qb
   }
 }
+
+export const showMultipleDeleteQbanks = (resp) => {
+  return {
+    type:'SHOW_MULTIPLE_DELETE_QB',
+    resp
+  }
+}
+
+export const deleteMultipleQbanks = (qbIds) => {
+  return (dispatch) => {
+    dispatch(requestDeleteMultipleQbanks());
+    let token = localStorage.getItem('userToken');
+    return fetch(`${qbApiUrl}/deleteMultipleQbanks`, {
+      method:'post',
+      body:JSON.stringify(qbIds),
+      headers:{
+        'authorization':token,
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      }
+    }).then(response => {
+      if(response.status >= 200 && response.status < 300){
+        response.json().then((data) => {
+          if (data.success) {
+           dispatch(successDeleteMultipleQbanks(data));
+         }else if (!data.success && data.message) {
+           failedDeleteMultipleQbanks(data.message);
+         }else {
+           failedDeleteMultipleQbanks('Something going wrong!');
+         }
+        })
+      }else {
+        dispatch(failedDeleteMultipleQbanks(response.statusText));
+      }
+    })
+  }
+}
+
+export const requestDeleteMultipleQbanks = () => {
+  return {
+    type:'REQUEST_DELETE_MULTIPLE_QB'
+  }
+}
+
+export const successDeleteMultipleQbanks = (data) => {
+  return {
+    type:'SUCCESS_DELETE_MULTIPLE_QB',
+    data
+  }
+}
+
+export const failedDeleteMultipleQbanks = (message) => {
+  return {
+    type:'FAILED_DELETE_MULTIPLE_QB',
+    message
+  }
+}

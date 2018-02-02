@@ -4,6 +4,7 @@ import Pagination from '../middlewares/pagination.jsx';
 const INITIAL_STATE = {
   qBanks:null,
   qBanksToDelete:[],
+  showMultipleQbDelete:false,
   isFetching:false,
   error:null,
   successMsg:null,
@@ -1215,6 +1216,51 @@ case 'ADD_REMOVE_QBANKS_TO_DELETE':
      qBanks:currentState.qBanks,
      qBanksToDelete:currentState.qBanksToDelete
    }
+
+case 'SHOW_MULTIPLE_DELETE_QB':
+  return {
+    ...currentState,
+    qBanks:currentState.qBanks,
+    qBanksToDelete:currentState.qBanksToDelete,
+    showMultipleQbDelete:action.resp
+  }
+
+case 'REQUEST_DELETE_MULTIPLE_QB':
+   return {
+     ...currentState,
+     qBanks:currentState.qBanks,
+     qBanksToDelete:currentState.qBanksToDelete,
+     showMultipleQbDelete:currentState.showMultipleQbDelete,
+     isFetching:true,
+     successMsg:null,
+     error:null
+   }
+
+ case 'SUCCESS_DELETE_MULTIPLE_QB':
+    let qBanksToDelete = currentState.qBanksToDelete
+    const newQbanks = currentState.qBanks.filter((item) => {
+       return qBanksToDelete.indexOf(item) === -1;
+    })
+    return {
+      ...currentState,
+      qBanks:newQbanks,
+      qBanksToDelete:null,
+      showMultipleQbDelete:false,
+      isFetching:false,
+      successMsg:action.data.message,
+      error:null
+    }
+
+  case 'REQUEST_DELETE_MULTIPLE_QB':
+     return {
+       ...currentState,
+       qBanks:currentState.qBanks,
+       qBanksToDelete:currentState.qBanksToDelete,
+       showMultipleQbDelete:currentState.showMultipleQbDelete,
+       isFetching:false,
+       successMsg:null,
+       error:action.message
+     }
 
 
     default:
