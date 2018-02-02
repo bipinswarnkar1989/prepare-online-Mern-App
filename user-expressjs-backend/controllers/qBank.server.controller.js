@@ -205,3 +205,17 @@ export const searchQbanks = (req,res) => {
     return res.json({success:false,message:'Enter text to search'});
   }
 }
+
+export const multipleDeleteQb = (req,res) => {
+  console.log('multipleDeleteQb: '+ JSON.stringify(req.body));
+  if(req.body){
+    qBank.remove({ _id:{$in:req.body } }).exec((err) => {
+      if(err) {
+        return res.json({success:false,message:'Something going wrong',err});
+      }
+      else {
+        return res.json({success:true,message:'Question Banks Deleted Successfully'});
+      }
+    })
+  }
+}

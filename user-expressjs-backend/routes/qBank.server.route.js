@@ -13,6 +13,9 @@ router.route('/Qbanks')
 router.route('/Qbanks/search/:q')
   .get(qBankController.searchQbanks);
 
+router.route('/Qbanks/deleteMultipleQbanks')
+  .post(qBankController.multipleDeleteQb);
+
 router.route('/Qbanks/:page/:limit')
    .get(qBankController.countQbanks,qBankController.getAllQbanks);
 

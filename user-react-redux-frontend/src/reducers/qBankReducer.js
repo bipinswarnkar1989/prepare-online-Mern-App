@@ -1214,7 +1214,9 @@ case 'ADD_REMOVE_QBANKS_TO_DELETE':
    return {
      ...currentState,
      qBanks:currentState.qBanks,
-     qBanksToDelete:currentState.qBanksToDelete
+     qBanksToDelete:currentState.qBanksToDelete,
+     successMsg:null,
+     error:null
    }
 
 case 'SHOW_MULTIPLE_DELETE_QB':
@@ -1222,7 +1224,9 @@ case 'SHOW_MULTIPLE_DELETE_QB':
     ...currentState,
     qBanks:currentState.qBanks,
     qBanksToDelete:currentState.qBanksToDelete,
-    showMultipleQbDelete:action.resp
+    showMultipleQbDelete:action.resp,
+    successMsg:null,
+    error:null
   }
 
 case 'REQUEST_DELETE_MULTIPLE_QB':
@@ -1239,8 +1243,9 @@ case 'REQUEST_DELETE_MULTIPLE_QB':
  case 'SUCCESS_DELETE_MULTIPLE_QB':
     let qBanksToDelete = currentState.qBanksToDelete
     const newQbanks = currentState.qBanks.filter((item) => {
-       return qBanksToDelete.indexOf(item) === -1;
+       return qBanksToDelete.indexOf(item._id) === -1;
     })
+    console.log(action.data)
     return {
       ...currentState,
       qBanks:newQbanks,

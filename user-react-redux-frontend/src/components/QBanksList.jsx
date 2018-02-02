@@ -14,6 +14,7 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Snackbar from 'material-ui/Snackbar';
 //import RaisedButton from 'material-ui/RaisedButton';
 
 class QBanksList extends React.Component {
@@ -89,7 +90,7 @@ class QBanksList extends React.Component {
     }
 
     const { user,isLoggedIn } = this.props.mappedUserState;
-    const { qBanks,qBanksPagination,QbSearch,qBanksToDelete,showMultipleQbDelete } = this.props.mappedQbankState;
+    const { qBanks,qBanksPagination,QbSearch,qBanksToDelete,showMultipleQbDelete,successMsg,error } = this.props.mappedQbankState;
     const currentPage = parseInt(qBanksPagination.currentPage);
     const paginationLimit = parseInt(this.props.params.limit);
     const totalNumberOfPagination = parseInt(qBanksPagination.totalNumberOfPagination);
@@ -194,6 +195,14 @@ class QBanksList extends React.Component {
           qBanksToDelete={qBanksToDelete}
           confirmMultipleQbDelete={this.confirmMultipleQbDelete.bind(this)}
           />
+          <div align="center">
+            <Snackbar
+            message={successMsg !== null ? successMsg : error !== null ? error : 'Loading...'}
+            open={successMsg !== null ? true : error !== null ? true : false}
+            autoHideDuration={8000}
+            onRequestClose={this.handleRequestClose}
+          />
+          </div>
       </div>
     )
   }
@@ -221,7 +230,9 @@ const MultiDeleteDialog = (props) => {
      open={props.showMultipleQbDelete}
      onRequestClose={props.cancelMultipleQbDelete}
     >
-     {`Are you sure want to delete these ${props.qBanksToDelete.length} question banlks?`}
+    {props.qBanksToDelete && props.qBanksToDelete.length > 0 &&
+     `Are you sure want to delete these ${props.qBanksToDelete.length} question banlks?`
+   }
     </Dialog>
     )
 }

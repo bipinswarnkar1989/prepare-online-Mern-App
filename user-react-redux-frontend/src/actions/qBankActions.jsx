@@ -668,7 +668,7 @@ export const deleteMultipleQbanks = (qbIds) => {
   return (dispatch) => {
     dispatch(requestDeleteMultipleQbanks());
     let token = localStorage.getItem('userToken');
-    return fetch(`${qbApiUrl}/deleteMultipleQbanks`, {
+    return fetch(`${qbApiUrl}/Qbanks/deleteMultipleQbanks`, {
       method:'post',
       body:JSON.stringify(qbIds),
       headers:{
