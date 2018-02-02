@@ -652,7 +652,7 @@ export const failedSearchQbanks = (message) => {
 
 export const addQbanksToDelete = (qb) => {
   return {
-    type:'ADD_QBANKS_TO_DELETE',
+    type:'ADD_REMOVE_QBANKS_TO_DELETE',
     qb
   }
 }

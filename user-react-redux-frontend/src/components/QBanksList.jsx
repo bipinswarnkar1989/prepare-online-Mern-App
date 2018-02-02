@@ -50,6 +50,11 @@ class QBanksList extends React.Component {
     this.props.mappedaddQbanksToDelete(qb);
   }
 
+  DeleteMultipleQb(){
+    let qbIds = this.props.mappedQbankState.qBanksToDelete;
+    
+  }
+
   render(){
     const styles = {
       QBanksList:{
@@ -74,7 +79,7 @@ class QBanksList extends React.Component {
     }
 
     const { user,isLoggedIn } = this.props.mappedUserState;
-    const { qBanks,qBanksPagination,QbSearch } = this.props.mappedQbankState;
+    const { qBanks,qBanksPagination,QbSearch,qBanksToDelete } = this.props.mappedQbankState;
     const currentPage = parseInt(qBanksPagination.currentPage);
     const paginationLimit = parseInt(this.props.params.limit);
     const totalNumberOfPagination = parseInt(qBanksPagination.totalNumberOfPagination);
@@ -83,18 +88,20 @@ class QBanksList extends React.Component {
       <div style={styles.QBanksList} className="QBanksList">
         <div style={{position:'relative'}}>
         <div style={styles.SelectAction}>
-          <DropDownMenu
-          value={1}
-          onChange={this.handleChange}
-          style={styles.customWidth}
-          autoWidth={false}
-        >
-          <MenuItem value={1} primaryText="Select Action" />
-          <MenuItem value={2} primaryText="Every Night" />
-          <MenuItem value={3} primaryText="Weeknights" />
-          <MenuItem value={4} primaryText="Weekends" />
-          <MenuItem value={5} primaryText="Weekly" />
-        </DropDownMenu>
+         {qBanksToDelete && qBanksToDelete.length > 0 &&
+           <DropDownMenu
+           value={1}
+           onChange={this.handleChange}
+           style={styles.customWidth}
+           autoWidth={false}
+         >
+           <MenuItem value={1} primaryText="Select Action" />
+           <MenuItem value={2} primaryText="Delete" onClick={this.DeleteMultipleQb.bind(this)}/>
+           <MenuItem value={3} primaryText="Weeknights" />
+           <MenuItem value={4} primaryText="Weekends" />
+           <MenuItem value={5} primaryText="Weekly" />
+         </DropDownMenu>
+         }
         </div>
       </div>
         <h3 align="center">Question Banks </h3>
@@ -112,7 +119,7 @@ class QBanksList extends React.Component {
                     <Col key={i} md={4}>
                       <div style={{position:'relative'}}>
                       {user && user._id && user._id === qb.author._id &&
-                      <Checkbox style={styles.Checkbox} onCheck={() => this.multiSelect(qb)}/>
+                      <Checkbox style={styles.Checkbox} onCheck={(e) => this.multiSelect(qb)}/>
                        }
                       </div>
                        <Link to={`/question-bank/${qb._id}`}>

@@ -92,6 +92,7 @@ const qBankReducer = (currentState = INITIAL_STATE, action) => {
      let pgState = pgObject.pagination(count,maxButtons,page,limit);
        return {
          ...currentState, isFetching:false,qBanks:action.data.qb,successMsg:action.data.message,
+         qBanksToDelete:[],
          qBanksPagination:{
            maxButtons: 5,
            qBanksCount:action.data.count,
@@ -1154,6 +1155,7 @@ return {
   ...currentState,
   latestQbanks:{
     Qbanks:action.data.qb,
+    qBanksToDelete:[],
     isFetching:false,
     successMsg:action.data.message,
     error:null
@@ -1193,13 +1195,25 @@ case 'FAILED_SEARCH_QBANKS':
     }
   }
 
-case 'ADD_QBANKS_TO_DELETE':
-   let qb = action.qb._id;
-    const qBanksToDelete = [...currentState.qBanksToDelete, qb];
+case 'ADD_REMOVE_QBANKS_TO_DELETE':
+   const qb = action.qb._id;
+    if (currentState.qBanksToDelete.length > 0) {
+        const found = currentState.qBanksToDelete.find(function(element){
+          return element === qb;
+        });
+        if (found !== undefined) {
+           currentState.qBanksToDelete = currentState.qBanksToDelete.filter((item) => item !== qb);
+        }else if (found === undefined) {
+          currentState.qBanksToDelete = [...currentState.qBanksToDelete, qb];
+        }
+    }
+    else{
+       currentState.qBanksToDelete = [...currentState.qBanksToDelete, qb];
+    }
    return {
      ...currentState,
      qBanks:currentState.qBanks,
-     qBanksToDelete:qBanksToDelete
+     qBanksToDelete:currentState.qBanksToDelete
    }
 
 
