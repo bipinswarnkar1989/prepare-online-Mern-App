@@ -67,6 +67,14 @@ class QBanksList extends React.Component {
     this.props.mappeddeleteMultipleQbanks(qbIds);
   }
 
+  bookMarkQb(userId,qBId){
+    const data = {
+      userId:userId,
+      qbId:qBId
+    }
+    
+  }
+
   render(){
     const styles = {
       QBanksList:{
@@ -151,6 +159,7 @@ class QBanksList extends React.Component {
                          <BookMarkBorder
                           style={styles.BookMarkBorder}
                           className="BookMarkBorder"
+                          onClick={() => this.bookMarkQb(user._id,qb._id)}
                           />
                        </div>
                     </Col>
