@@ -1,7 +1,7 @@
 // ./user-react-redux-frontend/src/components/QBanksList.jsx
 import React from 'react';
 import Qlist from 'material-ui/svg-icons/action/view-list';
-import { orange600 } from 'material-ui/styles/colors';
+import { orange600,grey800 } from 'material-ui/styles/colors';
 import { Grid, Row, Col } from 'react-material-responsive-grid';
 import QBankbox from './QBankbox';
 import { Link,browserHistory } from 'react-router';
@@ -15,6 +15,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
+import BookMarkBorder from 'material-ui/svg-icons/action/bookmark-border';
 //import RaisedButton from 'material-ui/RaisedButton';
 
 class QBanksList extends React.Component {
@@ -86,6 +87,14 @@ class QBanksList extends React.Component {
         right:20,
         top:0,
         width:'15%'
+      },
+      BookMarkBorder:{
+        left:'20%',
+        bottom:10,
+        position:'absolute',
+        cursor:'pointer',
+        color:grey800,
+
       }
     }
 
@@ -138,6 +147,12 @@ class QBanksList extends React.Component {
                            author={qb.author.fullName}
                            lastUpdated={qb.createdAt}/>
                        </Link>
+                       <div style={{position:'relative'}}>
+                         <BookMarkBorder
+                          style={styles.BookMarkBorder}
+                          className="BookMarkBorder"
+                          />
+                       </div>
                     </Col>
                   )
                   }
