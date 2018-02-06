@@ -74,6 +74,10 @@ const INITIAL_STATE = {
   },
   QbSearch:{
     Qbanks:null,
+  },
+  userBookMarks:{
+    isFetching:false,
+    qBanks:null
   }
 }
 
@@ -1266,6 +1270,39 @@ case 'REQUEST_DELETE_MULTIPLE_QB':
        successMsg:null,
        error:action.message
      }
+
+ case 'REQUEST_BOOKMARK_QB':
+    return {
+      ...currentState,
+      userBookMarks:{
+        isFetching:true,
+        qBanks:null
+      },
+      successMsg:null,
+      error:null
+    }
+
+case 'SUCCESS_BOOKMARK_QB':
+   return {
+     ...currentState,
+     userBookMarks:{
+       isFetching:false,
+       qBanks:action.data.bm
+     },
+     successMsg:action.data.message,
+     error:null
+   }
+
+  case 'FAILED_BOOKMARK_QB':
+    return {
+      ...currentState,
+      userBookMarks:{
+        isFetching:false,
+        qBanks:null
+      },
+      successMsg:null,
+      error:action.message
+    }
 
 
     default:

@@ -22,7 +22,8 @@ const mapDispatchToProps = (dispatch) => {
      mappedfailedSearchQbanks: message => dispatch(qBankActions.failedSearchQbanks(message)),
      mappedaddQbanksToDelete: qb => dispatch(qBankActions.addQbanksToDelete(qb)),
      mappedshowMultipleDeleteQbanks: resp => dispatch(qBankActions.showMultipleDeleteQbanks(resp)),
-     mappeddeleteMultipleQbanks: qbIds => dispatch(qBankActions.deleteMultipleQbanks(qbIds))
+     mappeddeleteMultipleQbanks: qbIds => dispatch(qBankActions.deleteMultipleQbanks(qbIds)),
+     mappedbookMarkQb: data  => dispatch(qBankActions.bookMarkQb(data)),
   };
 }
 

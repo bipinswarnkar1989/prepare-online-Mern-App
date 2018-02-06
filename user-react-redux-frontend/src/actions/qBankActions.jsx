@@ -1,7 +1,8 @@
 // ./user-react-redux-frontend/src/actions/qBankActions.jsx
 import { browserHistory } from 'react-router';
 const qbApiUrl = '/api/qbank';
-const quesApiUrl = '/api/question'
+const quesApiUrl = '/api/question';
+const bMqBApiUrl = '/api/qbbookmark';
 
 export const fetchQbanks = (d) => {
   return (dispatch) => {
@@ -712,4 +713,55 @@ export const failedDeleteMultipleQbanks = (message) => {
     type:'FAILED_DELETE_MULTIPLE_QB',
     message
   }
+}
+
+export const bookMarkQb = (data) => {
+  let token = localStorage.getItem('userToken');console.log(data)
+  return (dispatch) => {
+    dispatch(requestBookMarkQb())
+    return fetch(`${bMqBApiUrl}/qbBookmark`, {
+       method:'post',
+       body:JSON.stringify(data),
+       headers:{
+         'authorization':token,
+         'Accept':'application/json',
+         'Content-Type':'application/json'
+       }
+     }).then(resp => {
+       if (resp.status >= 200 && resp.status < 300) {
+          resp.json().then((data) => {
+            if (data.success) {
+              dispatch(successBookMarkQb(data));
+            }else if (!data.success && data.message) {
+              dispatch(failedBookMarkQb(data.message));
+            }else {
+              dispatch(failedBookMarkQb('Something going wrong!'));
+            }
+          })
+       }else{
+         const error = resp.statusText;
+         alert(error);
+       }
+     });
+  }
+}
+
+export const requestBookMarkQb = () => {
+  return {
+    type:'REQUEST_BOOKMARK_QB'
+  }
+}
+
+export const successBookMarkQb = (data) => {
+  return {
+    type:'SUCCESS_BOOKMARK_QB',
+    data
+  }
+}
+
+export const failedBookMarkQb = (message) => {
+   return {
+     type:'FAILED_BOOKMARK_QB',
+     message
+   }
 }

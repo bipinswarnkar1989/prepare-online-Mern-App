@@ -72,7 +72,7 @@ class QBanksList extends React.Component {
       userId:userId,
       qbId:qBId
     }
-    
+    this.props.mappedbookMarkQb(data);
   }
 
   render(){
