@@ -1276,18 +1276,20 @@ case 'REQUEST_DELETE_MULTIPLE_QB':
       ...currentState,
       userBookMarks:{
         isFetching:true,
-        qBanks:null
+        qBanks:currentState.userBookMarks.qBanks
       },
       successMsg:null,
       error:null
     }
 
 case 'SUCCESS_BOOKMARK_QB':
+let qbB = action.data.bm.qBank;
+const newBookMarks = [...currentState.userBookMarks.qBanks, qbB];
    return {
      ...currentState,
      userBookMarks:{
        isFetching:false,
-       qBanks:action.data.bm
+       qBanks:newBookMarks
      },
      successMsg:action.data.message,
      error:null

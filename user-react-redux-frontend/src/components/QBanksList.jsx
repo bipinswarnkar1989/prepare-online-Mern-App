@@ -16,6 +16,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import BookMarkBorder from 'material-ui/svg-icons/action/bookmark-border';
+import BookMarked from 'material-ui/svg-icons/action/bookmark';
 //import RaisedButton from 'material-ui/RaisedButton';
 
 class QBanksList extends React.Component {
@@ -117,7 +118,7 @@ class QBanksList extends React.Component {
     }
 
     const { user,isLoggedIn } = this.props.mappedUserState;
-    const { qBanks,qBanksPagination,QbSearch,qBanksToDelete,showMultipleQbDelete,successMsg,error } = this.props.mappedQbankState;
+    const { qBanks,qBanksPagination,QbSearch,qBanksToDelete,showMultipleQbDelete,successMsg,error,userBookMarks } = this.props.mappedQbankState;
     const currentPage = parseInt(qBanksPagination.currentPage);
     const paginationLimit = parseInt(this.props.params.limit);
     const totalNumberOfPagination = parseInt(qBanksPagination.totalNumberOfPagination);
@@ -166,11 +167,24 @@ class QBanksList extends React.Component {
                            lastUpdated={qb.createdAt}/>
                        </Link>
                        <div style={{position:'relative'}}>
-                         <BookMarkBorder
-                          style={styles.BookMarkBorder}
-                          className="BookMarkBorder"
-                          onClick={() => this.bookMarkQb(user._id,qb._id)}
-                          />
+
+                          {userBookMarks.qBanks && userBookMarks.qBanks.length > 0 &&  userBookMarks.qBanks.indexOf(qb._id) !== -1 &&
+                             <BookMarked
+                              style={styles.BookMarkBorder}
+                              className="BookMarkBorder"
+                              onClick={() => this.bookMarkQb(user._id,qb._id)}
+                              />
+                           }
+                           {userBookMarks.qBanks && userBookMarks.qBanks.indexOf(qb._id) === -1 &&
+                             <BookMarkBorder
+                              style={styles.BookMarkBorder}
+                              className="BookMarkBorder"
+                              onClick={() => this.bookMarkQb(user._id,qb._id)}
+                              />
+                           }
+
+
+
                        </div>
                     </Col>
                   )
