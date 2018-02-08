@@ -716,7 +716,7 @@ export const failedDeleteMultipleQbanks = (message) => {
 }
 
 export const bookMarkQb = (data) => {
-  let token = localStorage.getItem('userToken');console.log(data)
+  let token = localStorage.getItem('userToken');
   return (dispatch) => {
     dispatch(requestBookMarkQb())
     return fetch(`${bMqBApiUrl}/qbBookmark`, {
@@ -764,4 +764,54 @@ export const failedBookMarkQb = (message) => {
      type:'FAILED_BOOKMARK_QB',
      message
    }
+}
+
+export const getBookMarks = (data) => {
+  let token = localStorage.getItem('userToken');console.log(data);
+  return (dispatch) => {
+    dispatch(requestGetBookMarks());
+    const getJson = async () => {
+      try {
+        const resp = await fetch(`${bMqBApiUrl}/qbCheckBookmark`,{
+          method:'post',
+          body:JSON.stringify(data),
+          headers:{
+            'authorization':token,
+            'Accept':'application/json',
+            'Content-Type':'application/json'
+          }
+        });
+        const Json = await resp.json();
+        if(Json.success){
+          dispatch(successGetBookMarks(Json))
+        }else if (Json.message && !Json.success) {
+          dispatch(failedGetBookMarks(Json.message));
+        }
+      } catch (e) {
+        console.log(e);
+        alert(e.message);
+      }
+    }
+    getJson();
+  }
+}
+
+export const requestGetBookMarks = () => {
+  return {
+    type:'REQUEST_GET_BOOKMARKS'
+  }
+}
+
+export const successGetBookMarks = (data) => {
+  return {
+    type:'SUCCESS_GET_BOOKMARKS',
+    data
+  }
+}
+
+export const failedGetBookMarks = (message) => {
+  return {
+    type:'FAILED_GET_BOOKMARKS',
+    message
+  }
 }

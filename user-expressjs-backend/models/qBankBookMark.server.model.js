@@ -5,7 +5,10 @@ var Schema = mongoose.Schema;
 
 const qBankBookMarkSchema = new Schema({
   user:Schema.ObjectId,
-  qBank:Schema.ObjectId,
+  qBank:{
+    type:Schema.ObjectId,
+    unique:true
+  },
   createdAt:{
     type:Date,
     default:Date.now

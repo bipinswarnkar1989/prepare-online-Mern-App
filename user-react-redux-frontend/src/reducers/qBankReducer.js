@@ -1304,6 +1304,42 @@ case 'SUCCESS_BOOKMARK_QB':
       error:action.message
     }
 
+case 'REQUEST_GET_BOOKMARKS':
+   return {
+     ...currentState,
+     userBookMarks:{
+       isFetching:true,
+       qBanks:currentState.userBookMarks.qBanks
+     },
+     successMsg:null,
+     error:null
+   }
+
+case 'SUCCESS_GET_BOOKMARKS':
+  const bookMarks = action.data.qb.map((item) => {
+    return item.qBank;
+  })
+  return {
+    ...currentState,
+    userBookMarks:{
+      isFetching:false,
+      qBanks:bookMarks
+    },
+    successMsg:action.data.message,
+    error:null
+  }
+
+  case 'FAILED_GET_BOOKMARKS':
+     return {
+       ...currentState,
+       userBookMarks:{
+         isFetching:false,
+         qBanks:currentState.userBookMarks.qBanks
+       },
+       successMsg:null,
+       error:action.message
+     }
+
 
     default:
       return currentState;

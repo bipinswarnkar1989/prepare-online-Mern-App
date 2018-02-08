@@ -28,29 +28,26 @@ export const createBookMark = (req,res) => {
 }
 
 export const checkIsBookMarked = (req,res) => {
-  console.log('checkIsBookMarked: '+req.body);
+  console.log('checkIsBookMarked: '+JSON.stringify(req.body));
   let userId = req.body.userId;
-  let qbId = req.body.qbId;
-  if(userId && qbId){
-    qBankBookMark.findOne({user:userId, qBank:qbId}).exec((err,bm) => {
+  let qbIds = req.body.qbIds;
+  if(userId && qbIds){
+    qBankBookMark.find({
+      user:userId,
+      qBank:{
+        "$in":qbIds
+      }
+    }).exec((err,qb) => {
       if(err) {
            return res.json({success:false,message:'Something going wrong',err});
       }
       else {
-        if(bm){
-          return res.json({
-            success:true,
-            message:'Question Bank BookMarked',
-            bookmark:true,
-            bm
-          });
-        }else {
-          return res.json({
-            success:true,
-            message:'Question Bank Not BookMarked',
-            bookmark:false,
-          });
-        }
+        console.log(qb)
+        return res.json({
+          success:true,
+          message:'Fetched BookMarked Question Banks',
+          qb
+        });
       }
     })
   }

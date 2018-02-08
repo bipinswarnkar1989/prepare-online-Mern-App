@@ -34,7 +34,17 @@ class QBanksList extends React.Component {
       page:page,
       limit:limit
     }
-    this.props.mappedfetchQbanks(data);
+    this.props.mappedfetchQbanks(data).then((v) => {
+      const qbIds = this.props.mappedQbankState.qBanks.map((item) => {
+        return item._id;
+      })
+      const bmData = {
+        userId:this.props.mappedUserState.user._id,
+        qbIds:qbIds
+      }
+      console.log(bmData);
+      this.props.mappedgetBookMarks(bmData);
+    });
   }
 
   getQbanksUsingPntn(page,limit){
