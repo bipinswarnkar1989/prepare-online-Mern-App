@@ -52,3 +52,27 @@ export const checkIsBookMarked = (req,res) => {
     })
   }
 }
+
+export const removeBookMark = (req,res) => {
+  console.log('removeBookMark: '+JSON.stringify(req.body));
+  let userId = req.body.userId;
+  let qbId = req.body.qbId;
+  if(userId && qbIds){
+    qBankBookMark.remove({
+      user:userId,
+      qBank:qbId
+    }, true).exec((err,qb) => {
+      if(err) {
+           return res.json({success:false,message:'Something going wrong',err});
+      }
+      else {
+        console.log(qb)
+        return res.json({
+          success:true,
+          message:'BookMarked Removed',
+          qb
+        });
+      }
+    })
+  }
+}

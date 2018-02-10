@@ -10,6 +10,7 @@ router.route('/qbBookmark')
         .post(userController.authenticate,qbBookMarkController.createBookMark);
 
 router.route('/qbCheckBookmark')
-        .post(userController.authenticate,qbBookMarkController.checkIsBookMarked);
+        .post(userController.authenticate,qbBookMarkController.checkIsBookMarked)
+        .delete(userController.authenticate, qbBookMarkController.removeBookMark);
 
 export default router;
