@@ -39,12 +39,14 @@ class QBanksList extends React.Component {
       const qbIds = this.props.mappedQbankState.qBanks.map((item) => {
         return item._id;
       })
-      const bmData = {
-        userId:this.props.mappedUserState.user._id,
-        qbIds:qbIds
+      if (this.props.mappedUserState.user) {
+        const bmData = {
+          userId:this.props.mappedUserState.user._id,
+          qbIds:qbIds
+        }
+        console.log(bmData);
+        this.props.mappedgetBookMarks(bmData);
       }
-      console.log(bmData);
-      this.props.mappedgetBookMarks(bmData);
     });
   }
 
@@ -84,6 +86,14 @@ class QBanksList extends React.Component {
       qbId:qBId
     }
     this.props.mappedbookMarkQb(data);
+  }
+
+  removebookMarkedQb(userId,qBId){
+    const data = {
+      userId:userId,
+      qbId:qBId
+    }
+    this.props.mappedRmbookMarkQb(data);
   }
 
   render(){
@@ -168,14 +178,14 @@ class QBanksList extends React.Component {
                        </Link>
                        <div style={{position:'relative'}}>
 
-                          {userBookMarks.qBanks && userBookMarks.qBanks.length > 0 &&  userBookMarks.qBanks.indexOf(qb._id) !== -1 &&
+                          {user && userBookMarks.qBanks && userBookMarks.qBanks.length > 0 &&  userBookMarks.qBanks.indexOf(qb._id) !== -1 &&
                              <BookMarked
                               style={styles.BookMarkBorder}
                               className="BookMarkBorder"
-                              onClick={() => this.bookMarkQb(user._id,qb._id)}
+                              onClick={() => this.removebookMarkedQb(user._id,qb._id)}
                               />
                            }
-                           {userBookMarks.qBanks && userBookMarks.qBanks.indexOf(qb._id) === -1 &&
+                           {user && userBookMarks.qBanks && userBookMarks.qBanks.indexOf(qb._id) === -1 &&
                              <BookMarkBorder
                               style={styles.BookMarkBorder}
                               className="BookMarkBorder"

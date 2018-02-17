@@ -815,3 +815,53 @@ export const failedGetBookMarks = (message) => {
     message
   }
 }
+
+export const rmBookMarkQb = (data) => {
+  return (dispatch) => {
+    let token = localStorage.getItem('userToken');
+    dispatch(requestRmBookMark());
+    const getJson = async () => {
+      try {
+        const resp = await fetch(`${bMqBApiUrl}/qbBookmark`,{
+          method:'delete',
+          body:JSON.stringify(data),
+          headers:{
+            'authorization':token,
+            'Accept':'application/json',
+            'Content-Type':'application/json'
+          }
+        });
+        const Json = await resp.json();
+        if(Json.success){
+          dispatch(successRmBookMarkQb(Json));
+        }else if (!Json.success && Json.message) {
+          dispatch(failedRmBookMarkQb(Json.message));
+        }
+      } catch (e) {
+        console.log(e);
+        alert(e.message);
+      }
+    }
+    getJson();
+  }
+}
+
+export const requestRmBookMark = () => {
+  return {
+    type:'REQUEST_RM_BOOKMARK_QB'
+  }
+}
+
+export const successRmBookMarkQb = (data) => {
+  return {
+    type:'SUCCESS_RM_BOOKMARK_QB',
+    data
+  }
+}
+
+export const failedRmBookMarkQb = (message) => {
+  return {
+    type:'FAILED_REMOVE_BOOKMARK_QB',
+    message
+  }
+}

@@ -19,7 +19,7 @@ export const createBookMark = (req,res) => {
       else{
         return res.json({
           success:true,
-          message:'Question Bank BookMarked Successfully',
+          message:'Question Bank Added to Your Bookmarked Qestion Banks.',
           bm
         });
       }
@@ -57,21 +57,21 @@ export const removeBookMark = (req,res) => {
   console.log('removeBookMark: '+JSON.stringify(req.body));
   let userId = req.body.userId;
   let qbId = req.body.qbId;
-  if(userId && qbIds){
-    qBankBookMark.remove({
-      user:userId,
-      qBank:qbId
-    }, true).exec((err,qb) => {
+  if(userId && qbId){
+    qBankBookMark.findOneAndRemove({
+    user:userId,
+    qBank:qbId
+  },(err,qb) => {
       if(err) {
-           return res.json({success:false,message:'Something going wrong',err});
+        return res.json({success:false,message:'Something going wrong'});
       }
-      else {
-        console.log(qb)
-        return res.json({
-          success:true,
-          message:'BookMarked Removed',
-          qb
-        });
+      else{
+        if(qb){
+          return res.json({success:true,message:'Question Bank Removed From Your BookMarks ',qb});
+        }
+        else{
+          return res.json({success:false,message:'Question Bank Not Found'});
+        }
       }
     })
   }

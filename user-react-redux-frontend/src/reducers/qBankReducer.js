@@ -1342,6 +1342,42 @@ case 'SUCCESS_GET_BOOKMARKS':
        error:action.message
      }
 
+  case 'REQUEST_RM_BOOKMARK_QB':
+    return {
+      ...currentState,
+      userBookMarks:{
+        isFetching:true,
+        qBanks:currentState.userBookMarks.qBanks
+      },
+      successMsg:null,
+      error:null
+    }
+
+  case 'SUCCESS_RM_BOOKMARK_QB':
+  const newQbBookmarks = currentState.userBookMarks.qBanks.filter((item) => {
+    return item !== action.data.qb.qBank;
+  })
+    return {
+      ...currentState,
+      userBookMarks:{
+        isFetching:false,
+        qBanks:newQbBookmarks
+      },
+      successMsg:action.data.message,
+      error:null
+    }
+
+    case 'FAILED_REMOVE_BOOKMARK_QB':
+      return {
+        ...currentState,
+        userBookMarks:{
+          isFetching:false,
+          qBanks:currentState.userBookMarks.qBanks
+        },
+        successMsg:null,
+        error:action.message
+      }
+
 
     default:
       return currentState;
