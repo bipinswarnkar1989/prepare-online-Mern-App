@@ -19,6 +19,8 @@ import {
       BottomNavigation,
       Icon,
       COLOR,
+      Badge,
+      IconToggle,
       Button
   } from 'react-native-material-ui';
   import { MIcon } from 'react-native-vector-icons/MaterialIcons';
@@ -27,20 +29,32 @@ import {
     render() {
       return (
         <View>
-        <StatusBar backgroundColor="rgba(0, 0, 0, 0.2)" translucent />
-        <View style={{ backgroundColor: COLOR.green500, height: 24 }} />
+        <StatusBar translucent={false} barStyle="light-content"/>
+        <View style={{ backgroundColor: COLOR.blue400, height: 24 }} />
       {this.props.navigation.state.routeName !== "Home" &&
       <Toolbar
                   leftElement="arrow-back"
                   onLeftElementPress={() => this.props.navigation.goBack()}
                   centerElement={this.props.navigation.state.routeName}
                   rightElement={
-                            <Button
+                    <View style={{top: 5, right: -1}}>
+                    <Button
                                 text="Save"
                                 style={{ text: { color: 'white' } }}
                                 onPress={() => alert()}
                             />
+                    </View>
                         }
+                  searchable={{
+                      autoFocus: true,
+                      placeholder: 'Search',
+                      onChangeText: value => this.setState({ searchText: value }),
+                      onSearchClosed: () => this.setState({ searchText: '' })
+                }}
+                  style={{
+                            container: { backgroundColor: COLOR.blue400 },
+                            rightElement: { color: COLOR.white,left:10 },
+                        }}
               />
       }
       {this.props.navigation.state.routeName === "Home" &&
@@ -53,8 +67,20 @@ import {
                       autoFocus: true,
                       placeholder: 'Search',
                       onChangeText: value => this.setState({ searchText: value }),
-                      onSearchClosed: () => this.setState({ searchText: '' }),
+                      onSearchClosed: () => this.setState({ searchText: '' })
                   }}
+                  rightElement={<Badge text="9" style={{ container: {top: 2, right: -1} }} >
+                   <IconToggle
+                    name="notifications-active"
+                    color="#ffffff"
+                    onPress={() => alert()}
+                  />
+                </Badge>
+              }
+                  style={{
+                            container: { backgroundColor: COLOR.blue400 },
+                            rightElement: { color: COLOR.white },
+                        }}
               />
         }
 

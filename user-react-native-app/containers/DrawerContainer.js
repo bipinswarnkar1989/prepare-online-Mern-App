@@ -4,12 +4,15 @@ import {
   Text,
   View,
   Image,
-  ScrollView,
-  TouchableOpacity } from 'react-native';
+  ScrollView
+   } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Avatar } from 'react-native-material-ui';
+import PropTypes from 'prop-types';
 
-export default class DrawerContainer extends React.Component {
+
+
+ class DrawerContainer extends React.Component {
 
   logout = () => {
     // This will reset back to loginStack
@@ -28,40 +31,43 @@ export default class DrawerContainer extends React.Component {
       <ScrollView style={styles.holder}>
       <View style={styles.container}>
       <View style={styles.avatar}>
-                    <TouchableOpacity>
-                        <Avatar size={100} image={<Image
-          style={{width: 100, height: 100}}
+          <Avatar size={100} image={<Image
+          style={{width: 100, height: 100}} resizeMode="contain"
           source={{uri: 'https://avatars2.githubusercontent.com/u/19688480?s=460&v=4'}}
         />}/>
-                    </TouchableOpacity>
-                    <Text style={ styles.name }>ReactAZ.com</Text>
-                    <Text style={ styles.description }>(Free Version)</Text>
+                    <Text style={ styles.name }>Bipin Swarnkar</Text>
+                    <Text style={ styles.description }>DashBoard</Text>
                 </View>
-        <Text
-          onPress={() => navigation.navigate('App')}
-          style={styles.uglyDrawerItem}>
-          Screen 1
-        </Text>
-        <Text
-          onPress={() => navigation.navigate('Screen1')}
-          style={styles.uglyDrawerItem}>
-          Screen 1
-        </Text>
-        <Text
-          onPress={() => navigation.navigate('screen3')}
-          style={styles.uglyDrawerItem}>
-          Screen 3
-        </Text>
-        <Text
-          onPress={this.logout}
-          style={styles.uglyDrawerItem}>
-          Log Out
-        </Text>
+      <View>
+      <Text
+        onPress={() => navigation.navigate('Screen1')}
+        style={styles.uglyDrawerItem}>
+        Screen 1
+      </Text>
+      <Text
+        onPress={() => navigation.navigate('Screen1')}
+        style={styles.uglyDrawerItem}>
+        Screen 1
+      </Text>
+      <Text
+        onPress={() => navigation.navigate('screen3')}
+        style={styles.uglyDrawerItem}>
+        Screen 3
+      </Text>
+      <Text
+        onPress={this.logout}
+        style={styles.uglyDrawerItem}>
+        Log Out
+      </Text>
+      </View>
       </View>
       </ScrollView>
     )
   }
 }
+
+
+export default DrawerContainer;
 
 const styles = StyleSheet.create({
   holder: {
@@ -88,7 +94,8 @@ const styles = StyleSheet.create({
   avatar: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: 200,
+        height: 160,
+        flex: 0.1,
         // backgroundColor: 'rgba(0, 0, 0, 0.4)'
     },
     avatar_image: {
@@ -97,12 +104,12 @@ const styles = StyleSheet.create({
     },
     name:{
         fontSize: 20,
-        color: '#fff',
+
 
     },
     description:{
         fontSize: 16,
-        color: '#fff',
+        color: 'black',
         fontWeight: '400',
     },
     section_title:{
