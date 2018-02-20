@@ -8,7 +8,8 @@ import {
    Platform,
    Animated,
    Easing,
-   StatusBar
+   StatusBar,
+
   } from 'react-native';
   import {
       ActionButton,
@@ -18,7 +19,9 @@ import {
       BottomNavigation,
       Icon,
       COLOR,
+      Button
   } from 'react-native-material-ui';
+  import { MIcon } from 'react-native-vector-icons/MaterialIcons';
 
   export default class Header extends Component {
     render() {
@@ -26,11 +29,26 @@ import {
         <View>
         <StatusBar backgroundColor="rgba(0, 0, 0, 0.2)" translucent />
         <View style={{ backgroundColor: COLOR.green500, height: 24 }} />
+      {this.props.navigation.state.routeName !== "Home" &&
+      <Toolbar
+                  leftElement="arrow-back"
+                  onLeftElementPress={() => this.props.navigation.goBack()}
+                  centerElement={this.props.navigation.state.routeName}
+                  rightElement={
+                            <Button
+                                text="Save"
+                                style={{ text: { color: 'white' } }}
+                                onPress={() => alert()}
+                            />
+                        }
+              />
+      }
+      {this.props.navigation.state.routeName === "Home" &&
         <Toolbar
                   key="toolbar"
                   leftElement="menu"
                   onLeftElementPress={() => this.props.navigation.navigate('DrawerOpen')}
-                  centerElement="Home"
+                  centerElement={this.props.navigation.state.routeName}
                   searchable={{
                       autoFocus: true,
                       placeholder: 'Search',
@@ -38,6 +56,8 @@ import {
                       onSearchClosed: () => this.setState({ searchText: '' }),
                   }}
               />
+        }
+
               </View>
 
       );

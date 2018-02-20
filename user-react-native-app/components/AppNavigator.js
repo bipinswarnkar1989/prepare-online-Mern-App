@@ -25,6 +25,7 @@ export const AppNavigator = DrawerNavigator({
   Home: { screen: Home },
   Screen1: { screen: Screen1}
 },{
+  initialRouteName: 'Home',
   headerMode:'node',
   contentComponent: DrawerContainer,
   contentOptions: {
