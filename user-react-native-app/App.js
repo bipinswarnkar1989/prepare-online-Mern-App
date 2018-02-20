@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 
-//import AppWithNavigationState from './components/AppNavigator';
+import AppWithNavigationState from './components/AppNavigator';
 // We're going to use navigation with redux
-import ReduxNavigation from './Navigation/ReduxNavigation'
+//import ReduxNavigation from './Navigation/ReduxNavigation'
 
 import { COLOR, ThemeProvider } from 'react-native-material-ui';
 
@@ -29,7 +29,7 @@ export default class App extends Component {
    return (
      <Provider store={store}>
      <ThemeProvider uiTheme={uiTheme}>
-       <ReduxNavigation />
+       <AppWithNavigationState />
          </ThemeProvider>
      </Provider>
    );

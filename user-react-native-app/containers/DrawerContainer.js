@@ -1,6 +1,6 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
-import { NavigationActions } from 'react-navigation'
+import React from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 
 export default class DrawerContainer extends React.Component {
 
@@ -20,14 +20,14 @@ export default class DrawerContainer extends React.Component {
     return (
       <View style={styles.container}>
         <Text
-          onPress={() => navigation.navigate('screen1')}
+          onPress={() => navigation.navigate('App')}
           style={styles.uglyDrawerItem}>
           Screen 1
         </Text>
         <Text
-          onPress={() => navigation.navigate('screen2')}
+          onPress={() => navigation.navigate('Screen1')}
           style={styles.uglyDrawerItem}>
-          Screen 2
+          Screen 1
         </Text>
         <Text
           onPress={() => navigation.navigate('screen3')}

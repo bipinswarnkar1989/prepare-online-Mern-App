@@ -1,33 +1,33 @@
 import { NavigationActions } from 'react-navigation';
-//import { AppNavigator } from '../components/AppNavigator';
-import AppNavigation from '../Navigation/AppNavigation.js'
+import { AppNavigator } from '../components/AppNavigator';
+//import AppNavigation from '../Navigation/AppNavigation.js'
 
-// Start with two routes: The Main screen, with the Login screen on top.
-// const firstAction = AppNavigation.router.getActionForPathAndParams('App');
-// const tempNavState = AppNavigation.router.getStateForAction(firstAction);
-// const secondAction = AppNavigation.router.getActionForPathAndParams('Home');
-// const initialNavState = AppNavigation.router.getStateForAction(
-//   secondAction,
-//   tempNavState
-// );
+//Start with two routes: The Main screen, with the Login screen on top.
+const firstAction = AppNavigator.router.getActionForPathAndParams('App');
+const tempNavState = AppNavigator.router.getStateForAction(firstAction);
+const secondAction = AppNavigator.router.getActionForPathAndParams('Home');
+const initialNavState = AppNavigator.router.getStateForAction(
+  secondAction,
+  tempNavState
+);
 
-const navReducer_ = (state = initialNavState, action) => {
+const navReducer = (state = initialNavState, action) => {
   let nextState;
   switch (action.type) {
     case 'App':
-      nextState = AppNavigation.router.getStateForAction(
-        NavigationActions.back(),
+      nextState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'App'}),
         state
       );
       break;
     case 'Home':
-      nextState = AppNavigation.router.getStateForAction(
+      nextState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Home' }),
         state
       );
       break;
     default:
-      nextState = AppNavigation.router.getStateForAction(action, state);
+      nextState = AppNavigator.router.getStateForAction(action, state);
       break;
   }
 
@@ -35,9 +35,9 @@ const navReducer_ = (state = initialNavState, action) => {
   return nextState || state;
 }
 
-const navReducer = (state, action) => {
-  const newState = AppNavigation.router.getStateForAction(action, state)
-  return newState || state
-}
+// const navReducer_ = (state, action) => {
+//   const newState = AppNavigation.router.getStateForAction(action, state)
+//   return newState || state
+// }
 
 export default navReducer;
