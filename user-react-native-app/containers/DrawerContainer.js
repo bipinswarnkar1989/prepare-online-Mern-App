@@ -7,7 +7,7 @@ import {
   ScrollView
    } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-import { Avatar } from 'react-native-material-ui';
+import { Avatar,ListItem, Subheader, Toolbar,COLOR, Card } from 'react-native-material-ui';
 import PropTypes from 'prop-types';
 
 
@@ -35,32 +35,50 @@ import PropTypes from 'prop-types';
           style={{width: 100, height: 100}} resizeMode="contain"
           source={{uri: 'https://avatars2.githubusercontent.com/u/19688480?s=460&v=4'}}
         />}/>
-                    <Text style={ styles.name }>Bipin Swarnkar</Text>
-                    <Text style={ styles.description }>DashBoard</Text>
+
                 </View>
-      <View>
-      <Text
-        onPress={() => navigation.navigate('Screen1')}
-        style={styles.uglyDrawerItem}>
-        Screen 1
-      </Text>
-      <Text
-        onPress={() => navigation.navigate('Screen1')}
-        style={styles.uglyDrawerItem}>
-        Screen 1
-      </Text>
-      <Text
-        onPress={() => navigation.navigate('screen3')}
-        style={styles.uglyDrawerItem}>
-        Screen 3
-      </Text>
-      <Text
-        onPress={this.logout}
-        style={styles.uglyDrawerItem}>
-        Log Out
-      </Text>
-      </View>
-      </View>
+
+      <View style={styles.menuView}>
+      <Text style={ styles.DLogo }>Bipin Swarnkar</Text>
+                    <ListItem
+                        divider
+                        centerElement={{
+                            primaryText: 'Home',
+                        }}
+                        style={{
+                            color: 'white',backgroundColor:'#64b5f6'
+                        }}
+                        onPress={() => navigation.navigate('Screen1')}
+                    />
+                    <ListItem
+                        divider
+                        centerElement={{
+                            primaryText: 'Screen',
+                        }}
+                        onPress={() => navigation.navigate('Screen1')}
+                    />
+                    <ListItem
+                        divider
+                        centerElement={{
+                            primaryText: 'Screen1',
+                        }}
+                        onPress={() => navigation.navigate('Screen1')}
+                    />
+                    <ListItem
+                        divider
+                        centerElement={{
+                            primaryText: 'Scree2',
+                        }}
+                        onPress={() => navigation.navigate('Screen1')}
+                    />
+                    <ListItem
+                        divider
+                        centerElement={{
+                            primaryText: '',
+                        }}/>
+
+        </View>
+        </View>
       </ScrollView>
     )
   }
@@ -80,37 +98,24 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingHorizontal: 20,
   },
-  uglyDrawerItem: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#E73536',
-    padding: 15,
-    margin: 5,
-    borderRadius: 2,
-    borderColor: '#E73536',
-    borderWidth: 1,
-    textAlign: 'center'
+  menuView:{
+    backgroundColor:COLOR.blue400,
+  },
+  DLogo:{
+    color:'white',
+    padding:10,
+    fontSize: 15,
   },
   avatar: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: 160,
+        height: 110,
         flex: 0.1,
         // backgroundColor: 'rgba(0, 0, 0, 0.4)'
     },
     avatar_image: {
       width:100,
       height:100
-    },
-    name:{
-        fontSize: 20,
-
-
-    },
-    description:{
-        fontSize: 16,
-        color: 'black',
-        fontWeight: '400',
     },
     section_title:{
         fontSize: 16,

@@ -2,13 +2,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import Container from './Container';
-import Header from '../components/Header';
+import AppHeader from '../components/AppHeader';
 
 export default class Home extends Component {
   render() {
     return (
       <Container>
-      <Header navigation={this.props.navigation}/>
+      <AppHeader navigation={this.props.navigation}/>
       <ScrollView>
       <View style={styles.container}>
       <Image

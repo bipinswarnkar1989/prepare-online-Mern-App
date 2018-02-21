@@ -1,9 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
-import MenuIcon from 'react-native-vector-icons/MaterialIcons';
-import { ActionButton } from 'react-native-material-ui';
-import { Drawer } from 'react-native-material-ui';
-import Header from '../components/Header';
+
+import AppHeader from '../components/AppHeader';
 import Container from '../components/Container';
 
 export default class Screen1 extends React.Component {
@@ -17,11 +15,10 @@ export default class Screen1 extends React.Component {
   render() {
     return (
       <Container>
-      <Header navigation={this.props.navigation}/>
+      <AppHeader navigation={this.props.navigation}/>
       <View style={styles.container}>
         <Text>Screen 1</Text>
       </View>
-        <ActionButton />
       </Container>
     )
   }

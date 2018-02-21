@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import App from '../containers/App';
 import Home from '../containers/Home';
 import Screen1 from '../containers/Screen1';
-import DrawerContainer from '../containers/DrawerContainer';
+//import DrawerContainer from '../containers/DrawerContainer';
+import SideBar from "./SideBar.js";
 import {
     StyleSheet,
     View,
@@ -27,7 +28,7 @@ export const AppNavigator = DrawerNavigator({
 },{
   initialRouteName: 'Home',
   headerMode:'node',
-  contentComponent: DrawerContainer,
+  contentComponent: props => <SideBar {...props} />,
   contentOptions: {
       activeBackgroundColor: '#f7f7f7',
       activeTintColor: '#7b7b7b',

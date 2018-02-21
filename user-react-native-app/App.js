@@ -1,46 +1,42 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 
 import AppWithNavigationState from './components/AppNavigator';
 // We're going to use navigation with redux
 //import ReduxNavigation from './Navigation/ReduxNavigation'
+import { Container, Content, Picker, Button, Text } from 'native-base';
+import Expo from 'expo';
 
-import { COLOR, ThemeProvider } from 'react-native-material-ui';
 
-// you can set your style right here, it'll be propagated to application
-const uiTheme = {
-    palette: {
-        primaryColor: COLOR.green500,
-    },
-    toolbar: {
-        container: {
-            height: 50,
-        },
-    },
-};
 
 const store = configureStore();
 
 
 export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isReady: false
+    };
+  }
+  async componentWillMount() {
+    await Expo.Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+      Ionicons: require("native-base/Fonts/Ionicons.ttf")
+    });
+    this.setState({ isReady: true });
+  }
   render() {
+    if (!this.state.isReady) {
+     return (<Expo.AppLoading />);
+   }
    return (
      <Provider store={store}>
-     <ThemeProvider uiTheme={uiTheme}>
        <AppWithNavigationState />
-         </ThemeProvider>
      </Provider>
    );
  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
