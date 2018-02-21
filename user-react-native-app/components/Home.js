@@ -1,8 +1,11 @@
 // ./user-react-native-app/components/Home.jsx
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import Container from './Container';
+import { StyleSheet, View, Image, ScrollView } from 'react-native';
 import AppHeader from '../components/AppHeader';
+import {
+  Text,
+  Container,
+} from 'native-base';
 
 export default class Home extends Component {
   render() {
@@ -10,7 +13,7 @@ export default class Home extends Component {
       <Container>
       <AppHeader navigation={this.props.navigation}/>
       <ScrollView>
-      <View style={styles.container}>
+      <View>
       <Image
       resizeMode="contain"
          style={{width: 400, height: 400}}
@@ -30,10 +33,7 @@ A single page app on the web is not an app with a single screen, that would inde
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding:30
-  },
+    
+  }
+
 });

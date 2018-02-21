@@ -2,7 +2,9 @@ import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 
 import AppHeader from '../components/AppHeader';
-import Container from '../components/Container';
+import {
+  Container,
+} from 'native-base';
 
 export default class Screen1 extends React.Component {
   static navigationOptions = {
