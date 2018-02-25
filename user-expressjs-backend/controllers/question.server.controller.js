@@ -105,3 +105,21 @@ export const updateQuestion = (req,res) => {
     });
   }
 }
+
+export const getCountQuestions = (req,res) => {
+  console.log('getCountQuestions: '+JSON.stringify(req.params));
+  let qbId = req.params.qbId;
+  if(qbId){
+    Question.count({qbank:qbId}).exec((err,count) => {
+      if(err) {
+        return res.json({success:false,message:'Something going wrong',err});
+      }else if(count){
+        return res.json({
+          success:true,
+          message:'Question Counted Successfully',
+          count
+        })
+      }
+    })
+  }
+}
