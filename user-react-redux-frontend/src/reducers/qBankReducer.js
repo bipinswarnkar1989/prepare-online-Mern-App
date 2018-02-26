@@ -78,7 +78,8 @@ const INITIAL_STATE = {
   userBookMarks:{
     isFetching:false,
     qBanks:null
-  }
+  },
+  qbQuestionsCount:[]
 }
 
 const qBankReducer = (currentState = INITIAL_STATE, action) => {
@@ -1377,6 +1378,34 @@ case 'SUCCESS_GET_BOOKMARKS':
         successMsg:null,
         error:action.message
       }
+
+   case 'REQUEST_COUNT_QB_QUESTIONS':
+     return {
+       ...currentState,
+       isFetching:true,
+       successMsg:null,
+       error:null,
+       qbQuestionsCount:null
+     }
+
+   case 'SUCCESS_COUNT_QB_QUESTIONS':
+      return {
+        ...currentState,
+        isFetching:false,
+        successMsg:action.data.message,
+        error:null,
+        qbQuestionsCount:action.data.result,
+      }
+
+   case 'FAILED_COUNT_QB_QUESTIONS':
+     return {
+       ...currentState,
+       isFetching:false,
+       successMsg:null,
+       error:action.message,
+       qbQuestionsCount:null,
+     }
+
 
 
     default:

@@ -26,6 +26,7 @@ const mapDispatchToProps = (dispatch) => {
      mappedbookMarkQb: data  => dispatch(qBankActions.bookMarkQb(data)),
      mappedgetBookMarks: data => dispatch(qBankActions.getBookMarks(data)),
      mappedRmbookMarkQb: data => dispatch(qBankActions.rmBookMarkQb(data)),
+     mappedcountQbQuestions: qbIds => dispatch(qBankActions.countQbQuestions(qbIds),)
   };
 }
 

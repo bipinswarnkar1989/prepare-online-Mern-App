@@ -46,6 +46,10 @@ class QBanksList extends React.Component {
         }
         console.log(bmData);
         this.props.mappedgetBookMarks(bmData);
+        const countData = {
+          qbIds:qbIds
+        }
+        this.props.mappedcountQbQuestions(countData);
       }
     });
   }
@@ -67,6 +71,10 @@ class QBanksList extends React.Component {
         }
         console.log(bmData);
         this.props.mappedgetBookMarks(bmData);
+        const countData = {
+          qbIds:qbIds
+        }
+        this.props.mappedcountQbQuestions(countData);
       }
     });
   }
@@ -108,6 +116,10 @@ class QBanksList extends React.Component {
     this.props.mappedRmbookMarkQb(data);
   }
 
+  countQuestions(qbId){
+    
+  }
+
   render(){
     const styles = {
       QBanksList:{
@@ -140,7 +152,7 @@ class QBanksList extends React.Component {
     }
 
     const { user,isLoggedIn } = this.props.mappedUserState;
-    const { qBanks,qBanksPagination,QbSearch,qBanksToDelete,showMultipleQbDelete,successMsg,error,userBookMarks } = this.props.mappedQbankState;
+    const { qBanks,qBanksPagination,QbSearch,qBanksToDelete,showMultipleQbDelete,successMsg,error,userBookMarks,qbQuestionsCount } = this.props.mappedQbankState;
     const currentPage = parseInt(qBanksPagination.currentPage);
     const paginationLimit = parseInt(this.props.params.limit);
     const totalNumberOfPagination = parseInt(qBanksPagination.totalNumberOfPagination);
@@ -184,7 +196,9 @@ class QBanksList extends React.Component {
                          <QBankbox Icon={Qlist}
                            color={orange600}
                            title={qb.title}
-                           countQuestions="248"
+                           countQuestions={
+                             qbQuestionsCount && qbQuestionsCount.filter(item => item.qbank === qb._id).length
+                            }
                            author={qb.author.fullName}
                            lastUpdated={qb.createdAt}/>
                        </Link>

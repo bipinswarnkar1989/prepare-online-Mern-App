@@ -13,8 +13,8 @@ router.route('/questions/:qBid/:page/:limit')
   .get(questionController.fetchQuestions);
 router.route('/question/:quesId')
    .delete(userController.authenticate,questionController.deleteQuestion);
-router.route('/question/count/:qbId')
-    .get(questionController.getCountQuestions);
+router.route('/question/count')
+    .post(questionController.getCountQuestions);
 
 
 export default router;
