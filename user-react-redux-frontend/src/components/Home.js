@@ -19,7 +19,17 @@ export default class Home extends React.Component {
   // }
   componentWillMount(){
     this.props.mappedfetchUserIfLoggedIn();
-    this.props.mappedgetLatestqBanks();
+    this.props.mappedgetLatestqBanks().then(
+      () => {
+        const qbIds = this.props.mappedQbankState.latestQbanks.Qbanks.map((item) => {
+          return item._id;
+        })
+        const countData = {
+          qbIds:qbIds
+        }
+        this.props.mappedcountQbQuestions(countData);
+      }
+    );
   }
 
   render(){
@@ -32,7 +42,7 @@ export default class Home extends React.Component {
       }
     }
       const user = this.props.mappedUserState.user;
-      const { latestQbanks } = this.props.mappedQbankState;
+      const { latestQbanks,qbQuestionsCount } = this.props.mappedQbankState;
     return(
       <div style={styles.homeContainer}>
       <div styles={styles.qBContainer}>
@@ -49,7 +59,9 @@ export default class Home extends React.Component {
                          <QBankbox Icon={Qlist}
                            color={orange600}
                            title={qb.title}
-                           countQuestions="248"
+                           countQuestions={
+                            qbQuestionsCount && qbQuestionsCount.filter(item => item.qbank === qb._id).length
+                           }
                            author={qb.author.fullName}
                            lastUpdated={qb.createdAt}/>
                        </Link>

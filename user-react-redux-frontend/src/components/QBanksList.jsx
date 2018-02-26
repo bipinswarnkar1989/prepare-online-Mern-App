@@ -46,11 +46,11 @@ class QBanksList extends React.Component {
         }
         console.log(bmData);
         this.props.mappedgetBookMarks(bmData);
-        const countData = {
-          qbIds:qbIds
-        }
-        this.props.mappedcountQbQuestions(countData);
       }
+      const countData = {
+        qbIds:qbIds
+      }
+      this.props.mappedcountQbQuestions(countData);
     });
   }
 
@@ -71,11 +71,11 @@ class QBanksList extends React.Component {
         }
         console.log(bmData);
         this.props.mappedgetBookMarks(bmData);
-        const countData = {
-          qbIds:qbIds
-        }
-        this.props.mappedcountQbQuestions(countData);
       }
+      const countData = {
+        qbIds:qbIds
+      }
+      this.props.mappedcountQbQuestions(countData);
     });
   }
 

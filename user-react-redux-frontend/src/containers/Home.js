@@ -18,7 +18,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     mappedfetchUserIfLoggedIn: () => dispatch(userActions.fetchUserIfLoggedIn()),
-    mappedgetLatestqBanks: () => dispatch(qBankActions.getLatestqBanks())
+    mappedgetLatestqBanks: () => dispatch(qBankActions.getLatestqBanks()),
+    mappedcountQbQuestions: qbIds => dispatch(qBankActions.countQbQuestions(qbIds))
   }
 }
 
