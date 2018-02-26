@@ -90,7 +90,7 @@ const QuestionBankCard = (props) => {
        </CardHeader>
          {CheckImg  &&
            <CardMedia
-             overlay={<CardTitle title={props.qb.title} subtitle="" />}
+             overlay={<CardTitle title={props.qb.title} subtitle={`${props.qb.noOfQuestions} Questions`} />}
            >
              <div style={{textAlign:'right',backgroundColor:'white',position:'absolute',zIndex:11}}>
                {!props.UpdateQbank.imagePreviewUrl &&
@@ -132,7 +132,7 @@ const QuestionBankCard = (props) => {
            </CardMedia>
          }
          {!props.qb.image &&
-            <CardTitle title={props.qb.title} subtitle="">
+            <CardTitle title={props.qb.title} subtitle={`${props.qb.noOfQuestions} Questions`}>
             {!CheckImg &&
               <div style={{textAlign:'right',backgroundColor:'white',position:'absolute',zIndex:11,right:2,top:30,padding:0,margin:0}}>
                 <FlatButton

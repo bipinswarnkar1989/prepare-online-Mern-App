@@ -3,6 +3,7 @@ import multer from 'multer';
 
 import User from '../models/user.server.model';
 import qBank from '../models/qBank.server.model';
+import Question from '../models/question.server.model';
 
 //set multer storage
 var storage = multer.diskStorage({
@@ -101,8 +102,14 @@ export const getAllQbanks = (req,res) => {
       if(err) {
         return res.json({success:false,message:'Something going wrong'});
       }
-      else{console.log('count: '+req.count);
-        return res.json({success:true,message:'Question Banks Fetched Successfully',count:req.count,qb});
+      else{
+        console.log('count: '+req.count);
+        return res.json({
+          success:true,
+          message:'Question Banks Fetched Successfully',
+          count:req.count,
+          qb
+        });
       }
     })
   }
@@ -110,6 +117,14 @@ export const getAllQbanks = (req,res) => {
     return res.json({success:false,message:'Something going wrong'});
   }
 }
+
+export const countQbQuestions = (id) => {
+  if(id){
+   Question.count({qbank:id}).exec((err,count) => {
+     return count;
+   })
+  }
+ }
 
 export const getqBankById = (req,res) => {
   let id = req.params.id;
@@ -121,7 +136,14 @@ export const getqBankById = (req,res) => {
       }
       else{
         if(qb){
-          return res.json({success:true,message:'Question Bank Fetched Successfully',qb});
+          Question.count({qbank:id}).exec((err,count) => {
+            return res.json({
+              success:true,
+              message:'Question Bank Fetched Successfully',
+              noOfQuestions:count,
+              qb
+            });
+          })
         }
         else{
           return res.json({success:false,message:'Question Banks Not Found'});

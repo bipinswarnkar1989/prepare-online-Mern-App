@@ -96,8 +96,12 @@ const qBankReducer = (currentState = INITIAL_STATE, action) => {
     let limit = action.paginationData.limit;
      const pgObject = new Pagination();
      let pgState = pgObject.pagination(count,maxButtons,page,limit);
+     let noOfQuestions = action.data.noOfQuestions;
        return {
-         ...currentState, isFetching:false,qBanks:action.data.qb,successMsg:action.data.message,
+         ...currentState, 
+         isFetching:false,
+         qBanks:action.data.qb,
+         successMsg:action.data.message,
          qBanksToDelete:[],
          qBanksPagination:{
            maxButtons: 5,
@@ -154,10 +158,14 @@ const qBankReducer = (currentState = INITIAL_STATE, action) => {
        }
 
    case 'SUCCESS_FETCH_QBANK':
+   const fetchedQbank = {
+    noOfQuestions:action.data.noOfQuestions,
+    ...action.data.qb,
+   }
       return {
         ...currentState,
         isFetching:false,
-        fetchedQbank:action.data.qb,
+        fetchedQbank:fetchedQbank,
         successMsg:action.data.message,
         error:null,
         expandQb:true,
