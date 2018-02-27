@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 const qbApiUrl = '/api/qbank';
 const quesApiUrl = '/api/question';
 const bMqBApiUrl = '/api/qbbookmark';
+const esSearchApiUrl = 'http://localhost:9200/_search';
 
 export const fetchQbanks = (d) => {
   return (dispatch) => {
@@ -909,6 +910,63 @@ export const successCountQbQues = (data) => {
 export const failedCountQbQues = (message) => {
   return {
     type:'FAILED_COUNT_QB_QUESTIONS',
+    message
+  }
+}
+
+export const esSearch = (q) => {
+  return (dispatch) => {
+    dispatch(requestEsSearch());
+    let rxp = '.*'+q+'.*';
+    const data = {
+      "query": {
+        "regexp": {
+          "title": rxp
+        }
+      }
+    }
+    const getJson = async () => {
+      try {
+        const resp = await fetch(`${esSearchApiUrl}`,{
+          method:'post',
+          body:JSON.stringify(data),
+          headers:{
+            'Accept':'application/json',
+            'Content-Type':'application/json'
+          }
+        });
+        const Json = await resp.json();
+        if (Json) {
+          console.log('ESRESULT: '+JSON.stringify(Json.hits));
+          dispatch(successEsSearch(Json));
+        }else{
+          dispatch(failedEsSearch('Some Error'));
+        }
+      } catch (error) {
+        console.log(error);
+        dispatch(failedEsSearch(error.message));
+      }
+    }
+    getJson();
+  }
+}
+
+export const requestEsSearch = () => {
+  return {
+    type:'REQUEST_ES_SEARCH'
+  }
+}
+
+export const successEsSearch = (data) => {
+  return {
+    type:'SUCCESS_ES_SEARCH',
+    data
+  }
+}
+
+export const failedEsSearch = (message) => {
+  return {
+    type:'FAILED_ES_SEARCH',
     message
   }
 }

@@ -108,7 +108,9 @@ class ViewQuestions extends React.Component {
                      <div className="optionsDiv">
                              <RadioButtonGroup onChange={e => this.handleOptionChange(e,q._id)}  name={`${q}option`} labelPosition="right" style={styles.block}>
                             {
-                                q.options.map((opt,j) => {
+                                q.options.sort(function(a,b){
+                                  return a.number - b.number;
+                                }).map((opt,j) => {
                                     return (
                                         <RadioButton
                                           key={j}

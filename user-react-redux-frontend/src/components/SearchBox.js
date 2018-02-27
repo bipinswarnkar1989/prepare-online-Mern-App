@@ -4,7 +4,7 @@ import {white, blue500} from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import Search from 'material-ui/svg-icons/action/search';
 
-const SearchBox = () => {
+const SearchBox = (props) => {
 
   const styles = {
     iconButton: {
@@ -15,7 +15,8 @@ const SearchBox = () => {
       color: white,
       backgroundColor: blue500,
       borderRadius: 2,
-      height: 35
+      height: 35,
+      minWidth: '99%',
     },
     inputStyle: {
       color: white,
@@ -28,11 +29,12 @@ const SearchBox = () => {
     }
   };
 
+  const handleChange = (e)=> {
+    props.search(e.target.value);
+  }
+
   return (
     <div>
-      <IconButton style={styles.iconButton} >
-        <Search color={white} />
-      </IconButton>
       <TextField
         hintText="Search..."
         underlineShow={false}
@@ -40,6 +42,7 @@ const SearchBox = () => {
         style={styles.textField}
         inputStyle={styles.inputStyle}
         hintStyle={styles.hintStyle}
+        onChange={(e) => handleChange(e)}
       />
     </div>
   );

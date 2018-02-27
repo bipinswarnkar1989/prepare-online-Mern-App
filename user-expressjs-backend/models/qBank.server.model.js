@@ -1,5 +1,6 @@
 // ./user-expressjs-backend/models/qBank.server.model.js
 import mongoose from 'mongoose';
+import mongoosastic from 'mongoosastic';
 
 var Schema = mongoose.Schema;
 
@@ -28,5 +29,7 @@ const qBankSchema = new Schema({
     type:Date
   }
 });
+
+qBankSchema.plugin(mongoosastic);
 
 export default mongoose.model('qBank', qBankSchema);

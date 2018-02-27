@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as appActions from '../actions/appActions';
 import App from '../components/App';
 import * as userActions from '../actions/userActions';
+import * as qBankActions from '../actions/qBankActions';
 
 //map state to props
 const mapStateToProps = (state) => {
@@ -16,7 +17,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     mappedLogOut: () => dispatch(userActions.signOutUser()),
-    mappedToggleNav:     () => dispatch(appActions.togglenavDrawer())
+    mappedToggleNav: () => dispatch(appActions.togglenavDrawer()),
+    mappedesSearch: q => dispatch(qBankActions.esSearch(q)),
   }
 }
 

@@ -202,11 +202,12 @@ export const countQbanks = (req,res,next) => {
 }
 
 export const searchQbanks = (req,res) => {
-  console.log('searchQbanks: '+req.params);
+  console.log('searchQbanks: '+ JSON.stringify(req.params));
   let q = req.params.q;
   let search = eval('/.*'+q+'.*/i');
   let regex = {$regex:search};
   if(q && q !== ''){
+    searchQbInEs(q);
     qBank.find({$or:[{title:regex},{summary:regex}]})
          .limit(20)
          .exec((err,qb) => {
@@ -241,3 +242,16 @@ export const multipleDeleteQb = (req,res) => {
     })
   }
 }
+
+export const searchQbInEs = (q) => {
+  let search = eval('/.*'+q+'.*/i');
+  qBank.search({
+    query_string: {
+      query: q,
+      type  : "phrase_prefix"
+    }
+  }, function(err,results){
+    console.log('ESRESULTS: '+ JSON.stringify(results));
+  }
+)
+} 

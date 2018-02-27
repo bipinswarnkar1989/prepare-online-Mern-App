@@ -55,6 +55,10 @@ logout(event){
   this.props.mappedLogOut();
 }
 
+esSearch(q){
+  this.props.mappedesSearch(q);
+}
+
   render(){
     let { navDrawerOpen } = this.props.mappedAppState;
     let { user, isLoggedIn } = this.props.mappedUserState;
@@ -74,7 +78,9 @@ logout(event){
          <div>
            <Header styles={styles.header}
                    handleChangeRequestNavDrawer={this.handleChangeRequestNavDrawer.bind(this)}
-                   logout={this.logout} isLoggedIn={isLoggedIn}/>
+                   logout={this.logout} isLoggedIn={isLoggedIn}
+                   esSearch={(q) => this.esSearch(q)}
+                   />
 
              <LeftDrawer navDrawerOpen={navDrawerOpen}
                          menus={user ? loggedInMenuRoutes : menuRoutes}

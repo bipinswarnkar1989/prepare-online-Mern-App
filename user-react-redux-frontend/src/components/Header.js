@@ -9,8 +9,35 @@ import Menu from 'material-ui/svg-icons/navigation/menu';
 import ViewModule from 'material-ui/svg-icons/action/view-module';
 import {white} from 'material-ui/styles/colors';
 import Add from 'material-ui/svg-icons/content/add';
+import SearchBox from './SearchBox';
+import Search from 'material-ui/svg-icons/action/search';
+
+const Title = (props) => {
+  return (
+    <div>
+      <div id="appTitle" style={{}}>MockOnline</div>
+      <div id="searchBox" style={{display:'none'}}><SearchBox search={(q) => props.search(q)}/></div>
+    </div>
+  )
+}
 
 class Header extends React.Component {
+
+  showSearch(){
+    let appTitle = document.getElementById("appTitle");
+    let searchBox = document.getElementById("searchBox");
+    if (appTitle.style.display !== 'none') {
+      appTitle.style.display = 'none';
+      searchBox.style.display = '';
+    }else{
+      appTitle.style.display = '';
+      searchBox.style.display = 'none';
+    }
+  }
+
+  search(q){
+    this.props.esSearch(q);
+  }
 
   render() {
     const {styles, handleChangeRequestNavDrawer} = this.props;
@@ -35,7 +62,7 @@ class Header extends React.Component {
             <AppBar
               style={{...styles, ...style.appBar}}
               title={
-                `MockOnline`
+                <Title  search={(q) => this.search(q)}/>
               }
               iconElementLeft={
                   <IconButton style={style.menuButton} onClick={handleChangeRequestNavDrawer}>
@@ -57,6 +84,9 @@ class Header extends React.Component {
                       <MenuItem key={3} primaryText="Application 3"/>
                     </IconMenu>
                      */}
+                  <IconButton onClick={() => this.showSearch()} style={styles.iconButton} >
+                  <Search color={white} />
+                  </IconButton>
                   {this.props.isLoggedIn &&
                     <Link to='/question-bank/create'><IconButton><Add color={white}/></IconButton></Link>
                   }

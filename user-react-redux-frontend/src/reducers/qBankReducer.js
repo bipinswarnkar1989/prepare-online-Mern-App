@@ -79,7 +79,8 @@ const INITIAL_STATE = {
     isFetching:false,
     qBanks:null
   },
-  qbQuestionsCount:[]
+  qbQuestionsCount:[],
+  esSearchResult:null
 }
 
 const qBankReducer = (currentState = INITIAL_STATE, action) => {
@@ -1413,6 +1414,33 @@ case 'SUCCESS_GET_BOOKMARKS':
        error:action.message,
        qbQuestionsCount:null,
      }
+
+ case 'REQUEST_ES_SEARCH':
+    return {
+      ...currentState,
+      isFetching:true,
+      successMsg:null,
+      error:null,
+      esSearchResult:null
+    }
+
+  case 'SUCCESS_ES_SEARCH':
+  return {
+    ...currentState,
+    isFetching:false,
+    successMsg:null,
+    error:null,
+    esSearchResult:action.data
+  }
+
+  case 'FAILED_ES_SEARCH':
+  return {
+    ...currentState,
+    isFetching:false,
+    successMsg:null,
+    error:action.data.message,
+    esSearchResult:null
+  }
 
 
 
