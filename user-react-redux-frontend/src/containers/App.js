@@ -9,7 +9,8 @@ import * as qBankActions from '../actions/qBankActions';
 const mapStateToProps = (state) => {
   return {
     mappedAppState:state.appState,
-    mappedUserState:state.userState
+    mappedUserState:state.userState,
+    mappedQbankState:state.qBankState
   }
 }
 

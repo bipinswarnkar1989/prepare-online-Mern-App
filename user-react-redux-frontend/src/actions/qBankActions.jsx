@@ -917,6 +917,7 @@ export const failedCountQbQues = (message) => {
 export const esSearch = (q) => {
   return (dispatch) => {
     dispatch(requestEsSearch());
+    if(!q || q.length < 0 || q === '' || q === undefined) return;
     let rxp = '.*'+q+'.*';
     const data = {
       "query": {

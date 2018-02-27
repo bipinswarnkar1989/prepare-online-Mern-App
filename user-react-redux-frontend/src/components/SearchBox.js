@@ -26,13 +26,14 @@ const SearchBox = (props) => {
       height: 16,
       paddingLeft: 5,
       color: white
-    }
+    },
+
   };
 
   const handleChange = (e)=> {
     props.search(e.target.value);
   }
-
+ 
   return (
     <div>
       <TextField
@@ -43,6 +44,7 @@ const SearchBox = (props) => {
         inputStyle={styles.inputStyle}
         hintStyle={styles.hintStyle}
         onChange={(e) => handleChange(e)}
+        id="esInputField"
       />
     </div>
   );

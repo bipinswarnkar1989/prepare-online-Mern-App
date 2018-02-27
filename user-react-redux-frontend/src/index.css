@@ -47,7 +47,7 @@ body {
 li.autoCompleteItem{color:#555555;}
 
   li.autoCompleteItem:hover{
-    background-color: #303F9F;
+    background-color: #0082EB;
     color: white
   }
 

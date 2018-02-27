@@ -16,7 +16,9 @@ const Title = (props) => {
   return (
     <div>
       <div id="appTitle" style={{}}>MockOnline</div>
-      <div id="searchBox" style={{display:'none'}}><SearchBox search={(q) => props.search(q)}/></div>
+      <div id="searchBox" style={{display:'none'}}>
+      <SearchBox search={(q) => props.search(q)} esSearchResults={props.esSearchResults}/>
+      </div>
     </div>
   )
 }
@@ -62,7 +64,7 @@ class Header extends React.Component {
             <AppBar
               style={{...styles, ...style.appBar}}
               title={
-                <Title  search={(q) => this.search(q)}/>
+                <Title  search={(q) => this.search(q)} esSearchResults={this.props.esSearchResults}/>
               }
               iconElementLeft={
                   <IconButton style={style.menuButton} onClick={handleChangeRequestNavDrawer}>
