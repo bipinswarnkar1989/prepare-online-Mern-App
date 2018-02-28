@@ -26,10 +26,7 @@ router.route('/Qbank/:id')
   .get(qBankController.getqBankById)
   .delete(userController.authenticate,qBankController.deleteqBankById);
 
-
-
-
-
-
+router.route('/esSearch/:q')
+   .get(qBankController.searchQbInEs);
 
 export default router;

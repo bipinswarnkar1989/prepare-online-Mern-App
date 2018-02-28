@@ -26,6 +26,9 @@ const Title = (props) => {
 class Header extends React.Component {
 
   showSearch(){
+    this.props.esSearch('');
+    document.getElementById("esInputField").value = '';
+    document.getElementById("esInputField").focus();
     let appTitle = document.getElementById("appTitle");
     let searchBox = document.getElementById("searchBox");
     if (appTitle.style.display !== 'none') {

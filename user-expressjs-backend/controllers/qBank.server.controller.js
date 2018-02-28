@@ -4,6 +4,23 @@ import multer from 'multer';
 import User from '../models/user.server.model';
 import qBank from '../models/qBank.server.model';
 import Question from '../models/question.server.model';
+import elasticsearch from 'elasticsearch';
+
+var elasticClient = new elasticsearch.Client({
+  host: 'localhost:9200',
+  log: 'info'
+});
+
+elasticClient.ping({
+  // ping usually has a 3000ms timeout
+  requestTimeout: 1000
+}, function (error) {
+  if (error) {
+    console.trace('elasticsearch cluster is down!');
+  } else {
+    console.log('All is well in elasticsearch');
+  }
+});
 
 //set multer storage
 var storage = multer.diskStorage({
@@ -243,15 +260,26 @@ export const multipleDeleteQb = (req,res) => {
   }
 }
 
-export const searchQbInEs = (q) => {
-  let search = eval('/.*'+q+'.*/i');
-  qBank.search({
-    query_string: {
-      query: q,
-      type  : "phrase_prefix"
-    }
-  }, function(err,results){
-    console.log('ESRESULTS: '+ JSON.stringify(results));
-  }
-)
+
+export const searchQbInEs = (req,res) => {
+  console.log('searchQbInEs: '+ JSON.stringify(req.params));
+  let input = req.params.q;
+   if (input) {
+    let rxp = '.*'+input+'.*';
+    elasticClient.search({
+      index:'',
+      body:{
+        "query": {
+          "regexp": {
+            "title": rxp
+          }
+        }
+      }
+    }).then(function (resp) {
+      var hits = resp.hits.hits;console.log(JSON.stringify(resp));
+      return res.json(resp);
+  }, function (err) {
+      console.trace(err.message);
+  });
+   }
 } 

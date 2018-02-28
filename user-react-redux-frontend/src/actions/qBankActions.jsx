@@ -3,7 +3,6 @@ import { browserHistory } from 'react-router';
 const qbApiUrl = '/api/qbank';
 const quesApiUrl = '/api/question';
 const bMqBApiUrl = '/api/qbbookmark';
-const esSearchApiUrl = 'http://localhost:9200/_search';
 
 export const fetchQbanks = (d) => {
   return (dispatch) => {
@@ -918,19 +917,10 @@ export const esSearch = (q) => {
   return (dispatch) => {
     dispatch(requestEsSearch());
     if(!q || q.length < 0 || q === '' || q === undefined) return;
-    let rxp = '.*'+q+'.*';
-    const data = {
-      "query": {
-        "regexp": {
-          "title": rxp
-        }
-      }
-    }
     const getJson = async () => {
       try {
-        const resp = await fetch(`${esSearchApiUrl}`,{
-          method:'post',
-          body:JSON.stringify(data),
+        const resp = await fetch(`${qbApiUrl}/esSearch/${q}`,{
+          method:'get',
           headers:{
             'Accept':'application/json',
             'Content-Type':'application/json'

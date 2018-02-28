@@ -33,6 +33,10 @@ const SearchBox = (props) => {
   const handleChange = (e)=> {
     props.search(e.target.value);
   }
+
+  const handleOnBlur = () => {
+    props.search('');
+  }
  
   return (
     <div>
@@ -45,6 +49,7 @@ const SearchBox = (props) => {
         hintStyle={styles.hintStyle}
         onChange={(e) => handleChange(e)}
         id="esInputField"
+        
       />
     </div>
   );
