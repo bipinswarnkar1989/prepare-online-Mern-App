@@ -15,7 +15,7 @@ import 'rxjs/add/operator/do';
 //import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromPromise';
-import { searchQbanks } from '../middlewares/api';
+import Api from '../middlewares/api';
 
 export default class QuestionBankSearch extends React.Component{
   searchObj;
@@ -33,7 +33,8 @@ export default class QuestionBankSearch extends React.Component{
     .do(() => this.props.requestSearchQbanks())
     .switchMap(term => {
       if(term.length > 0) {
-        let promise = searchQbanks(term);
+        let apiObj = new Api();
+        let promise = apiObj.searchQbanks(term);
         return Observable.fromPromise(promise);
       }
       return Observable.of({success:false})

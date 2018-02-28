@@ -10,6 +10,15 @@ import GridOn from 'material-ui/svg-icons/image/grid-on';
 import PermIdentity from 'material-ui/svg-icons/action/perm-identity';
 import Web from 'material-ui/svg-icons/av/web';
 import { Link,browserHistory } from 'react-router';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/of';
+import Api from '../middlewares/api';
 
 let  menuRoutes =  [
     { text: 'Home', icon: <Assessment/>, link: '/' },
@@ -23,14 +32,39 @@ let loggedInMenuRoutes = menuRoutes.filter((m) => m.text !== 'Login' && m.text !
 
 
  class App extends React.Component {
+   esSearchObj;
   constructor(props){
     super(props);
     this.props.mappedAppState.navDrawerOpen = true;
     this.logout = this.logout.bind(this);
+    this.esSearchObj = new Subject();
   }
 
   componentDidMount(){
-
+     this.esSearchObj
+             .debounceTime(400)
+             .distinctUntilChanged()
+             .do(() => this.props.mappedrequestEsSearch())
+             .switchMap(
+               term => {
+                 if (term.length > 0) {
+                   let apiObj = new Api();
+                   let promise = apiObj.esSearch(term);
+                   return Observable.fromPromise(promise);
+                 }
+                 return Observable.of({success:false});
+               }
+             )
+            .subscribe(
+              resp => {
+                if (resp.hits) {
+                  this.props.mappedsuccessEsSearch(resp);
+                }
+              },
+              error => {
+                this.props.mappedfailedEsSearch(error.message);
+              }
+            )
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,7 +91,8 @@ logout(event){
 }
 
 esSearch(q){
-  this.props.mappedesSearch(q);
+  //this.props.mappedesSearch(q);
+  this.esSearchObj.next(q);
 }
 
 selectEsResult(title){

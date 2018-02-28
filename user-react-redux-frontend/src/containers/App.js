@@ -20,6 +20,9 @@ const mapDispatchToProps = (dispatch) => {
     mappedLogOut: () => dispatch(userActions.signOutUser()),
     mappedToggleNav: () => dispatch(appActions.togglenavDrawer()),
     mappedesSearch: q => dispatch(qBankActions.esSearch(q)),
+    mappedrequestEsSearch: () => dispatch(qBankActions.requestEsSearch()),
+    mappedsuccessEsSearch: json => dispatch(qBankActions.successEsSearch(json)),
+    mappedfailedEsSearch: message => dispatch(qBankActions.failedEsSearch(message)),
   }
 }
 

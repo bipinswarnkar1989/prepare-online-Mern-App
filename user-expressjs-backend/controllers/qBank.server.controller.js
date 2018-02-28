@@ -224,7 +224,6 @@ export const searchQbanks = (req,res) => {
   let search = eval('/.*'+q+'.*/i');
   let regex = {$regex:search};
   if(q && q !== ''){
-    searchQbInEs(q);
     qBank.find({$or:[{title:regex},{summary:regex}]})
          .limit(20)
          .exec((err,qb) => {
