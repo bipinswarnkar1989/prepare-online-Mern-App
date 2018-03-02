@@ -2,6 +2,8 @@
 import Option from '../models/quesOption.server.model';
 import Question from '../models/question.server.model';
 import elasticsearch from 'elasticsearch';
+import elasticClient from '../config/esSearchConfig';
+const esClient = elasticClient;
 
 export default class quesOptionCtrl {
    createOption(req,res){

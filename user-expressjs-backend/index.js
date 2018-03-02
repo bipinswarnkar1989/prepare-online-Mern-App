@@ -55,7 +55,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/qbank', qBankRoutes);
 app.use('/api/question',quesRoutes);
 app.use('/api/qbbookmark',qbBookmarkRoutes);
-app.use('/api/option',opTionRoutes());
+app.use('/api/option',opTionRoutes);
 
 app.get('/login/facebook', passport.authenticate('facebook',{
   scope:'email'

@@ -4,6 +4,7 @@ import express from 'express';
 import * as qBankController from '../controllers/qBank.server.controller';
 import * as userController from '../controllers/user.server.controller';
 
+
 const router = express.Router();
 
 router.route('/Qbanks')
@@ -28,5 +29,6 @@ router.route('/Qbank/:id')
 
 router.route('/esSearch/:q')
    .get(qBankController.searchQbInEs);
+  
 
 export default router;

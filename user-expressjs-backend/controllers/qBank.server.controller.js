@@ -4,23 +4,8 @@ import multer from 'multer';
 import User from '../models/user.server.model';
 import qBank from '../models/qBank.server.model';
 import Question from '../models/question.server.model';
-import elasticsearch from 'elasticsearch';
-
-var elasticClient = new elasticsearch.Client({
-  host: 'localhost:9200',
-  log: 'info'
-});
-
-elasticClient.ping({
-  // ping usually has a 3000ms timeout
-  requestTimeout: 1000
-}, function (error) {
-  if (error) {
-    console.trace('elasticsearch cluster is down!');
-  } else {
-    console.log('All is well in elasticsearch');
-  }
-});
+import elasticClient from '../config/esSearchConfig';
+const esClient = elasticClient;
 
 //set multer storage
 var storage = multer.diskStorage({
@@ -265,7 +250,7 @@ export const searchQbInEs = (req,res) => {
   let input = req.params.q;
    if (input) {
     let rxp = '.*'+input+'.*';
-    elasticClient.search({
+    esClient.search({
       index:'',
       body:{
         "query": {
