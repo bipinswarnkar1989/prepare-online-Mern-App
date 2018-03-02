@@ -1,4 +1,4 @@
-// ./user-expressjs-backend/models/qBank.server.model.js
+// ./user-expressjs-backend/models/quesOption.server.model.js
 import mongoose from 'mongoose';
 import mongoosastic from 'mongoosastic';
 
@@ -19,8 +19,7 @@ const opTionSchema = new Schema({
         default:Date.now
       },
       updatedAt:{
-        type:Date,
-        default:Date.now
+        type:Date
       },
       sortOrder:Number
 });
