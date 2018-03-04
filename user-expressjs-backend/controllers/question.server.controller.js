@@ -6,7 +6,10 @@ import Question from '../models/question.server.model';
 export const createQuestion = (req,res,next) => {
   console.log('createQuestion: '+JSON.stringify(req.body));
   if(req.body.question && req.body.options){
-    let newQuestion = new Question(req.body);
+    let newQuestion = new Question();
+    newQuestion.question = req.body.question;
+    newQuestion.author = req.body.author;
+    newQuestion.qbank = req.body.qbank;
     newQuestion.save((err,ques) => {
       if(err) {
            console.log(err);
@@ -36,6 +39,7 @@ export const fetchQuestions = (req,res) => {
      Question.find({qbank:qBid})
                .limit(limit)
                .skip(last_skip_value)
+               .populate('Options')
                .exec((err,ques) => {
                  if(err) {
                       console.log(err);

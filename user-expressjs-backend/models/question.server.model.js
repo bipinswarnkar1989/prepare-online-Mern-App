@@ -18,14 +18,12 @@ const questionSchema = new Schema({
     type:String,
     required:[true, 'Question cannot be left blank']
   },
-  options:{
-    type: [
-      {
-        number:Number,
-        value:String
-      }
-    ]
-  },
+  options:[
+    {
+    type:Schema.Types.ObjectId,
+    ref:'Option'
+    }
+  ],
   createdAt:{
     type:Date,
     default:Date.now

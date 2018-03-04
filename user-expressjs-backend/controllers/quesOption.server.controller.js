@@ -22,11 +22,21 @@ export default class quesOptionCtrl {
                 }
                 else{
                   if (opts) {
-                    return res.json({
-                      success:true,
-                      message:'Question & Options Added to Question Bank Successfully',
-                      ques:req.ques,
-                      opts:opts
+                    console.log('OPTS: '+opts);
+                    opts.forEach(el => {
+                      req.ques.options.push(el._id);
+                    })
+                    req.ques.save(err => {
+                      if(err){
+                        return res.json({success:false,message:'Something going wrong',err});
+                      }else{
+                        return res.json({
+                          success:true,
+                          message:'Question & Options Added to Question Bank Successfully',
+                          ques:req.ques,
+                          opts:opts
+                        });
+                      }
                     });
                   }
                 }
