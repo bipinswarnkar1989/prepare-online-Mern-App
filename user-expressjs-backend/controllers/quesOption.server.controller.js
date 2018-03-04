@@ -7,19 +7,28 @@ const esClient = elasticClient;
 
 export default class quesOptionCtrl {
    createOption(req,res){
-       console.log('createOption: '+req.body);
+       console.log('createOption: '+ JSON.stringify(req.body));
        if (req.body) {
-           let Options = req.body.Options;
-            newOption.insertMany(Options, (err,opts) => {
+           var  Options = req.body.options;
+           Options.forEach(element => {
+            element.question = req.ques._id;
+            console.log('element: '+ JSON.stringify(element));
+            return element;
+           });
+           console.log('Options: '+ JSON.stringify(Options))
+            Option.insertMany(Options, (err,opts) => {
                 if(err) {
                      return res.json({success:false,message:'Something going wrong',err});
                 }
                 else{
-                  return res.json({
-                    success:true,
-                    message:'Option Added Successfully',
-                    opts
-                  });
+                  if (opts) {
+                    return res.json({
+                      success:true,
+                      message:'Question & Options Added to Question Bank Successfully',
+                      ques:req.ques,
+                      opts:opts
+                    });
+                  }
                 }
               });
        }

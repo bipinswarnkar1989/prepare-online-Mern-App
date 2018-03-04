@@ -21,7 +21,10 @@ const opTionSchema = new Schema({
       updatedAt:{
         type:Date
       },
-      sortOrder:Number
+      number:{
+          type:Number,
+          required:[true,'Why no option number']
+      }
 });
 
 opTionSchema.plugin(mongoosastic);
