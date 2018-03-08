@@ -37,9 +37,12 @@ export const fetchQuestions = (req,res) => {
   var last_skip_value = limit * (page - 1);
   if(qBid && page && limit){
      Question.find({qbank:qBid})
+               .populate({
+                 path:'options',
+                 options: { limit:10 }
+               })
                .limit(limit)
                .skip(last_skip_value)
-               .populate('Options')
                .exec((err,ques) => {
                  if(err) {
                       console.log(err);
@@ -92,7 +95,10 @@ export const updateQuestion = (req,res) => {
       { _id:id },
       { $set:req.body },
       { 'new':true }
-    ).exec((err,ques) => {
+    ).populate({
+      path:'options',
+      options: { limit:10 }
+    }).exec((err,ques) => {
       if(err) {
            return res.json({success:false,message:'Something going wrong',err});
       }
