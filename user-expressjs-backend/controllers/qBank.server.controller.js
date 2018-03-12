@@ -67,6 +67,24 @@ export const createQbank = (req,res,next) => {
   }
 }
 
+export const addQuestoQb = (req,res,next) => {
+  let quesId  = req.ques._id;
+  let qbId = req.ques.qbank;
+  if (qbId && quesId) {
+    qBank.update(
+      { _id:qbId },
+      { $push:{ questions:quesId } }
+    ).exec((err,qb) => {
+      if(err) {
+        return res.json({success:false,message:'Something going wrong',err});
+   }
+   else{
+     next();
+   }
+    });
+  }
+};
+
 export const updateQbank = (req,res,next) => {
   let id = req.body.id
   console.log(req.body);console.log('req.file:'+JSON.stringify(req.file));

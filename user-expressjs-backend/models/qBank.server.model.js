@@ -27,7 +27,13 @@ const qBankSchema = new Schema({
   },
   updatedAt:{
     type:Date
-  }
+  },
+  questions:[
+    {
+      type:Schema.ObjectId,
+      ref:'Question'
+    }
+  ]
 });
 
 qBankSchema.plugin(mongoosastic);
