@@ -21,13 +21,7 @@ export default class Home extends React.Component {
     this.props.mappedfetchUserIfLoggedIn();
     this.props.mappedgetLatestqBanks().then(
       () => {
-        const qbIds = this.props.mappedQbankState.latestQbanks.Qbanks.map((item) => {
-          return item._id;
-        })
-        const countData = {
-          qbIds:qbIds
-        }
-        this.props.mappedcountQbQuestions(countData);
+        
       }
     );
   }
@@ -59,9 +53,7 @@ export default class Home extends React.Component {
                          <QBankbox Icon={Qlist}
                            color={orange600}
                            title={qb.title}
-                           countQuestions={
-                            qbQuestionsCount && qbQuestionsCount.filter(item => item.qbank === qb._id).length
-                           }
+                           countQuestions={qb.questions.length}
                            author={qb.author.fullName}
                            lastUpdated={qb.createdAt}/>
                        </Link>

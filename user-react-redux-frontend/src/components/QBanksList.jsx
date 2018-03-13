@@ -47,10 +47,7 @@ class QBanksList extends React.Component {
         console.log(bmData);
         this.props.mappedgetBookMarks(bmData);
       }
-      const countData = {
-        qbIds:qbIds
-      }
-      this.props.mappedcountQbQuestions(countData);
+      
     });
   }
 
@@ -196,9 +193,7 @@ class QBanksList extends React.Component {
                          <QBankbox Icon={Qlist}
                            color={orange600}
                            title={qb.title}
-                           countQuestions={
-                             qbQuestionsCount && qbQuestionsCount.filter(item => item.qbank === qb._id).length
-                            }
+                           countQuestions={qb.questions.length}
                            author={qb.author.fullName}
                            lastUpdated={qb.createdAt}/>
                        </Link>

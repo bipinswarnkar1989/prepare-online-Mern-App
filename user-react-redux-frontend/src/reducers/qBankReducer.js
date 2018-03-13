@@ -1,4 +1,4 @@
-// ./user-react-redux-frontend/src/reducers/qBankReducer.js
+ // ./user-react-redux-frontend/src/reducers/qBankReducer.js
 import Pagination from '../middlewares/pagination.jsx';
 
 const INITIAL_STATE = {
@@ -79,7 +79,6 @@ const INITIAL_STATE = {
     isFetching:false,
     qBanks:null
   },
-  qbQuestionsCount:[],
   esSearchResult:null
 }
 
@@ -1387,33 +1386,6 @@ case 'SUCCESS_GET_BOOKMARKS':
         successMsg:null,
         error:action.message
       }
-
-   case 'REQUEST_COUNT_QB_QUESTIONS':
-     return {
-       ...currentState,
-       isFetching:true,
-       successMsg:null,
-       error:null,
-       qbQuestionsCount:null
-     }
-
-   case 'SUCCESS_COUNT_QB_QUESTIONS':
-      return {
-        ...currentState,
-        isFetching:false,
-        successMsg:action.data.message,
-        error:null,
-        qbQuestionsCount:action.data.result,
-      }
-
-   case 'FAILED_COUNT_QB_QUESTIONS':
-     return {
-       ...currentState,
-       isFetching:false,
-       successMsg:null,
-       error:action.message,
-       qbQuestionsCount:null,
-     }
 
  case 'REQUEST_ES_SEARCH':
     return {

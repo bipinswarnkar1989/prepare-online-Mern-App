@@ -866,53 +866,6 @@ export const failedRmBookMarkQb = (message) => {
   }
 }
 
-export const countQbQuestions = (qbIds) => {
-  return (dispatch) => {
-    dispatch(requestCountQbQues());
-     return fetch(`${quesApiUrl}/question/count`,{
-       method:'post',
-       body:JSON.stringify(qbIds),
-       headers:{
-         'Accept':'application/json',
-         'Content-Type':'application/json'
-       }
-     }).then(resp => {
-       if(resp.status >= 200 && resp.status < 300){
-          resp.json().then(data => {
-            if (data.success) {
-              dispatch(successCountQbQues(data));
-            }else if (!data.success && data.message) {
-              dispatch(failedCountQbQues(data.message));
-            }
-          })
-       }else{
-         let error = resp.statusText;
-         alert(error);
-       }
-     })
-  }
-}
-
-export const requestCountQbQues = () => {
-  return {
-    type:'REQUEST_COUNT_QB_QUESTIONS'
-  }
-}
-
-export const successCountQbQues = (data) => {
-  return {
-    type:'SUCCESS_COUNT_QB_QUESTIONS',
-    data
-  }
-}
-
-export const failedCountQbQues = (message) => {
-  return {
-    type:'FAILED_COUNT_QB_QUESTIONS',
-    message
-  }
-}
-
 export const esSearch = (q) => {
   return (dispatch) => {
     dispatch(requestEsSearch());
