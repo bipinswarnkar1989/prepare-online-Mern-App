@@ -115,31 +115,3 @@ export const updateQuestion = (req,res) => {
   }
 }
 
-export const getCountQuestions = (req,res) => {
-  console.log('getCountQuestions: '+JSON.stringify(req.body));
-  let qbIds = req.body.qbIds;
-  if(qbIds){
-    Question.
-    find({
-      qbank:{
-        "$in":qbIds
-      }
-    })
-    // aggregate( [
-    //   { $match: { qbank: { $in:qbIds } } },
-    //   { $group: { _id: '$qbank', count: { $sum: 1 } } }
-    // ] )
-    .exec(function (err, result) {
-      if (err) {
-        return res.json({success:false,message:'Something going wrong',err});
-      } else {
-          console.log('result: '+JSON.stringify(result));
-          return res.json({
-            success:true,
-            message:'Question Updated Successfully',
-            result
-          });
-      }
-  })
-  }
-}
