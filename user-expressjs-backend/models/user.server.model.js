@@ -3,7 +3,9 @@ import bcrypt from 'bcrypt';
 import uniqueValidator from 'mongoose-unique-validator';
 const SALT_WORK_FACTOR = 10;
 
-var userSchema = mongoose.Schema({
+var Schema = mongoose.Schema;
+
+var userSchema = new Schema({
    fullName: {type: String},
    email: {
      type: String, required: true,
@@ -18,7 +20,13 @@ var userSchema = mongoose.Schema({
   createdAt:{
     type: Date,
     default: Date.now
-  }
+  },
+  bookMarks:[
+    {
+      type:Schema.ObjectId,
+      ref:'qBankBookMark'
+    }
+  ]
 });
 
 userSchema.methods.toJSON = function() {

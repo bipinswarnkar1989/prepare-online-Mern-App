@@ -7,7 +7,7 @@ import * as qbBookMarkController from '../controllers/qBankBookMark.server.contr
 const router = express.Router();
 
 router.route('/qbBookmark')
-        .post(userController.authenticate,qbBookMarkController.createBookMark)
+        .post(userController.authenticate,qbBookMarkController.createBookMark,userController.addBookMarkInUser)
         .delete( qbBookMarkController.removeBookMark);
 
 router.route('/qbCheckBookmark')

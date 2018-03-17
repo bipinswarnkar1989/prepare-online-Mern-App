@@ -3,8 +3,8 @@ import User from '../models/user.server.model';
 import qBank from '../models/qBank.server.model';
 import qBankBookMark from '../models/qBankBookMark.server.model';
 
-export const createBookMark = (req,res) => {
-  console.log('createBookMark: '+req.body);
+export const createBookMark = (req,res,next) => {
+  console.log('createBookMark: '+JSON.stringify(req.body));
   let userId = req.body.userId;
   let qbId = req.body.qbId;
   if(userId && qbId){
@@ -17,11 +17,8 @@ export const createBookMark = (req,res) => {
            return res.json({success:false,message:'Something going wrong',err});
       }
       else{
-        return res.json({
-          success:true,
-          message:'Question Bank Added to Your Bookmarked Qestion Banks.',
-          bm
-        });
+        req.bm = bm;
+        next();
       }
     });
   }

@@ -196,3 +196,26 @@ export const  findOrCreateFBUser = (profile,done) => {
 
         }
       };
+
+export const addBookMarkInUser = (req,res,next) => {
+  console.log('addBookMarkInUser: '+ JSON.stringify(req.body));
+  let bM = req.bm._id;
+  let user = req.bm.user;
+  if(bM){
+    User.updateOne(
+      { _id:user },
+      { $push:{ bookMarks:bM } }
+    ).exec((err,result) => {
+      if(err) {
+        return res.json({success:false,message:'Something going wrong'});
+   }
+   else{
+    return res.json({
+      success:true,
+      message:'Question Bank Added to Your Bookmarked Qestion Banks.',
+      bm:req.bm
+    });
+   }
+    })
+  }
+}
