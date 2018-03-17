@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.route('/question')
   .post(userController.authenticate,questionController.createQuestion,qBankController.addQuestoQb,quesOptionCtrlObj.createOption)
-  .put(userController.authenticate,questionController.updateQuestion);
+  .put(userController.authenticate,quesOptionCtrlObj.updateOption,questionController.updateQuestion);
 router.route('/questions/:qBid/:page/:limit')
   .get(questionController.fetchQuestions);
 router.route('/question/:quesId')

@@ -40,6 +40,38 @@ export default class quesOptionCtrl {
               });
        }
    }
+
+   updateOption(req,res,next){
+     console.log('upadateOption: '+ req.body.options);
+     let optionsArray = req.body.options;
+     let optionIds = optionsArray.map(item => item._id);
+     let optionValues = optionsArray.map(item => item.value);
+     console.log('optionIds: '+ JSON.stringify(optionIds))
+     if (optionsArray) {
+       optionsArray.forEach(element => {
+         
+       });
+       Option.update(
+         {
+           _id:{ $in:optionIds }
+         }, {
+           $set: { value:optionValues }
+         }, {
+           multi:true
+         }
+       ).exec((err,opts) => {
+        if(err) {
+             return res.json({success:false,message:'Something going wrong',err});
+        }
+        else{
+           if (opts) {
+             console.log('RESULT: '+ JSON.stringify(opts))
+             next();
+           }
+        }
+      });
+     }
+   }
 }
 
 
