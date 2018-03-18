@@ -8,10 +8,11 @@ import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 import ShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
 import Qlist from 'material-ui/svg-icons/action/view-list';
 import QBankbox from './QBankbox';
-import {cyan600, pink600, purple600, orange600} from 'material-ui/styles/colors';
+import {cyan600, pink600, purple600, orange600,grey800} from 'material-ui/styles/colors';
 import { Grid, Row, Col } from 'react-material-responsive-grid';
 import { Link } from 'react-router';
-
+import BookMarkBorder from 'material-ui/svg-icons/action/bookmark-border';
+import BookMarked from 'material-ui/svg-icons/action/bookmark';
 
 export default class Home extends React.Component {
   // constructor(props){
@@ -19,11 +20,40 @@ export default class Home extends React.Component {
   // }
   componentWillMount(){
     this.props.mappedfetchUserIfLoggedIn();
+  }
+
+  componentDidMount(){
     this.props.mappedgetLatestqBanks().then(
       () => {
-        
+        const qbIds = this.props.mappedQbankState.latestQbanks.Qbanks.map((item) => {
+          return item._id;
+        })
+        if (this.props.mappedUserState.user) {
+          const bmData = {
+            userId:this.props.mappedUserState.user._id,
+            qbIds:qbIds
+          }
+          console.log(bmData);
+          this.props.mappedgetBookMarks(bmData);
+        }
       }
     );
+  }
+
+  bookMarkQb(userId,qBId){
+    const data = {
+      userId:userId,
+      qbId:qBId
+    }
+    this.props.mappedbookMarkQb(data);
+  }
+
+  removebookMarkedQb(userId,qBId){
+    const data = {
+      userId:userId,
+      qbId:qBId
+    }
+    this.props.mappedRmbookMarkQb(data);
   }
 
   render(){
@@ -33,10 +63,18 @@ export default class Home extends React.Component {
       },
       qBContainer:{
 
+      },
+      BookMarkBorder:{
+        left:'20%',
+        bottom:10,
+        position:'absolute',
+        cursor:'pointer',
+        color:grey800,
+
       }
     }
       const user = this.props.mappedUserState.user;
-      const { latestQbanks,qbQuestionsCount } = this.props.mappedQbankState;
+      const { latestQbanks, qbQuestionsCount, userBookMarks } = this.props.mappedQbankState;
     return(
       <div style={styles.homeContainer}>
       <div styles={styles.qBContainer}>
@@ -57,6 +95,26 @@ export default class Home extends React.Component {
                            author={qb.author.fullName}
                            lastUpdated={qb.createdAt}/>
                        </Link>
+                       <div style={{position:'relative'}}>
+
+{user && userBookMarks.qBanks && userBookMarks.qBanks.length > 0 &&  userBookMarks.qBanks.indexOf(qb._id) !== -1 &&
+   <BookMarked
+    style={styles.BookMarkBorder}
+    className="BookMarkBorder"
+    onClick={() => this.removebookMarkedQb(user._id,qb._id)}
+    />
+ }
+ {user && userBookMarks.qBanks && userBookMarks.qBanks.indexOf(qb._id) === -1 &&
+   <BookMarkBorder
+    style={styles.BookMarkBorder}
+    className="BookMarkBorder"
+    onClick={() => this.bookMarkQb(user._id,qb._id)}
+    />
+ }
+
+
+
+</div>
                     </Col>
                   )
                   }

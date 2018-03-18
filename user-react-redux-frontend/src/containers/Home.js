@@ -19,6 +19,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     mappedfetchUserIfLoggedIn: () => dispatch(userActions.fetchUserIfLoggedIn()),
     mappedgetLatestqBanks: () => dispatch(qBankActions.getLatestqBanks()),
+    mappedbookMarkQb: data  => dispatch(qBankActions.bookMarkQb(data)),
+    mappedgetBookMarks: data => dispatch(qBankActions.getBookMarks(data)),
+    mappedRmbookMarkQb: data => dispatch(qBankActions.rmBookMarkQb(data)),
   }
 }
 
