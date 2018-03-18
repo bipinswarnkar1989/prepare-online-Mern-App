@@ -50,7 +50,7 @@ export const checkIsBookMarked = (req,res) => {
   }
 }
 
-export const removeBookMark = (req,res) => {
+export const removeBookMark = (req,res,next) => {
   console.log('removeBookMark: '+JSON.stringify(req.body));
   let userId = req.body.userId;
   let qbId = req.body.qbId;
@@ -64,7 +64,8 @@ export const removeBookMark = (req,res) => {
       }
       else{
         if(qb){
-          return res.json({success:true,message:'Question Bank Removed From Your BookMarks ',qb});
+          req.qbBm = qb;
+          next();
         }
         else{
           return res.json({success:false,message:'Question Bank Not Found'});

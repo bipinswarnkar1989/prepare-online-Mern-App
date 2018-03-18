@@ -219,3 +219,22 @@ export const addBookMarkInUser = (req,res,next) => {
     })
   }
 }
+
+export const removeBookMarkFromUser = (req,res,next) => {
+  console.log('removeBookMarkFromUser: '+ JSON.stringify(req.qb));
+  let bM = req.qbBm._id;
+  let user = req.qbBm.user;
+  if (bM && user) {
+    User.updateOne(
+      { _id:user },
+      { $pull:{ bookMarks:bM } }
+    ).exec((err,result) => {
+      if(err) {
+        return res.json({success:false,message:'Something going wrong'});
+   }
+   else{
+    return res.json({success:true,message:'Question Bank Removed From Your BookMarks ',qb:req.qbBm});
+   }
+    })
+  }
+}

@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.route('/qbBookmark')
         .post(userController.authenticate,qbBookMarkController.createBookMark,userController.addBookMarkInUser)
-        .delete( qbBookMarkController.removeBookMark);
+        .delete(userController.authenticate,qbBookMarkController.removeBookMark,userController.removeBookMarkFromUser);
 
 router.route('/qbCheckBookmark')
         .post(userController.authenticate,qbBookMarkController.checkIsBookMarked);
