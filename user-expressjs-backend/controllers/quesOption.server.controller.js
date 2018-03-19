@@ -72,6 +72,30 @@ export default class quesOptionCtrl {
       });
      }
    }
+
+   deleteOptions(req,res,next){
+     console.log('deleteOptions: '+req.ques.options);
+     let options = req.ques.options;
+     if (options) {
+       Option.find(
+         {
+           _id: { $in:options }
+         }
+       ).remove().exec((err,result) => {
+        if(err) {
+          console.log(err);
+          return res.json({success:false,message:'Something going wrong',err});
+         }else{
+           console.log(result);
+           return res.json({
+            success:true,
+            message:'Question Delete Successfully',
+            ques:req.ques
+          });
+         }
+       })
+     }
+   }
 }
 
 

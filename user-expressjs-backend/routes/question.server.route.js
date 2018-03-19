@@ -16,7 +16,7 @@ router.route('/question')
 router.route('/questions/:qBid/:page/:limit')
   .get(questionController.fetchQuestions);
 router.route('/question/:quesId')
-   .delete(userController.authenticate,questionController.deleteQuestion);
+   .delete(userController.authenticate,questionController.deleteQuestion,quesOptionCtrlObj.deleteOptions);
 
 
 export default router;

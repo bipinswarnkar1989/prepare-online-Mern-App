@@ -63,7 +63,7 @@ export const fetchQuestions = (req,res) => {
   }
 }
 
-export const deleteQuestion = (req,res) => {
+export const deleteQuestion = (req,res,next) => {
   console.log('deleteQuestion: '+JSON.stringify(req.params));
   let quesId = req.params.quesId;
   if(quesId){
@@ -74,11 +74,8 @@ export const deleteQuestion = (req,res) => {
       }
       else{
         if(ques){console.log(ques)
-          return res.json({
-            success:true,
-            message:'Question Delete Successfully',
-            ques
-          });
+             req.ques = ques;
+             next();
         }else{
           return res.json({success:false,message:'Something going wrong'});
         }
