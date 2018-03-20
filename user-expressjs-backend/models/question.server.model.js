@@ -24,6 +24,10 @@ const questionSchema = new Schema({
     ref:'Option'
     }
   ],
+  answer:{
+   type:Schema.ObjectId,
+   ref:'Option'
+  },
   createdAt:{
     type:Date,
     default:Date.now

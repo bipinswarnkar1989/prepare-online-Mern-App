@@ -5,9 +5,33 @@ import { Grid, Row, Col } from 'react-material-responsive-grid';
 import RaisedButton from 'material-ui/RaisedButton';
 import AddCirle from 'material-ui/svg-icons/content/add-circle-outline';
 import {fullWhite,grey800} from 'material-ui/styles/colors';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
-export const AddQuestion = (props) => {
-  const styles = {
+export class AddQuestion extends React.Component {
+constructor(props){
+   super(props);
+   this.state = {
+     answerValue:1
+   }
+   this.AddOption = this.AddOption.bind(this);
+}
+AddOption = () => {
+   let optionNumber = this.props.AddNewQuestion.OptionsArray[this.props.AddNewQuestion.OptionsArray.length-1].number;
+   optionNumber = optionNumber+1;
+   let newOption = {
+     number:optionNumber,
+     value:null
+   };
+   this.props.AddNewOption(newOption);
+}
+
+handleAnswerChange = (event,index,value) => {
+    this.setState({ answerValue:value });
+}
+
+   render(){
+    const styles = {
       paperStyle: {
       height: '100%',
      width: '100%',
@@ -28,23 +52,13 @@ export const AddQuestion = (props) => {
      paddingBottom:13
    }
   }
-
-const AddOption = () => {
-   let optionNumber = props.AddNewQuestion.OptionsArray[props.AddNewQuestion.OptionsArray.length-1].number;
-   optionNumber = optionNumber+1;
-   let newOption = {
-     number:optionNumber,
-     value:null
-   };
-   props.AddNewOption(newOption);
-}
-
+   
   return (
     <Paper style={styles.paperStyle} zDepth={1}>
     <div>
       <h5>Add New Question</h5>
   <div style={styles.AddQFormDiv}>
-    <form onSubmit={props.saveNewQuestion} id='AddNewQuestionForm'>
+    <form onSubmit={this.props.saveNewQuestion} id='AddNewQuestionForm'>
       <TextField
         name='question'
         required={true}
@@ -53,15 +67,27 @@ const AddOption = () => {
         fullWidth={true}
         multiLine={true}
         style={styles.summaryfloatingLabelStyle}
-        onChange={e => props.handleAddNewQuestionChange(e)}
+        onChange={e => this.props.handleAddNewQuestionChange(e)}
         optionnumber=""
-        value={props.AddNewQuestion.Question === null ? '' : props.AddNewQuestion.Question}
+        value={this.props.AddNewQuestion.Question === null ? '' : this.props.AddNewQuestion.Question}
         />
+         <div>
+          <SelectField
+          value={this.state.answerValue}
+          onChange={this.handleAnswerChange}
+        >
+          <MenuItem value={1} primaryText="Select Answer" />
+          <MenuItem value={2} primaryText="Every Night" />
+          <MenuItem value={3} primaryText="Weeknights" />
+          <MenuItem value={4} primaryText="Weekends" />
+          <MenuItem value={5} primaryText="Weekly" />
+        </SelectField>
+            </div>
         <Grid>
          <Row id="AddQOptionsRow">
            {
-             props.AddNewQuestion.OptionsArray &&
-             props.AddNewQuestion.OptionsArray.map((opt,i) => {
+             this.props.AddNewQuestion.OptionsArray &&
+             this.props.AddNewQuestion.OptionsArray.map((opt,i) => {
                return (
                  <Col key={i} md={6}>
                    {/*JSON.stringify(opt)*/}
@@ -73,7 +99,7 @@ const AddOption = () => {
                      fullWidth={true}
                      multiLine={true}
                      style={styles.summaryfloatingLabelStyle}
-                     onChange={e => props.handleAddNewQuestionChange(e)}
+                     onChange={e => this.props.handleAddNewQuestionChange(e)}
                      value={opt.value === null ? '' : opt.value}
                      />
                  </Col>
@@ -86,10 +112,11 @@ const AddOption = () => {
              <RaisedButton
                icon={<AddCirle color={grey800} />}
                style={styles.overRideRaisedButtonUppercase}
-               onClick={AddOption}
+               onClick={this.AddOption}
                />
            </Col>
           </Row>
+         
           <div style={{marginTop:12}}>
         <RaisedButton
           type="submit"
@@ -97,9 +124,9 @@ const AddOption = () => {
           primary={true}
           labelStyle={styles.overRideRaisedButtonUppercase}
           fullWidth={true}
-          onClick={props.saveNewQuestion}
+          onClick={this.props.saveNewQuestion}
           />
-        {props.AddNewQuestion.QuestionAdded &&
+        {this.props.AddNewQuestion.QuestionAdded &&
           <div align="center">
            <h5>Question Added Successfully.<br/>View</h5>
           </div>
@@ -111,4 +138,8 @@ const AddOption = () => {
     </div>
     </Paper>
   );
+
+   }
+
+  
 }
