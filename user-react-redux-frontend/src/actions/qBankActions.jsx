@@ -914,3 +914,10 @@ export const failedEsSearch = (message) => {
     message
   }
 }
+
+export const addAnswerInOption = (op) => {
+  return {
+    type:'ADD_ANSWER_IN_OPTION',
+    op
+  }
+}

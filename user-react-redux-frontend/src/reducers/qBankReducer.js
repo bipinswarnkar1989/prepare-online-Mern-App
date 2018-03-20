@@ -531,6 +531,41 @@ case 'REQUEST_DELETE_QB':
         }
       }
 
+  
+  case 'ADD_ANSWER_IN_OPTION':
+      currentState.AddNewQuestion.OptionsArray = currentState.AddNewQuestion.OptionsArray.map((op) => {
+        if(op.number === action.op.number){
+          let optAns = {answer:true}
+          return {...op, ...optAns}
+        }
+        let optAns = {answer:false}
+        return { ...op, ...optAns };
+      });
+     
+  return{
+    ...currentState,
+    expandQb:false,
+    UpdateQbank:{
+      imagePreviewUrl:currentState.UpdateQbank.imagePreviewUrl,
+      openDialog:false,
+      QbankToEdit:null
+    },
+    fetchedQbank:currentState.fetchedQbank,
+    successMsg:null,
+    error:null,
+    isFetching:false,
+    QbankToDelete:{
+      openDialog:false,
+      Qbank:null
+    },
+    AddNewQuestion:{
+      showAddQDiv:true,
+      Question:currentState.AddNewQuestion.Question,
+      OptionsArray:currentState.AddNewQuestion.OptionsArray,
+      QuestionAdded:null,
+    }
+  }
+
 
   case 'REQUEST_ADD_NEW_QUESTION':
     return {

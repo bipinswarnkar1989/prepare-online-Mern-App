@@ -529,6 +529,10 @@ class QuestionBank extends React.Component {
     this.props.mappedremoveOptionInEditQuestion(option);
   }
 
+  addAnswerInOption(op){
+    this.props.mappedaddAnswerInOption(op);
+  }
+
   render(){
     const styles = {
       AddQuestionToQbDiv:{
@@ -615,6 +619,7 @@ class QuestionBank extends React.Component {
                   AddNewOption={(option)=>this.AddNewOption(option)}
                   handleAddNewQuestionChange={(e) => this.handleAddNewQuestionChange(e)}
                   saveNewQuestion={this.saveNewQuestion}
+                  addAnswerInOption={(opt) => this.addAnswerInOption(opt)}
                   />
            }
 

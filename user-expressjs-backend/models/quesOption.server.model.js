@@ -24,7 +24,10 @@ const opTionSchema = new Schema({
       number:{
           type:Number,
           required:[true,'Why no option number']
-      }
+      },
+      answer:{
+        type:Boolean
+       },
 });
 
 opTionSchema.plugin(mongoosastic);

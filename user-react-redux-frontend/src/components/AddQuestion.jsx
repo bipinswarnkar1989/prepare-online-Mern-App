@@ -12,7 +12,7 @@ export class AddQuestion extends React.Component {
 constructor(props){
    super(props);
    this.state = {
-     answerValue:1
+     answerValue:null
    }
    this.AddOption = this.AddOption.bind(this);
 }
@@ -28,6 +28,14 @@ AddOption = () => {
 
 handleAnswerChange = (event,index,value) => {
     this.setState({ answerValue:value });
+    this.props.addAnswerInOption(value);
+    // this.props.AddNewQuestion.OptionsArray.map((op) => {
+    //   if (op.number === value.number) {
+    //     op.answer = true;
+    //     return op;
+    //   }
+    //   return op;
+    // })
 }
 
    render(){
@@ -52,6 +60,8 @@ handleAnswerChange = (event,index,value) => {
      paddingBottom:13
    }
   }
+
+   const menus = this.props.AddNewQuestion.OptionsArray;
    
   return (
     <Paper style={styles.paperStyle} zDepth={1}>
@@ -73,14 +83,19 @@ handleAnswerChange = (event,index,value) => {
         />
          <div>
           <SelectField
+          hintText=""
           value={this.state.answerValue}
           onChange={this.handleAnswerChange}
+          floatingLabelText="Answer Option"
+          style={styles.summaryfloatingLabelStyle}
         >
-          <MenuItem value={1} primaryText="Select Answer" />
-          <MenuItem value={2} primaryText="Every Night" />
-          <MenuItem value={3} primaryText="Weeknights" />
-          <MenuItem value={4} primaryText="Weekends" />
-          <MenuItem value={5} primaryText="Weekly" />
+           <MenuItem value={null} primaryText="" />
+          {menus && menus.length > 0 && menus.map((m,i) => {
+            return (
+              <MenuItem key={i} value={m} primaryText={`${m.number} . ${m.value || ''}`} />
+            )
+          })}
+
         </SelectField>
             </div>
         <Grid>
