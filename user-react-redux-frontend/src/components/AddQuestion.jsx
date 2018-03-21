@@ -92,7 +92,7 @@ handleAnswerChange = (event,index,value) => {
            <MenuItem value={null} primaryText="" />
           {menus && menus.length > 0 && menus.map((m,i) => {
             return (
-              <MenuItem key={i} value={m} primaryText={`${m.number} . ${m.value || ''}`} />
+              <MenuItem key={i} value={m.number} primaryText={`${m.number} . ${m.value || ''}`} />
             )
           })}
 

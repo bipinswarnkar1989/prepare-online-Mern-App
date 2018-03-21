@@ -532,9 +532,9 @@ case 'REQUEST_DELETE_QB':
       }
 
   
-  case 'ADD_ANSWER_IN_OPTION':
+  case 'ADD_ANSWER_IN_OPTION':console.log(action.op)
       currentState.AddNewQuestion.OptionsArray = currentState.AddNewQuestion.OptionsArray.map((op) => {
-        if(op.number === action.op.number){
+        if(op.number === action.op){
           let optAns = {answer:true}
           return {...op, ...optAns}
         }
