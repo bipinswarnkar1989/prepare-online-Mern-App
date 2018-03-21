@@ -42,6 +42,9 @@ const mapDispatchToProps = (dispatch) => {
     mappedremoveOptionInEditQuestion: option => dispatch(qBankActions.removeOptionInEditQuestion(option)),
     mappedfailedUpdateQuestion: message => dispatch(qBankActions.failedUpdateQuestion(message)),
     mappedaddAnswerInOption: op => dispatch(qBankActions.addAnswerInOption(op)),
+    mappedbookMarkQb: data  => dispatch(qBankActions.bookMarkQb(data)),
+    mappedgetBookMarks: data => dispatch(qBankActions.getBookMarks(data)),
+    mappedRmbookMarkQb: data => dispatch(qBankActions.rmBookMarkQb(data)),
   }
 }
 

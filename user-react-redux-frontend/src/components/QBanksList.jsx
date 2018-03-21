@@ -35,7 +35,7 @@ class QBanksList extends React.Component {
       page:page,
       limit:limit
     }
-    this.props.mappedfetchQbanks(data).then((v) => {
+    this.props.mappedfetchQbanks(data).then(() => {
       const qbIds = this.props.mappedQbankState.qBanks.map((item) => {
         return item._id;
       })
@@ -209,9 +209,6 @@ class QBanksList extends React.Component {
                               onClick={() => this.bookMarkQb(user._id,qb._id)}
                               />
                            }
-
-
-
                        </div>
                     </Col>
                   )

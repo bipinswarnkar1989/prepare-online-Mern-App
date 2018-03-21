@@ -1,7 +1,7 @@
 // ./user-react-redux-frontend/src/components/CreateQbank.jsx
 import React from 'react';
 import Paper from 'material-ui/Paper';
-import { pink300,pink500,white,red300,black,blue500,red400
+import { pink300,pink500,white,red300,black,blue500,red400,grey800
  } from 'material-ui/styles/colors';
 //import { Grid, Row, Col } from 'react-material-responsive-grid';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
@@ -18,6 +18,9 @@ import {AddQuestion} from './AddQuestion';
 import ViewQuestions from './ViewQuestions';
 import DeleteQbQuestionDialog from './DeleteQbQuestionDialog';
 import EditQuestion from './EditQuestion';
+import BookMarkBorder from 'material-ui/svg-icons/action/bookmark-border';
+import BookMarked from 'material-ui/svg-icons/action/bookmark';
+import IconButton from 'material-ui/IconButton';
 
 const qbCardstyles = {
   EditQb:{
@@ -59,11 +62,20 @@ const qbCardstyles = {
   overRideRaisedButtonUppercase:{
     textTransform: 'none',
     fontSize:12,
+  },
+  BookMarkBorder:{
+    left:'20%',
+    bottom:10,
+    position:'absolute',
+    cursor:'pointer',
+    color:grey800,
+
   }
 }
 
 const QuestionBankCard = (props) => {
   let CheckImg = props.qb.image || props.UpdateQbank.imagePreviewUrl || null;
+  let { user, userBookMarks, qb } = props;
   return(
   <Card onExpandChange={props.handleExpandChange}>
     {!props.expandQb &&
@@ -162,7 +174,26 @@ const QuestionBankCard = (props) => {
            <FlatButton label="Answer Questions" />
            <FlatButton onClick={props.showAddQuestion} label="Add Questions" />
            <FlatButton onClick={props.viewQuestions} label="View Questions" />
-           <FlatButton label="BookMark"/>
+           <div style={{display:'block'}}>
+          {user && userBookMarks.qBanks && userBookMarks.qBanks.length > 0 &&  userBookMarks.qBanks.indexOf(qb._id) !== -1 &&
+            <IconButton>
+            <BookMarked
+              style={qbCardstyles.BookMarkBorder}
+              className="BookMarkBorder"
+              onClick={() => props.removebookMarkedQb(user._id,qb._id)}
+              />
+              </IconButton>
+          }
+          {user && userBookMarks.qBanks && userBookMarks.qBanks.indexOf(qb._id) === -1 &&
+          <IconButton>
+            <BookMarkBorder
+              style={qbCardstyles.BookMarkBorder}
+              className="BookMarkBorder"
+              onClick={() => props.bookMarkQb(user._id,qb._id)}
+              />
+              </IconButton>
+          }
+          </div>
          </CardActions>
        </div>
       }
@@ -315,7 +346,19 @@ class QuestionBank extends React.Component {
   }
 
   componentDidMount(){
-    this.props.mappedfetchQuestionBank(this.props.params.id);
+    this.props.mappedfetchQuestionBank(this.props.params.id).then(
+      () => {
+        if (this.props.mappedUserState.user) {
+          const qbIds = [this.props.params.id];
+          const bmData = {
+            userId:this.props.mappedUserState.user._id,
+            qbIds:qbIds
+          }
+          console.log(bmData);
+          this.props.mappedgetBookMarks(bmData);
+        }
+      }
+    );
     let location = browserHistory.getCurrentLocation();
     if(location.pathname === `/question-bank/${this.props.params.id}/add-question`){
       this.props.mappedshowAddQuestion();
@@ -327,7 +370,22 @@ class QuestionBank extends React.Component {
       this.props.mappedFetchQbQuestions(qBid,page,limit);
     }
   }
+  
+  bookMarkQb(userId,qBId){
+    const data = {
+      userId:userId,
+      qbId:qBId
+    }
+    this.props.mappedbookMarkQb(data);
+  }
 
+  removebookMarkedQb(userId,qBId){
+    const data = {
+      userId:userId,
+      qbId:qBId
+    }
+    this.props.mappedRmbookMarkQb(data);
+  }
 
   showAddQuestion(id){
     this.props.mappedshowAddQuestion();
@@ -580,8 +638,8 @@ class QuestionBank extends React.Component {
         paddingBottom:5
       }
     }
-    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete,AddNewQuestion,ViewQbQuestions,DeleteQbQuestion,EditQbQuestion } = this.props.mappedQbankState;
-    //const { user,isLoggedIn } = this.props.mappedUserState;
+    const { isFetching,successMsg,error,fetchedQbank,expandQb,UpdateQbank,QbankToDelete,AddNewQuestion,ViewQbQuestions,DeleteQbQuestion,EditQbQuestion,userBookMarks } = this.props.mappedQbankState;
+    const { user,isLoggedIn } = this.props.mappedUserState;
     return(
       <div style={styles.AddQuestionToQbDiv} className="AddQuestionToQbDiv">
           <h3>Question Bank</h3>
@@ -599,6 +657,10 @@ class QuestionBank extends React.Component {
           OpenQbEdit={() => this.OpenQbEdit(fetchedQbank)}
           OpenConfirmQbDel={() => this.OpenConfirmQbDelete(fetchedQbank)}
           viewQuestions={() => this.viewQuestions(fetchedQbank._id,1,10)}
+          user={user}
+          userBookMarks={userBookMarks}
+          bookMarkQb={(userId,qBId) => this.bookMarkQb(userId,qBId)}
+          removebookMarkedQb={(userId,qBId) => this.removebookMarkedQb(userId,qBId)}
           />
              </div>
           }
