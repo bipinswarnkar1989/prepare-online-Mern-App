@@ -685,7 +685,7 @@ class QuestionBank extends React.Component {
                   />
            }
 
-           {ViewQbQuestions.showViewQDiv &&
+           {ViewQbQuestions.showViewQDiv && ViewQbQuestions.Questions &&
              <ViewQuestions
                ViewQbQuestionsState={ViewQbQuestions}
                showDelQuestion={(q) => this.showDeleteQuestion(q)}

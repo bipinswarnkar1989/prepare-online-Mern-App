@@ -13,12 +13,52 @@ import { pink300,pink500,white,red300,black,blue500,red400,green500,blue300, ind
 import Chip from 'material-ui/Chip';
 
 class ViewQuestions extends React.Component {
-  handleOptionChange(e,qbId){
-    //alert(JSON.stringify(e.target.value));
-    document.getElementById(`answerDiv${qbId}`).style.display = '';
+  vlsArray;
+  constructor(props) {
+    super(props);
+    this.state = {vsState:null};
   }
-  handleRequestDelete() {
-    alert('You clicked the delete button.');
+  componentDidMount(){
+    this.vlsArray = this.props.ViewQbQuestionsState.Questions.map((q) => {
+      return {
+        id:q._id,
+        valueSelected:null
+      }
+    });
+      this.setState({
+        vsState:this.vlsArray
+      });
+  }
+  handleOptionChange(e,qbId){
+    let v = e.target.value;
+    this.setState((prevState,props) => ({
+      vsState:prevState.vsState.map((q) => {
+        if (q.id === qbId) {
+          return {
+            ...q,
+            valueSelected:v
+          }
+        }
+        return q;
+      })
+    }))
+    
+    document.getElementById(`answerDiv${qbId}`).style.display = '';
+    //document.getElementsByClassName("answerDiv").style.display = 'none';
+  }
+  handleRequestDelete(qbId) {
+    document.getElementById(`answerDiv${qbId}`).style.display = 'none';
+    this.setState((prevState,props) => ({
+      vsState:prevState.vsState.map((q) => {
+        if (q.id === qbId) {
+          return {
+            ...q,
+            valueSelected:null
+          }
+        }
+        return q;
+      })
+    }));
   }
   
    render(){
@@ -93,7 +133,6 @@ class ViewQuestions extends React.Component {
      return(
       <Paper style={styles.paperStyle} zDepth={1}>
         <h5>Questions in Question Bank</h5>
-        {/*JSON.stringify(Questions)*/}
         <div style={styles.QuestionsDiv} className="QuestionsDiv">
           {!Questions &&
             <RefreshIndicator
@@ -127,7 +166,12 @@ class ViewQuestions extends React.Component {
           </Grid>
 
                      <div style={{width:'auto'}} className="optionsDiv">
-                             <RadioButtonGroup onChange={e => this.handleOptionChange(e,q._id)}  name={`${q}option`} labelPosition="right" style={styles.block}>
+                             <RadioButtonGroup onChange={e => this.handleOptionChange(e,q._id)}  name={`${q}option`} labelPosition="right" style={styles.block}
+                             valueSelected= {this.state.vsState && 
+                              this.state.vsState.filter(item => item.id === q._id)[0].valueSelected
+                                             } 
+                             id={`RadioButtonGroup${q._id}`}
+                             >
                             {
                                 q.options.sort(function(a,b){
                                   return a.number - b.number;
@@ -141,6 +185,7 @@ class ViewQuestions extends React.Component {
                                           label={opt.value !== null ? opt.value : ''}
                                           style={styles.radioButton}
                                           labelStyle={{backgroundColor:'',color:black,textAlign:'left',paddingLeft:10}}
+                                          id={`option${q._id}`}
                                           />
                                           
                                     )
@@ -148,13 +193,13 @@ class ViewQuestions extends React.Component {
                           }
                         </RadioButtonGroup>
                      </div>
-     <div style={styles.answerDiv} id={`answerDiv${q._id}`}>
+     <div style={styles.answerDiv} id={`answerDiv${q._id}`} className="answerDiv">
           <div style={styles.correctAnswer}>
           <Chip 
            onClick={this.handleClick} 
            style={styles.chip} 
            backgroundColor={blue300}
-           onRequestDelete={this.handleRequestDelete}
+           onRequestDelete={() => this.handleRequestDelete(q._id)}
            >
           Correct Answer is 
           <Avatar style={{margin:2}} color={blue300} backgroundColor={indigo900} size={28}>
