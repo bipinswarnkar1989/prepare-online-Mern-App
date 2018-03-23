@@ -186,6 +186,9 @@ class ViewQuestions extends React.Component {
                                           style={styles.radioButton}
                                           labelStyle={{backgroundColor:'',color:black,textAlign:'left',paddingLeft:10}}
                                           id={`option${q._id}`}
+                                          disabled= {this.state.vsState && 
+                                            this.state.vsState.filter(item => item.id === q._id)[0].valueSelected !== null ? true : false 
+                                                           } 
                                           />
                                           
                                     )
