@@ -5,7 +5,7 @@ import { Grid, Row, Col } from 'react-material-responsive-grid';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import Edit from 'material-ui/svg-icons/image/edit';
-import { pink300,pink500,white,red300,black,blue500,red400,green500,blue300, indigo900
+import { pink300,pink500,white,red300,red900,black,blue500,red400,green500,blue300, indigo900
  } from 'material-ui/styles/colors';
  import Delete from 'material-ui/svg-icons/content/clear';
  import Done from 'material-ui/svg-icons/action/done';
@@ -179,7 +179,7 @@ class ViewQuestions extends React.Component {
                                     return (
                                         <RadioButton
                                           key={j}
-                                          checkedIcon={<Avatar color={white} backgroundColor={indigo900} size={28}>{opt.number}</Avatar>}
+                                          checkedIcon={<Avatar color={white} backgroundColor={opt.answer === true ? indigo900 : red900} size={28}>{opt.number}</Avatar>}
                                           uncheckedIcon={<Avatar color={white}  size={28}>{opt.number}</Avatar>}
                                           value={opt._id !== false ? opt._id : false}
                                           label={opt.value !== null ? opt.value : ''}
