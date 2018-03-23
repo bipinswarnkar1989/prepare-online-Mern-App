@@ -15,7 +15,7 @@ import Chip from 'material-ui/Chip';
 class ViewQuestions extends React.Component {
   handleOptionChange(e,qbId){
     //alert(JSON.stringify(e.target.value));
-    var ansDiv = document.getElementById(`answerDiv${qbId}`).style.display = '';
+    document.getElementById(`answerDiv${qbId}`).style.display = '';
   }
   handleRequestDelete() {
     alert('You clicked the delete button.');
