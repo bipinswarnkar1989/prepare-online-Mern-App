@@ -5,14 +5,22 @@ import { Grid, Row, Col } from 'react-material-responsive-grid';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import Edit from 'material-ui/svg-icons/image/edit';
-import { pink300,pink500,white,red300,black,blue500,red400
+import { pink300,pink500,white,red300,black,blue500,red400,green500,blue300, indigo900
  } from 'material-ui/styles/colors';
  import Delete from 'material-ui/svg-icons/content/clear';
+ import Done from 'material-ui/svg-icons/action/done';
+ import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
 
 class ViewQuestions extends React.Component {
   handleOptionChange(e,qbId){
-    alert(e.target.value);alert(qbId)
+    //alert(JSON.stringify(e.target.value));
+    var ansDiv = document.getElementById(`answerDiv${qbId}`).style.display = '';
   }
+  handleRequestDelete() {
+    alert('You clicked the delete button.');
+  }
+  
    render(){
      const styles = {
          paperStyle: {
@@ -41,7 +49,7 @@ class ViewQuestions extends React.Component {
         marginBottom: 16,
       },
       block: {
-   maxWidth: 250,
+   
       },
       questionDiv:{
         textAlign:'left',
@@ -66,6 +74,19 @@ class ViewQuestions extends React.Component {
       },
       iconStyles:{
         cursor:'pointer'
+      },
+      answerText:{
+        margin:3,
+        color:white,
+        backgroundColor:'none',
+        paddingLeft: 3,
+        paddingRight: 10,
+        paddingTop:3 ,
+        paddingBottom: 3,
+      },
+      answerDiv:{
+        padding: 5,
+        display:'none'
       }
      }
      let { Questions } = this.props.ViewQbQuestionsState;
@@ -91,7 +112,7 @@ class ViewQuestions extends React.Component {
                   <Row>
                 <Col xs6={4} sm6={4} md6={4} style={{maxWidth:'90%',minWidth:'90%'}}>
                      <div style={styles.questionDiv} className="questionDiv">
-                       Q.{i+1}: {q.question}
+                       Q.  {q.question}
                 </div>
               </Col>
               <Col xs6={3}  md6={3} sm6={3} style={{maxWidth:'10%',minWidth:'10%'}}>
@@ -105,7 +126,7 @@ class ViewQuestions extends React.Component {
             </Row>
           </Grid>
 
-                     <div className="optionsDiv">
+                     <div style={{width:'auto'}} className="optionsDiv">
                              <RadioButtonGroup onChange={e => this.handleOptionChange(e,q._id)}  name={`${q}option`} labelPosition="right" style={styles.block}>
                             {
                                 q.options.sort(function(a,b){
@@ -114,17 +135,41 @@ class ViewQuestions extends React.Component {
                                     return (
                                         <RadioButton
                                           key={j}
-                                          value={opt.value !== null ? opt.value : ''}
+                                          checkedIcon={<Avatar color={white} backgroundColor={indigo900} size={28}>{opt.number}</Avatar>}
+                                          uncheckedIcon={<Avatar color={white}  size={28}>{opt.number}</Avatar>}
+                                          value={opt._id !== false ? opt._id : false}
                                           label={opt.value !== null ? opt.value : ''}
                                           style={styles.radioButton}
-                                          labelStyle={{backgroundColor:'green',color:'white'}}
+                                          labelStyle={{backgroundColor:'',color:black,textAlign:'left',paddingLeft:10}}
                                           />
+                                          
                                     )
                               })
                           }
                         </RadioButtonGroup>
                      </div>
-
+     <div style={styles.answerDiv} id={`answerDiv${q._id}`}>
+          <div style={styles.correctAnswer}>
+          <Chip 
+           onClick={this.handleClick} 
+           style={styles.chip} 
+           backgroundColor={blue300}
+           onRequestDelete={this.handleRequestDelete}
+           >
+          Correct Answer is 
+          <Avatar style={{margin:2}} color={blue300} backgroundColor={indigo900} size={28}>
+          {q && q.options &&
+              q.options.filter(item => item.answer !== false)[0].number
+             }
+          </Avatar>
+           <span style={styles.answerText}>
+             {q && q.options &&
+              q.options.filter(item => item.answer !== false)[0].value
+             } 
+             </span>
+        </Chip>
+          </div>
+     </div>
                    </Paper>
                 )
               })
