@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { StatusBar,View,StyleSheet } from 'react-native';
+import { 
+  StatusBar,
+  View,
+  StyleSheet,
+  NativeModules, 
+  findNodeHandle
+ } from 'react-native';
 import {
   Button,
   Text,
@@ -16,8 +22,26 @@ import {
 } from 'native-base';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+const { UIManager } = NativeModules;
+
   export default class AppHeader extends Component {
+    onError () {
+      console.log('Popup Error')
+    }
+    
+    onMenuPressed = (labels) => {
+      const actions=['Login', 'Register'];
+      UIManager.showPopupMenu(           // UIM.showPopupMenu(reactTag, items, error, success);
+        findNodeHandle(this.refs.menu),
+        actions,
+        () => {},
+        (result, index) => {
+          //alert(actions[index])
+        },
+      );
+    };
     render() {
+      const { labels } = this.props;
       return (
         <Container>
         <View>
@@ -53,13 +77,16 @@ import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
           >
             <Icon name="search" />
           </Button>
+          <View
+              ref={c => this.menu = c}>
           <Button
             transparent
-            onPress={() => this.props.navigation.navigate("DrawerOpen")}
+            onPress={() => this.onMenuPressed(labels)}
             style={{ right:-1 }}
           >
-          <MIcon name="dots-vertical" size={20} color="white" />
+          <MIcon name="dots-vertical" size={20} color="white" ref="menu"  />
           </Button>
+          </View>
           </Right>
 
         </Header>
