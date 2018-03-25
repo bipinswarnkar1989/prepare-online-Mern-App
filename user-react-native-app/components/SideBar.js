@@ -13,7 +13,9 @@ import {
   Body,
   Right,
   Thumbnail,
-  Badge
+  Badge,
+  Card,
+  CardItem
 } from "native-base";
 import OIcons from "react-native-vector-icons/Octicons";
 
@@ -197,20 +199,16 @@ export default class SideBar extends React.Component {
               position: "absolute"
             }}
           />
-          <List>
-            <ListItem  avatar noBorder>
-              <Left>
+          
+          <View style={styles.userContainer}>
+          <View style={styles.userStyle}>
                 <Thumbnail source={{ uri: 'https://avatars2.githubusercontent.com/u/19688480?s=460&v=4' }} />
-              </Left>
-              <Body>
+              </View>
+              <View style={styles.userStyle}>
                 <Text style={styles.userFullName}>Bipin Swarnkar</Text>
-                <Text style={styles.userNote} note>Doing what you like will always keep you happy . .</Text>
-              </Body>
-              <Right>
-                {/* <Text note>3:43 pm</Text>*/}
-              </Right>
-            </ListItem>
-          </List>
+              </View>
+          </View>
+             
           </View>
         {  /*<Image
             square
@@ -271,10 +269,25 @@ export default class SideBar extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  userContainer:{
+     flex:1,
+     flexDirection: 'column',
+     justifyContent:'flex-start'
+  },
+  userStyle:{
+    justifyContent: 'center',
+    alignItems:'center',
+    padding: 3,
+  },
   userFullName:{
     color:'white',
     fontWeight:'bold',
-    backgroundColor:"#FF5B6C"
+    backgroundColor:"#FF5B6C",
+    textAlign:'center',
+    paddingStart:4,
+    paddingEnd:4,
+    paddingTop:2,
+    paddingBottom:2
   },
   userNote:{
     color:'white',
