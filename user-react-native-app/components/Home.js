@@ -9,6 +9,11 @@ import {
   Card,
   CardItem,
   Body,
+  Left,
+  Thumbnail,
+  Button,
+  Icon,
+  Right
 } from 'native-base';
 
 export default class Home extends Component {
@@ -21,13 +26,48 @@ export default class Home extends Component {
       <Container>
         <AppHeader navigation={this.props.navigation}/>
         <Content>
-          <Card style={{flex:0}}>
+          <View style={styles.homeTop}>
+          <Text style={styles.homeHeading}>Latest Question Banks</Text>
+            </View>
+            <View>
+            {latestQbanks.Qbanks && latestQbanks.Qbanks.length > 0 &&
+                    latestQbanks.Qbanks.map((qb,i) => {
+                      return(
+                        <Card key={i} style={{flex: 0}}>
+            <CardItem>
+              <Left>
+                <Thumbnail source={{uri: qb.author.picture}} />
+                <Body>
+                  <Text>{qb.author.fullName}</Text>
+                  <Text note>{qb.createdAt}</Text>
+                </Body>
+              </Left>
+            </CardItem>
             <CardItem>
               <Body>
-                <Text>Chat App to talk some awesome people!</Text>
+                <Image source={{uri: 'http://192.168.43.102:3001/questionBankImages/qBImage1521352017615React_App0.png'}} style={{height: 150, width: '100%', flex: 1, alignSelf: "stretch",}}/>
+                <Text>
+                 {qb.title}
+                </Text>
               </Body>
             </CardItem>
+            <CardItem>
+              <Left>
+                <Button transparent textStyle={{color: '#87838B'}}>
+                  <Icon name="logo-github" />
+                  <Text>1,926 stars</Text>
+                </Button>
+              </Left>
+              <Right>
+                <Text>{qb.questions.length} Questions</Text>
+              </Right>
+            </CardItem>
           </Card>
+                      )
+                    })
+                  }
+          
+          </View>
         </Content>
       </Container>
       
@@ -39,6 +79,17 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     
+  },
+  homeHeading:{
+     fontSize: 20,
+     fontWeight: 'bold',
+     textAlign:'center'
+  },
+  homeTop:{
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
   }
 
 });
