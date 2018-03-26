@@ -43,63 +43,53 @@ const { UIManager } = NativeModules;
     render() {
       const { labels } = this.props;
       return (
-        <Container>
+        <View>
         <View>
         <StatusBar backgroundColor="rgba(0, 0, 0, 0.2)" translucent />
         <View style={{ backgroundColor:"#FF5B6C", height: 24 }} />
         </View>
         <Header style={styles.header} searchBar>
-          <Left>
-          {this.props.navigation.state.routeName !== "Home" &&
-          <Button transparent
-          onPress={() => this.props.navigation.goBack()}
-          >
-              <Icon name='arrow-back' />
-            </Button>
-          }
-            {this.props.navigation.state.routeName === "Home" &&
-            <Button
-              transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
-            >
-              <Icon name="menu" />
-            </Button>
-            }
-          </Left>
-          <Body>
-            <Title>{this.props.navigation.state.routeName}</Title>
-          </Body>
-          <Right>
+        <Left>
+        {this.props.navigation.state.routeName !== "Home" &&
+        <Button transparent
+        onPress={() => this.props.navigation.goBack()}
+        >
+            <Icon name='arrow-back' />
+          </Button>
+        }
+          {this.props.navigation.state.routeName === "Home" &&
           <Button
             transparent
             onPress={() => this.props.navigation.navigate("DrawerOpen")}
-            style={{ right:2 }}
           >
-            <Icon name="search" />
+            <Icon name="menu" />
           </Button>
-          <View
-              ref={c => this.menu = c}>
-          <Button
-            transparent
-            onPress={() => this.onMenuPressed(labels)}
-            style={{ right:-1 }}
-          >
-          <MIcon name="dots-vertical" size={20} color="white" ref="menu"  />
-          </Button>
-          </View>
-          </Right>
-
-        </Header>
-        <Content>
-          <Card style={{flex:0}}>
-            <CardItem>
-              <Body>
-                <Text>Chat App to talk some awesome people!</Text>
-              </Body>
-            </CardItem>
-          </Card>
-        </Content>
-      </Container>
+          }
+        </Left>
+        <Body>
+          <Title>{this.props.navigation.state.routeName}</Title>
+        </Body>
+        <Right>
+        <Button
+          transparent
+          onPress={() => this.props.navigation.navigate("DrawerOpen")}
+          style={{ right:2 }}
+        >
+          <Icon name="search" />
+        </Button>
+        <View
+            ref={c => this.menu = c}>
+        <Button
+          transparent
+          onPress={() => this.onMenuPressed(labels)}
+          style={{ right:-1 }}
+        >
+        <MIcon name="dots-vertical" size={20} color="white" ref="menu"  />
+        </Button>
+        </View>
+        </Right>
+      </Header>
+      </View>
       );
     }
   }

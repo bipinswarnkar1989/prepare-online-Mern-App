@@ -5,28 +5,33 @@ import AppHeader from '../components/AppHeader';
 import {
   Text,
   Container,
+  Content,
+  Card,
+  CardItem,
+  Body,
 } from 'native-base';
 
 export default class Home extends Component {
+  componentDidMount(){
+    this.props.mappedgetLatestqBanks();
+  }
   render() {
+    const { latestQbanks, qbQuestionsCount, userBookMarks } = this.props.mappedQbankState;
     return (
       <Container>
-      <AppHeader navigation={this.props.navigation}/>
-      <ScrollView>
-      <View>
-      <Image
-      resizeMode="contain"
-         style={{width: 400, height: 400}}
-         source={{uri: 'https://scontent.fbho1-1.fna.fbcdn.net/v/t1.0-9/1935820_1080518951981580_9166413032173843073_n.jpg?oh=480f013820967e2ccb9675c9ef6cf3a5&oe=5B4DEA06'}}
-       />
-          <Text>Home Content in Home Route</Text>
-          <Text>
-A single page app on the web is not an app with a single screen, that would indeed be useless most of the time; rather, it is an app that does not ask the browser to navigate to a new URL for each new screen. Instead, a single page app will use its own routing
-          </Text>
-
-      </View>
-      </ScrollView>
+        <AppHeader navigation={this.props.navigation}/>
+        <Content>
+          <Card style={{flex:0}}>
+            <CardItem>
+              <Body>
+                <Text>Chat App to talk some awesome people!</Text>
+              </Body>
+            </CardItem>
+          </Card>
+        </Content>
       </Container>
+      
+     
     );
   }
 }
