@@ -52,7 +52,7 @@ const LeftDrawer = (props) => {
       docked={true}
       open={navDrawerOpen}>
         <div style={styles.avatar.div}>
-          <Avatar src={props.userprofilepic}
+          <Avatar src={props.userprofilepic ? props.userprofilepic : 'http://www.uidownload.com/files/111/870/406/account-avatar-human-people-profile-user-icon.png'}
                   size={50}
                   style={styles.avatar.icon}/>
           <span style={styles.avatar.span}>{props.username}</span>

@@ -48,8 +48,12 @@ const { UIManager } = NativeModules;
         actions,
         () => {},
         (result, index) => {
-          //alert(actions[index])
-          this.props.navigation.navigate(actions[index])
+          //alert(JSON.stringify(result));
+          if (result !== 'dismissed' && result === 'itemSelected') {
+            this.props.navigation.navigate(actions[index])
+          }else{
+            return;
+          }
         },
       );
     };
@@ -105,11 +109,12 @@ const { UIManager } = NativeModules;
           <Icon name="search" />
         </Button>
         <View
-            ref={c => this.menu = c}>
+           >
         <Button
           transparent
           onPress={() => this.onMenuPressed(labels)}
           style={{ right:-1 }}
+          ref={c => this.menu = c}
         >
         <MIcon name="dots-vertical" size={20} color="white" ref="menu"  />
         </Button>

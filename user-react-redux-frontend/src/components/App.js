@@ -158,7 +158,7 @@ selectEsResult(title){
              <LeftDrawer navDrawerOpen={navDrawerOpen}
                          menus={user ? loggedInMenuRoutes : menuRoutes}
                          username={user  ? user.fullName : 'Guest User'}
-                         userprofilepic={user ? user.picture : 'http://www.material-ui.com/images/uxceo-128.jpg'}/>
+                         userprofilepic={user ? user.picture : 'http://www.uidownload.com/files/111/870/406/account-avatar-human-people-profile-user-icon.png'}/>
 
              <div style={styles.container}>
              <div id="esresults" style={styles.results}>

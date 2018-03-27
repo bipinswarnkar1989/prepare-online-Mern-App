@@ -13,7 +13,8 @@ import {
   Thumbnail,
   Button,
   Icon,
-  Right
+  Right,
+  Spinner
 } from 'native-base';
 
 export default class Home extends Component {
@@ -29,6 +30,11 @@ export default class Home extends Component {
           <View style={styles.homeTop}>
           <Text style={styles.homeHeading}>Latest Question Banks</Text>
             </View>
+            {latestQbanks.isFetching === true && 
+             <View style={{alignContent:'center'}}>
+                  <Spinner color='green' />
+               </View>
+            }
             <View>
             {latestQbanks.Qbanks && latestQbanks.Qbanks.length > 0 &&
                     latestQbanks.Qbanks.map((qb,i) => {
