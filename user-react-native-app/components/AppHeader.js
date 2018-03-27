@@ -18,13 +18,25 @@ import {
   Title,
   Left,
   Icon,
-  Right
+  Right,
+  Input,
+  InputGroup,
+  Item
 } from 'native-base';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const { UIManager } = NativeModules;
 
   export default class AppHeader extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        searchBar:false
+      }
+      this.showSearchBar = this.showSearchBar.bind(this);
+      this.hideSearchBar = this.hideSearchBar.bind(this);
+    }
+    
     onError () {
       console.log('Popup Error')
     }
@@ -37,9 +49,20 @@ const { UIManager } = NativeModules;
         () => {},
         (result, index) => {
           //alert(actions[index])
+          this.props.navigation.navigate(actions[index])
         },
       );
     };
+    showSearchBar(){
+      this.setState({
+        searchBar:true
+      })
+    }
+    hideSearchBar(){
+      this.setState({
+        searchBar:false
+      })
+    }
     render() {
       const { labels } = this.props;
       return (
@@ -48,6 +71,7 @@ const { UIManager } = NativeModules;
         <StatusBar backgroundColor="rgba(0, 0, 0, 0.2)" translucent />
         <View style={{ backgroundColor:"#FF5B6C", height: 24 }} />
         </View>
+        {this.state.searchBar !== true  && 
         <Header style={styles.header} searchBar>
         <Left>
         {this.props.navigation.state.routeName !== "Home" &&
@@ -67,12 +91,15 @@ const { UIManager } = NativeModules;
           }
         </Left>
         <Body>
-          <Title>{this.props.navigation.state.routeName}</Title>
+          <Title>{this.props.navigation.state.routeName === "Home" ?
+                  "MockOnline" :
+                   this.props.navigation.state.routeName
+                   }</Title>
         </Body>
         <Right>
         <Button
           transparent
-          onPress={() => this.props.navigation.navigate("DrawerOpen")}
+          onPress={this.showSearchBar}
           style={{ right:2 }}
         >
           <Icon name="search" />
@@ -89,6 +116,34 @@ const { UIManager } = NativeModules;
         </View>
         </Right>
       </Header>
+        }
+
+        {this.state.searchBar === true  && 
+        <Header searchBar style={styles.header} >
+        <View style={{flex:1,justifyContent:'flex-start',height:'100%',alignItems:'flex-start',flexDirection:'row'}}>
+        <View style={{justifyContent: 'center',
+    alignItems:'center',flexBasis:'10%',}}>
+        <Left>
+        <Button transparent
+        onPress={this.hideSearchBar}
+        >
+            <Icon name='arrow-back' />
+          </Button>
+          </Left>
+        </View>
+        <View style={{justifyContent: 'center',
+    alignItems:'center',flexBasis:'90%',}}>
+        <InputGroup style={{height:40,backgroundColor:'white',marginVertical:8}}>
+        <Item>
+            <Icon name='ios-search' color='white'/>
+            <Input placeholder='Search' />
+            </Item>
+          </InputGroup>
+        </View>
+        </View>
+      </Header>
+        }
+
       </View>
       );
     }

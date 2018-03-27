@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import App from '../containers/App';
 import Home from '../containers/Home';
 import Screen1 from '../containers/Screen1';
+import Login from '../containers/Login';
 //import DrawerContainer from '../containers/DrawerContainer';
 import SideBar from "./SideBar.js";
 import {
@@ -24,6 +25,7 @@ import { addListener } from '../utils/redux';
 export const AppNavigator = DrawerNavigator({
   App: { screen: App },
   Home: { screen: Home },
+  Login: { screen: Login },
   Screen1: { screen: Screen1}
 },{
   initialRouteName: 'Home',
