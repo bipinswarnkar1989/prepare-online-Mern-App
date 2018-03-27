@@ -96,9 +96,14 @@ const QuestionBankCard = (props) => {
            subtitleStyle={{color:"red"}}
            avatar={props.qb.author.picture}
            style={{borderBottom:'1px solid #CFD8DC'}}
-         >
-         <Edit style={qbCardstyles.EditQb} color={blue500} onClick={props.OpenQbEdit}/>
-         <DeleteForever style={qbCardstyles.DeleQb} color={red300} onClick={props.OpenConfirmQbDel}/>
+         > 
+         {user && props.qb.author._id === user._id && 
+            <div>
+               <Edit style={qbCardstyles.EditQb} color={blue500} onClick={props.OpenQbEdit}/>
+          <DeleteForever style={qbCardstyles.DeleQb} color={red300} onClick={props.OpenConfirmQbDel}/>
+              </div>
+           }
+         
        </CardHeader>
          {CheckImg  &&
            <CardMedia
@@ -172,7 +177,9 @@ const QuestionBankCard = (props) => {
          </CardText>
          <CardActions>
            <FlatButton label="Answer Questions" />
+           { user && props.qb.author._id === user._id && 
            <FlatButton onClick={props.showAddQuestion} label="Add Questions" />
+           }
            <FlatButton onClick={props.viewQuestions} label="View Questions" />
            <div style={{display:'block'}}>
           {user && userBookMarks.qBanks && userBookMarks.qBanks.length > 0 &&  userBookMarks.qBanks.indexOf(qb._id) !== -1 &&
