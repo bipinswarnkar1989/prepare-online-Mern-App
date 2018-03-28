@@ -4,7 +4,8 @@ import {
   View,
   StyleSheet,
   NativeModules, 
-  findNodeHandle
+  findNodeHandle,
+  BackHandler
  } from 'react-native';
 import {
   Button,
@@ -24,6 +25,7 @@ import {
   Item
 } from 'native-base';
 import MIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FIcon from "react-native-vector-icons/FontAwesome";
 
 const { UIManager } = NativeModules;
 
@@ -35,6 +37,24 @@ const { UIManager } = NativeModules;
       }
       this.showSearchBar = this.showSearchBar.bind(this);
       this.hideSearchBar = this.hideSearchBar.bind(this);
+    }
+
+    componentDidMount(){
+      BackHandler.addEventListener('hardwareBackPress', function() {
+        // this.onMainScreen and this.goBack are just examples, you need to use your own implementation here
+        // Typically you would use the navigator here to go to the last state.
+      
+        if (this.state.searchBar !== false) {
+          this.setState({
+            searchBar:false
+          });
+          return true;
+        }
+        else{
+          //this.goBack();
+          return false;
+        }
+      }.bind(this));
     }
     
     onError () {
@@ -66,6 +86,9 @@ const { UIManager } = NativeModules;
       this.setState({
         searchBar:false
       })
+    }
+    handleSearchInput(){
+
     }
     render() {
       const { labels } = this.props;
@@ -130,20 +153,27 @@ const { UIManager } = NativeModules;
     alignItems:'center',flexBasis:'10%',}}>
         <Left>
         <Button transparent
-        onPress={this.hideSearchBar}
+        onPress={this.hideSearchBar.bind(this)}
         >
             <Icon name='arrow-back' />
           </Button>
           </Left>
         </View>
-        <View style={{justifyContent: 'center',
-    alignItems:'center',flexBasis:'90%',}}>
-        <InputGroup style={{height:40,backgroundColor:'white',marginVertical:8}}>
-        <Item>
-            <Icon name='ios-search' color='white'/>
-            <Input placeholder='Search' />
-            </Item>
-          </InputGroup>
+        <View style={{flexBasis:'90%',
+    opacity:0.9,
+    borderRadius:7,marginTop:2,}}>
+    <View style={styles.inputWrapper}>
+        <InputGroup>
+						<FIcon name="search" size={15} color="white"/>
+						<Input 
+							onFocus={()=>alert()}
+							style={styles.inputSearch}
+							placeholder="Search here"
+              onChangeText={this.handleSearchInput.bind(this)}
+              placeholderTextColor="#fff"
+						/>
+					</InputGroup>
+          </View>
         </View>
         </View>
       </Header>
@@ -157,5 +187,16 @@ const { UIManager } = NativeModules;
   const styles = StyleSheet.create({
     header:{
       backgroundColor:"#FF5B6C"
-    }
+    },
+    inputSearch:{
+      fontSize:14,
+      color:'#fff'
+  },
+  inputWrapper:{
+    marginLeft:2,
+    marginRight:2,
+    marginTop:0,
+    marginBottom:0,
+    
+},
   })
