@@ -37,7 +37,7 @@ export const UploadImage = (req,res,next) => {
   Upload(req,res,(err) => {
          if(err){
            console.log('ERROR:'+err);
-           return res.json({'success':false,'message':err});;
+           return res.json({'success':false,'message':err});
          }
          else{
            next();
