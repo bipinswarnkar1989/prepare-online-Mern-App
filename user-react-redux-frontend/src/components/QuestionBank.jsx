@@ -21,192 +21,9 @@ import EditQuestion from './EditQuestion';
 import BookMarkBorder from 'material-ui/svg-icons/action/bookmark-border';
 import BookMarked from 'material-ui/svg-icons/action/bookmark';
 import IconButton from 'material-ui/IconButton';
+import RadioButton from 'material-ui/RadioButton';
+import QuestionBankCard from './QuestionBankCard';
 
-const qbCardstyles = {
-  EditQb:{
-    top:10,
-    right:40,
-    position:'absolute',
-    cursor:'pointer'
-  },
-  DeleQb:{
-    top:10,
-    right:10,
-    position:'absolute',
-    cursor:'pointer'
-  },
-  UpdateQbImage:{
-    position:'absolute',
-    right:10,
-    top:10,
-    cursor:'pointer',
-    verticalAlign: 'middle',
-    color:white,
-    backgroundColor:'rgba(255, 255, 255, 0.5)',
-    MsFilter: 'progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF)',
-    filter:'progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF)',
-    fontSize:14,
-    textTransform: 'none',
-  },
-  uploadInput: {
-    cursor: 'pointer',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    width: '100%',
-    opacity: 0,
-    zIndex:12
-  },
-  overRideRaisedButtonUppercase:{
-    textTransform: 'none',
-    fontSize:12,
-  },
-  BookMarkBorder:{
-    left:'20%',
-    bottom:10,
-    position:'absolute',
-    cursor:'pointer',
-    color:grey800,
-
-  }
-}
-
-const QuestionBankCard = (props) => {
-  let CheckImg = props.qb.image || props.UpdateQbank.imagePreviewUrl || null;
-  let { user, userBookMarks, qb } = props;
-  return(
-  <Card onExpandChange={props.handleExpandChange}>
-    {!props.expandQb &&
-    <CardHeader
-          title={props.qb.title}
-          subtitle={`Add Questions to Question Bank ${props.qb.title}`}
-          actAsExpander={false}
-          showExpandableButton={true}
-
-        />
-    }
-      {props.expandQb &&
-       <div>
-         <CardHeader
-           title={props.qb.author.fullName}
-           textStyle={{verticalAlign:'73%'}}
-           subtitle=""
-           subtitleStyle={{color:"red"}}
-           avatar={props.qb.author.picture}
-           style={{borderBottom:'1px solid #CFD8DC'}}
-         > 
-         {user && props.qb.author._id === user._id && 
-            <div>
-               <Edit style={qbCardstyles.EditQb} color={blue500} onClick={props.OpenQbEdit}/>
-          <DeleteForever style={qbCardstyles.DeleQb} color={red300} onClick={props.OpenConfirmQbDel}/>
-              </div>
-           }
-         
-       </CardHeader>
-         {CheckImg  &&
-           <CardMedia
-             overlay={<CardTitle title={props.qb.title} subtitle={`${props.qb.noOfQuestions} Questions`} />}
-           >
-             <div style={{textAlign:'right',backgroundColor:'white',position:'absolute',zIndex:11}}>
-               {!props.UpdateQbank.imagePreviewUrl &&
-               <FlatButton
-            label=""
-            labelPosition="before"
-            primary={true}
-            icon={<AddAPhoto color={black}/>}
-            style={qbCardstyles.UpdateQbImage}
-            labelStyle={qbCardstyles.overRideRaisedButtonUppercase}
-             >
-               <input type="file"
-                  accept="image/*"
-                  style={qbCardstyles.uploadInput}
-                  name="qBImage"
-                  id="qBImage"
-                  onChange={e => {props.handleImageChange(e)}}
-                  />
-               </FlatButton>
-             }
-             {props.UpdateQbank.imagePreviewUrl &&
-               <div style={{position:'absolute',right:4,top:4,padding:2}}>
-                 <RaisedButton label="Save" primary={true} labelStyle={qbCardstyles.overRideRaisedButtonUppercase}
-                  style={{marginRight:3}}
-                  onClick={props.UpdateQbankData}
-                    />
-                 <RaisedButton label="Cancel" secondary={true} labelStyle={qbCardstyles.overRideRaisedButtonUppercase}
-                 onClick={props.CancelQbImage}
-                   />
-               </div>
-             }
-               </div>
-             {!props.UpdateQbank.imagePreviewUrl &&
-               <img src={`//localhost:3001/${props.qb.image.replace('public','')}`} width="200" height="300" alt="" />
-             }
-             {props.UpdateQbank.imagePreviewUrl &&
-               <img src={props.UpdateQbank.imagePreviewUrl} width="200" height="300" alt="" />
-             }
-           </CardMedia>
-         }
-         {!props.qb.image &&
-            <CardTitle title={props.qb.title} subtitle={`${props.qb.noOfQuestions} Questions`}>
-            {!CheckImg &&
-              <div style={{textAlign:'right',backgroundColor:'white',position:'absolute',zIndex:11,right:2,top:30,padding:0,margin:0}}>
-                <FlatButton
-             label=""
-             labelPosition="before"
-             primary={true}
-             icon={<AddAPhoto color={black}/>}
-             style={qbCardstyles.UpdateQbImage}
-             labelStyle={qbCardstyles.overRideRaisedButtonUppercase}
-              >
-                <input type="file"
-                   accept="image/*"
-                   style={qbCardstyles.uploadInput}
-                   name="qBImage"
-                   id="qBImage"
-                   onChange={e => {props.handleImageChange(e)}}
-                   />
-                </FlatButton>
-              </div>
-            }
-            </CardTitle>
-         }
-         <CardText>
-           {props.qb.summary}
-         </CardText>
-         <CardActions>
-           <FlatButton label="Answer Questions" />
-           { user && props.qb.author._id === user._id && 
-           <FlatButton onClick={props.showAddQuestion} label="Add Questions" />
-           }
-           <FlatButton onClick={props.viewQuestions} label="View Questions" />
-           <div style={{display:'block'}}>
-          {user && userBookMarks.qBanks && userBookMarks.qBanks.length > 0 &&  userBookMarks.qBanks.indexOf(qb._id) !== -1 &&
-            <IconButton>
-            <BookMarked
-              style={qbCardstyles.BookMarkBorder}
-              className="BookMarkBorder"
-              onClick={() => props.removebookMarkedQb(user._id,qb._id)}
-              />
-              </IconButton>
-          }
-          {user && userBookMarks.qBanks && userBookMarks.qBanks.indexOf(qb._id) === -1 &&
-          <IconButton>
-            <BookMarkBorder
-              style={qbCardstyles.BookMarkBorder}
-              className="BookMarkBorder"
-              onClick={() => props.bookMarkQb(user._id,qb._id)}
-              />
-              </IconButton>
-          }
-          </div>
-         </CardActions>
-       </div>
-      }
-  </Card>
-);
-}
 
 class EditQbDialog extends React.Component {
   render(){
@@ -337,9 +154,11 @@ class QuestionBank extends React.Component {
   updateQbformData ;
   constructor(props) {
     super(props);
+    this.state = {
+    };
     this.showAddQuestion = this.showAddQuestion.bind(this);
     this.handleExpandChange = this.handleExpandChange.bind(this);
-    this.CancelQbImageUpdate = this.CancelQbImageUpdate.bind(this);
+    //this.CancelQbImageUpdate = this.CancelQbImageUpdate.bind(this);
     this.UpdateQbankData = this.UpdateQbankData.bind(this);
     this.OpenQbEdit = this.OpenQbEdit.bind(this);
     this.closeQbDelete = this.closeQbDelete.bind(this);
@@ -347,6 +166,8 @@ class QuestionBank extends React.Component {
     this.saveNewQuestion = this.saveNewQuestion.bind(this);
     this.viewQuestions = this.viewQuestions.bind(this);
   }
+  
+  
 
   componentWillMount(){
     this.props.mappedfetchUserIfLoggedIn();
@@ -659,7 +480,7 @@ class QuestionBank extends React.Component {
           handleExpandChange={() => this.handleExpandChange()}
           handleImageChange={(e) => this.handleQbImageChange(e)}
           UpdateQbank={UpdateQbank}
-          CancelQbImage={this.CancelQbImageUpdate}
+          CancelQbImage={() => this.CancelQbImageUpdate()}
           UpdateQbankData={this.UpdateQbankData}
           OpenQbEdit={() => this.OpenQbEdit(fetchedQbank)}
           OpenConfirmQbDel={() => this.OpenConfirmQbDelete(fetchedQbank)}
@@ -668,6 +489,7 @@ class QuestionBank extends React.Component {
           userBookMarks={userBookMarks}
           bookMarkQb={(userId,qBId) => this.bookMarkQb(userId,qBId)}
           removebookMarkedQb={(userId,qBId) => this.removebookMarkedQb(userId,qBId)}
+         
           />
              </div>
           }
