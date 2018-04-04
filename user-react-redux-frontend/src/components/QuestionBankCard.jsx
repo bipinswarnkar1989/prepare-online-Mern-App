@@ -166,7 +166,7 @@ class QuestionBankCard extends React.Component {
                     }
                   />
             </MenuItem>
-            <MenuItem primaryText="Remove Photo" />
+            <MenuItem onClick={() => this.props.RemoveQbImage()} primaryText="Remove Photo" />
            
           </Menu>
         </Popover>

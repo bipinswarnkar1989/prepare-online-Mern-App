@@ -1,6 +1,6 @@
 // ./user-expressjs-backend/controllers/qBank.server.controller.js
 import multer from 'multer';
-
+import fs from 'fs';
 import User from '../models/user.server.model';
 import qBank from '../models/qBank.server.model';
 import Question from '../models/question.server.model';
@@ -87,10 +87,15 @@ export const addQuestoQb = (req,res,next) => {
 
 export const updateQbank = (req,res,next) => {
   let id = req.body.id
-  console.log(req.body);console.log('req.file:'+JSON.stringify(req.file));
+  console.log('updateQbank'+ JSON.stringify(req.body));console.log('req.file:'+JSON.stringify(req.file));
   if(req.body){
+    if (req.body.image === "") {
+      console.log('---REMOVE IMAGE STARTED---');
+      removeImage(id);
+   }
     if(req.file && req.file !== undefined && req.file !== 'undefined'){
       req.body.image = req.file.path;
+      removeImage(id);
     }
     qBank.findOneAndUpdate(
       { _id:id },
@@ -109,6 +114,18 @@ export const updateQbank = (req,res,next) => {
       }
     });
   }
+}
+
+export const removeImage = (id) => {
+   qBank.findOne({_id:id}, 'image').exec((err,qb) => {
+     if(err) throw err;
+     console.log('removeImage: '+ qb);
+     fs.unlink(qb.image, (err) => {
+      if (err) return;
+      console.log(`${qb.image} was deleted`);
+    });
+    
+   })
 }
 
 export const getAllQbanks = (req,res) => {

@@ -230,7 +230,7 @@ class QuestionBank extends React.Component {
        let qBImageSize = e.target.files[0].size;
        let qBImageExt = qBImageName.split('.').pop();
        if(qBImageExt === 'jpg' || qBImageExt === 'jpeg' || qBImageExt === 'png' || qBImageExt ==='JPG' || qBImageExt === 'JPEG' || qBImageExt === 'bmp'){
-         if(qBImageSize < 5389864){ //grater than 5MB
+         if(qBImageSize < 5389864){ //smaller than 5MB
        console.log(e.target.files[0]);
        let reader = new FileReader();
        let file = e.target.files[0];
@@ -260,6 +260,13 @@ class QuestionBank extends React.Component {
 
   UpdateQbankData(){
     console.log(this.updateQbformData);
+    this.props.mappedupdateQuestionBank(this.updateQbformData);
+  }
+
+  RemoveQbImage(){
+    this.updateQbformData = new FormData()
+    this.updateQbformData.append('image','');
+    this.updateQbformData.append('id',this.props.params.id)
     this.props.mappedupdateQuestionBank(this.updateQbformData);
   }
 
@@ -489,7 +496,7 @@ class QuestionBank extends React.Component {
           userBookMarks={userBookMarks}
           bookMarkQb={(userId,qBId) => this.bookMarkQb(userId,qBId)}
           removebookMarkedQb={(userId,qBId) => this.removebookMarkedQb(userId,qBId)}
-         
+          RemoveQbImage={() => this.RemoveQbImage()}
           />
              </div>
           }
