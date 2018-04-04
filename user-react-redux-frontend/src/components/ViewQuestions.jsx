@@ -130,6 +130,7 @@ class ViewQuestions extends React.Component {
       }
      }
      let { Questions } = this.props.ViewQbQuestionsState;
+     let user = this.props.user;
      return(
       <Paper style={styles.paperStyle} zDepth={1}>
         <h5>Questions in Question Bank</h5>
@@ -155,12 +156,14 @@ class ViewQuestions extends React.Component {
                 </div>
               </Col>
               <Col xs6={3}  md6={3} sm6={3} style={{maxWidth:'10%',minWidth:'10%'}}>
+              {q.author && user && user._id === q.author &&
                 <div style={{position:'relative',float:'right'}}>
                   <div style={styles.qActionsDiv} className="qActionsDiv">
                  <Edit color={blue500} style={styles.iconStyles} onClick={() => this.props.showEditQbQuestion(q)}/>
                  <Delete color={red400} style={styles.iconStyles} onClick={() => this.props.showDelQuestion(q)}/>
                   </div>
                 </div>
+                }
               </Col>
             </Row>
           </Grid>

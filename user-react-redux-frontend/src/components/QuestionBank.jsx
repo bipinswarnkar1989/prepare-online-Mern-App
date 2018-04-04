@@ -524,6 +524,7 @@ class QuestionBank extends React.Component {
                ViewQbQuestionsState={ViewQbQuestions}
                showDelQuestion={(q) => this.showDeleteQuestion(q)}
                showEditQbQuestion={(q) => this.showEditQuestion(q)}
+               user={user}
                />
            }
 
