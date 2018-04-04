@@ -13,7 +13,7 @@ import { pink300,pink500,white,red300,black,blue500,red400,grey800
 import Edit from 'material-ui/svg-icons/image/edit';
 import BookMarkBorder from 'material-ui/svg-icons/action/bookmark-border';
 import BookMarked from 'material-ui/svg-icons/action/bookmark';
-
+import AlertDialog from './AlertDialog';
 class QuestionBankCard extends React.Component {
     constructor(props) {
         super(props);
@@ -28,6 +28,7 @@ class QuestionBankCard extends React.Component {
               horizontal: 'left',
               vertical: 'top',
             },
+            removeImgModel:false
         };
     }
 
@@ -166,10 +167,23 @@ class QuestionBankCard extends React.Component {
                     }
                   />
             </MenuItem>
-            <MenuItem onClick={() => this.props.RemoveQbImage()} primaryText="Remove Photo" />
+            <MenuItem onClick={() => this.setState({
+              openImageMPopOver: false,
+              removeImgModel:true
+            })} primaryText="Remove Photo" />
            
           </Menu>
         </Popover>
+        
+        {/* Re-usable Alert Dialog Component */}
+        <AlertDialog 
+        open={this.state.removeImgModel}
+        handleConfirm={() => this.props.RemoveQbImage()}
+        message="Are you sure you want to remove Question Bank Image ?"
+        handleClose={() => this.setState({
+          removeImgModel:false
+        })}
+        />
                </div>
              }
              {this.props.UpdateQbank.imagePreviewUrl &&
