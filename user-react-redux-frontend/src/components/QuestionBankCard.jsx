@@ -174,7 +174,7 @@ class QuestionBankCard extends React.Component {
            
           </Menu>
         </Popover>
-        
+
         {/* Re-usable Alert Dialog Component */}
         <AlertDialog 
         open={this.state.removeImgModel}
@@ -190,7 +190,7 @@ class QuestionBankCard extends React.Component {
                <div style={{position:'absolute',right:4,top:4,padding:2}}>
                  <RaisedButton label="Save" primary={true} labelStyle={qbCardstyles.overRideRaisedButtonUppercase}
                   style={{marginRight:3}}
-                  onClick={this.props.UpdateQbankData}
+                  onClick={() => this.props.UpdateQbankData()}
                     />
                  <RaisedButton label="Cancel" secondary={true} labelStyle={qbCardstyles.overRideRaisedButtonUppercase}
                  onClick={() => this.props.CancelQbImage()}

@@ -158,8 +158,6 @@ class QuestionBank extends React.Component {
     };
     this.showAddQuestion = this.showAddQuestion.bind(this);
     this.handleExpandChange = this.handleExpandChange.bind(this);
-    //this.CancelQbImageUpdate = this.CancelQbImageUpdate.bind(this);
-    this.UpdateQbankData = this.UpdateQbankData.bind(this);
     this.OpenQbEdit = this.OpenQbEdit.bind(this);
     this.closeQbDelete = this.closeQbDelete.bind(this);
     this.confirmDeleteQb = this.confirmDeleteQb.bind(this);
@@ -488,7 +486,7 @@ class QuestionBank extends React.Component {
           handleImageChange={(e) => this.handleQbImageChange(e)}
           UpdateQbank={UpdateQbank}
           CancelQbImage={() => this.CancelQbImageUpdate()}
-          UpdateQbankData={this.UpdateQbankData}
+          UpdateQbankData={() => this.UpdateQbankData()}
           OpenQbEdit={() => this.OpenQbEdit(fetchedQbank)}
           OpenConfirmQbDel={() => this.OpenConfirmQbDelete(fetchedQbank)}
           viewQuestions={() => this.viewQuestions(fetchedQbank._id,1,10)}
