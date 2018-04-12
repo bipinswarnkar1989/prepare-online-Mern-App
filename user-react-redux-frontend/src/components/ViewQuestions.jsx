@@ -11,6 +11,7 @@ import { pink300,pink500,white,red300,red900,black,blue500,red400,green500,blue3
  import Done from 'material-ui/svg-icons/action/done';
  import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
+import Pagination from './Pagination';
 
 class ViewQuestions extends React.Component {
   vlsArray;
@@ -132,6 +133,7 @@ class ViewQuestions extends React.Component {
      let { Questions } = this.props.ViewQbQuestionsState;
      let user = this.props.user;
      return(
+      <div>
       <Paper style={styles.paperStyle} zDepth={1}>
         <h5>Questions in Question Bank</h5>
         <div style={styles.QuestionsDiv} className="QuestionsDiv">
@@ -227,6 +229,10 @@ class ViewQuestions extends React.Component {
            }
         </div>
       </Paper>
+      <div style={{margin:20}}>
+      <Pagination/>
+      </div>
+      </div>
      )
    }
 }
