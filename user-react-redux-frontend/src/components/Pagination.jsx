@@ -5,17 +5,17 @@ import ArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 
 class Pagination extends Component {
     render() {
+        const rangeLength = new Array(this.props.maxButtons);
         return (
             <div>
-        <div className="center">
+        <div className="center">{this.props.maxButtons}
 <div className="pagination">
 <a style={{padding: 3,}} href="#"><ArrowLeft/></a>
-  <a href="#">1</a>
+  {rangeLength && rangeLength.map(p => 
   <a className="active" href="#">2</a>
-  <a href="#">3</a>
-  <a href="#">4</a>
-  <a href="#">5</a>
+ )}
   <a style={{padding: 3,}} href="#"><ArrowRight/></a>
+  {this.props.limit}
 </div>
 </div> 
             </div>
