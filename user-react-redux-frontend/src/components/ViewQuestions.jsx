@@ -232,8 +232,8 @@ class ViewQuestions extends React.Component {
       <div style={{margin:20}}>
       <Pagination
       maxButtons={5}
-      countFromDb={70}
-      currentPage={this.props.page}
+      countFromDb={100}
+      currentPage={9}
       limit={this.props.limit}
       />
       </div>
