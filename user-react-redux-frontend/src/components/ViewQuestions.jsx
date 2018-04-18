@@ -130,7 +130,7 @@ class ViewQuestions extends React.Component {
         display:'none'
       }
      }
-     let { Questions } = this.props.ViewQbQuestionsState;
+     let { Questions, count } = this.props.ViewQbQuestionsState;
      let user = this.props.user;
      return(
       <div>
@@ -232,7 +232,7 @@ class ViewQuestions extends React.Component {
       <div style={{margin:20}}>
       <Pagination
       maxButtons={5}
-      countFromDb={70}
+      countFromDb={count}
       currentPage={this.props.page}
       limit={this.props.limit}
       fetchedQbank={this.props.fetchedQbank}

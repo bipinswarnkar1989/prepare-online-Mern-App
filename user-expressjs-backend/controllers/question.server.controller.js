@@ -53,6 +53,7 @@ export const fetchQuestions = (req,res) => {
                      return res.json({
                        success:true,
                        message:'Questions Fetched Successfully',
+                       count:req.count,
                        ques
                      });
                    }else{
@@ -60,6 +61,22 @@ export const fetchQuestions = (req,res) => {
                    }
                  }
                })
+  }
+}
+
+export const countQuestions = (req,res,next) => {
+  let qBid = req.params.qBid || null;
+  if (qBid) {
+    Question.find({qbank:qBid}).count((err,count) => {
+      if(err) {
+        console.log(err);
+        return res.json({success:false,message:'Something going wrong',err});
+   }
+   else{
+     req.count = count;
+     next();
+   }
+    })
   }
 }
 

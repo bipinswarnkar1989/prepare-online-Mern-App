@@ -14,7 +14,7 @@ router.route('/question')
   .post(userController.authenticate,questionController.createQuestion,qBankController.addQuestoQb,quesOptionCtrlObj.createOption)
   .put(userController.authenticate,quesOptionCtrlObj.updateOption,questionController.updateQuestion);
 router.route('/questions/:qBid/:page/:limit')
-  .get(questionController.fetchQuestions);
+  .get(questionController.countQuestions,questionController.fetchQuestions);
 router.route('/question/:quesId')
    .delete(userController.authenticate,questionController.deleteQuestion,quesOptionCtrlObj.deleteOptions);
 

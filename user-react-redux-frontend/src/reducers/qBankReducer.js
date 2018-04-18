@@ -710,7 +710,8 @@ case 'SUCCESS_FETCH_QB_QUESTIONS':
         showViewQDiv:true,
         qBid:currentState.ViewQbQuestions.qBid,
         page:currentState.ViewQbQuestions.page,
-        Questions:action.data.ques
+        Questions:action.data.ques,
+        count:action.data.count
       }
     }
 

@@ -14,7 +14,7 @@ class Pagination extends Component {
             loopStart:1,
             loopEnd:2,
             range:[],
-            totalPagination:parseInt(this.props.countFromDb/this.props.limit)
+            totalPagination:parseInt(Math.ceil(this.props.countFromDb/this.props.limit))
         }
     }
 
@@ -88,12 +88,12 @@ class Pagination extends Component {
   {this.state.range.length > 0  && this.state.range.map((p,i) => 
   <a key={i} className={this.state.currentPage === p ? "active" : ""} href={`http://localhost:3000/question-bank/5aadfd51f7d4a2b2edf9c294/view-questions/${p}/${this.props.limit}`} onClick={(e) => this.handlePgntionClick(e,p)}>{p}</a>
  )}
-  {this.state.currentPage !== this.state.totalPagination && 
+  {this.state.currentPage < this.state.totalPagination && 
      <a style={{padding: 3,}} href="#" onClick={(e) => this.handlePgntionClick(e,this.state.currentPage+1)}><ArrowRight/></a>
   }
 </div>
-<p>{this.state.totalPagination && this.state.totalPagination}</p>
-<p>{JSON.stringify(this.state.range)}</p>
+
+<p>{/*JSON.stringify(this.state.range)*/}</p>
 </div> 
             </div>
         );
