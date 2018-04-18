@@ -71,17 +71,26 @@ class Pagination extends Component {
             i++;
         }
     }
+
+    handlePgntionClick(e,p){
+        e.preventDefault();
+        this.props.viewQuestions(this.props.fetchedQbank._id,p,this.props.limit);
+    }
     
     render() {
         return (
             <div>
         <div className="center">
 <div className="pagination">
-<a style={{padding: 3,}} href="#"><ArrowLeft/></a>
+{this.state.currentPage !== 1 && 
+    <a style={{padding: 3,}} href="#" onClick={(e) => this.handlePgntionClick(e,this.state.currentPage-1)}><ArrowLeft/></a>
+}
   {this.state.range.length > 0  && this.state.range.map((p,i) => 
-  <a key={i} className={this.state.currentPage === p ? "active" : ""} href="#">{p}</a>
+  <a key={i} className={this.state.currentPage === p ? "active" : ""} href={`http://localhost:3000/question-bank/5aadfd51f7d4a2b2edf9c294/view-questions/${p}/${this.props.limit}`} onClick={(e) => this.handlePgntionClick(e,p)}>{p}</a>
  )}
-  <a style={{padding: 3,}} href="#"><ArrowRight/></a>
+  {this.state.currentPage !== this.state.totalPagination && 
+     <a style={{padding: 3,}} href="#" onClick={(e) => this.handlePgntionClick(e,this.state.currentPage+1)}><ArrowRight/></a>
+  }
 </div>
 <p>{this.state.totalPagination && this.state.totalPagination}</p>
 <p>{JSON.stringify(this.state.range)}</p>
