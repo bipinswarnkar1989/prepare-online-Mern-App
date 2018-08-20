@@ -7,6 +7,7 @@ import Login from './containers/Login';
 import QBanksList from './containers/QBanksList';
 import CreateQbank from './containers/CreateQbank';
 import QuestionBank from './containers/QuestionBank';
+import MockTest from './containers/MockTest';
 
 export default (
   <Route path='/' component={App}>
@@ -18,5 +19,6 @@ export default (
   <Route path="/question-bank/:id" component={QuestionBank}/>
   <Route path="/question-bank/:id/add-question" component={QuestionBank}/>
   <Route path="/question-bank/:id/view-questions/:page/:limit" component={QuestionBank}/>
+  <Route path="/mock-test" component={MockTest}/>
   </Route>
 )

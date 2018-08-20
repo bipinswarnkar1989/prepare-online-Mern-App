@@ -23,7 +23,7 @@ import Api from '../middlewares/api';
 let  menuRoutes =  [
     { text: 'Home', icon: <Assessment/>, link: '/' },
     { text: 'Question Banks', icon: <Web/>, link: '/question-banks/1/10' },
-    { text: 'Mock Tests', icon: <GridOn/>, link: '/table' },
+    { text: 'Mock Tests', icon: <GridOn/>, link: '/mock-test' },
     { text: 'Login', icon: <PermIdentity/>, link: '/login' },
     { text: 'Register', icon: <PermIdentity/>, link: '/register' }
   ];
