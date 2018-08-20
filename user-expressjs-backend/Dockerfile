@@ -11,6 +11,7 @@ COPY . /app
 
 #RUN npm rebuild node-sass@3.13.1
 RUN npm install
+RUN npm install bcrypt
 
 #ENV NODE_ENV=production
 
