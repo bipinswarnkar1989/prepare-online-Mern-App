@@ -17,4 +17,6 @@ RUN npm install bcrypt
 
 
 EXPOSE 3001
+EXPOSE 9200
+EXPOSE 27017
 CMD [ "npm", "run", "start-prod" ]

@@ -1,0 +1,36 @@
+version: "2"
+services:
+  frontend:
+    container_name: frontend
+    image: nginx
+    build: ./user-react-redux-frontend
+    ports:
+      - "8080:80" # Forward site to localhost:8080
+    links:
+      - server
+  server:
+    container_name: server
+    restart: always
+    build: ./user-expressjs-backend
+    expose:
+      - 3001
+    ports:
+      - "3001:3001"
+    links:
+      - mongo
+      - elasticsearch
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    expose: 
+      - 27017
+    ports:
+      - "27017:27017"
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch
+    ports: # Expose Elasticsearch ports
+      - "9300:9300"
+      - "9200:9200"

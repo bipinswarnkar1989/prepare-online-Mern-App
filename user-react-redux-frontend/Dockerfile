@@ -1,20 +1,13 @@
-FROM node:9.11.1
+# Stage 1 - the build process
+FROM node:7.10 as build-deps
+WORKDIR /usr/src/app
+COPY package.json yarn.lock ./
+RUN yarn
+COPY . ./
+RUN yarn build
 
-MAINTAINER BIPIN SWARNKAR
-
-# Create app dir
-RUN mkdir -p /app
-WORKDIR /app
-
-# Copy app (including package.json) into the image
-COPY . /app
-
-#RUN npm rebuild node-sass@3.13.1
-RUN npm install
-#RUN yarn
-
-#ENV NODE_ENV=production
-
-
-EXPOSE 3000
-CMD [ "npm", "start" ]
+# Stage 2 - the production environment
+FROM nginx:1.12-alpine
+COPY --from=build-deps /usr/src/app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

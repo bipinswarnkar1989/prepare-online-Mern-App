@@ -1,8 +1,9 @@
 // ./user-react-redux-frontend/src/actions/qBankActions.jsx
 import { browserHistory } from 'react-router';
-const qbApiUrl = '/api/qbank';
-const quesApiUrl = '/api/question';
-const bMqBApiUrl = '/api/qbbookmark';
+const api = '';
+const qbApiUrl = `http://localhost:3001/api/qbank`;
+const quesApiUrl = `http://localhost:3001/api/question`;
+const bMqBApiUrl = `http://localhost:3001/api/qbbookmark`;
 
 export const fetchQbanks = (d) => {
   return (dispatch) => {

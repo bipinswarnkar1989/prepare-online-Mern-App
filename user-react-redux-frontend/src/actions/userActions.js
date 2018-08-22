@@ -1,6 +1,6 @@
 // ./user-react-redux-frontend/src/actions/userActions.js
 import { browserHistory } from 'react-router';
-const apiUrl = "/api/";
+const apiUrl = "http://localhost:3001/api/";
 
 export const signUp = (user) => {
   return (dispatch) => {console.log(user)
