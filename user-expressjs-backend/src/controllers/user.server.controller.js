@@ -77,14 +77,14 @@ export const registerUser = (req,res) => {
 
 export const loginUser = (req,res) => {
   if(!req.body.email || !req.body.password){
-		res.json({ success: false, message: 'Please enter username and password'});
+		return res.json({ success: false, message: 'Please enter username and password'});
 	}
-   console.log(req.body.password);
+   console.log(req.body);
    User.findOne({email:req.body.email}, (err,user) => {
      if(err){
        return res.json({success:false,message:'Something going wrong'});
      }
-     if(!user){
+     if(!user){ 
         return res.json({success:false, message:'Invalid Email'});
      }
      else{

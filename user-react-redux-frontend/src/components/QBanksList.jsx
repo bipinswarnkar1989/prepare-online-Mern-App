@@ -36,6 +36,7 @@ class QBanksList extends React.Component {
       limit:limit
     }
     this.props.mappedfetchQbanks(data).then(() => {
+      if(this.props.mappedQbankState.qBanks){
       const qbIds = this.props.mappedQbankState.qBanks.map((item) => {
         return item._id;
       })
@@ -47,7 +48,7 @@ class QBanksList extends React.Component {
         console.log(bmData);
         this.props.mappedgetBookMarks(bmData);
       }
-      
+    }
     });
   }
 

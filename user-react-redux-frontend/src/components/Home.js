@@ -25,17 +25,19 @@ export default class Home extends React.Component {
   componentDidMount(){
     this.props.mappedgetLatestqBanks().then(
       () => {
-        const qbIds = this.props.mappedQbankState.latestQbanks.Qbanks.map((item) => {
-          return item._id;
-        })
-        if (this.props.mappedUserState.user) {
-          const bmData = {
-            userId:this.props.mappedUserState.user._id,
-            qbIds:qbIds
+         if (this.props.mappedQbankState.latestQbanks.Qbanks) {
+          const qbIds = this.props.mappedQbankState.latestQbanks.Qbanks.map((item) => {
+            return item._id;
+          })
+          if (this.props.mappedUserState.user) {
+            const bmData = {
+              userId:this.props.mappedUserState.user._id,
+              qbIds:qbIds
+            }
+            console.log(bmData);
+            this.props.mappedgetBookMarks(bmData);
           }
-          console.log(bmData);
-          this.props.mappedgetBookMarks(bmData);
-        }
+         }
       }
     );
   }

@@ -106,7 +106,7 @@ class QuestionBankCard extends React.Component {
     {!this.props.expandQb &&
     <CardHeader
           title={this.props.qb.title}
-          subtitle={`Add Questions to Question Bank ${this.props.qb.title}`}
+          subtitle={``}
           actAsExpander={false}
           showExpandableButton={true}
 

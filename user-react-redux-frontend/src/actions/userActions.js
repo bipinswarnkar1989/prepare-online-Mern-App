@@ -152,7 +152,7 @@ export const signOutUser = () => {
 }
 
 export const signIn = (user) => {
-  return (dispatch) => {console.log(user)
+  return (dispatch) => {
     dispatch(signInRequest());
     return fetch(`${apiUrl}user/signin`, {
       method:'post',
@@ -161,7 +161,7 @@ export const signIn = (user) => {
    'Accept': 'application/json',
    'Content-Type': 'application/json',
  },
-    }).then(response => {
+    }).then(response => {console.log(response)
       if(response.ok){
         response.json().then(data => {
           console.log(data);
@@ -179,7 +179,7 @@ export const signIn = (user) => {
       }
       else{
         response.json().then(error => {
-          dispatch(signInRequestFailed(error));
+          dispatch(signInRequestFailed(error.message));
         })
       }
     })

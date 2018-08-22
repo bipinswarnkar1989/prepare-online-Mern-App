@@ -43,7 +43,7 @@ configureAuth(passport,app, config);
 
 // connect to mongodb
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://mongo/prepare-online-mern', {
+mongoose.connect('mongodb://localhost/prepare-online-mern', {
   useMongoClient:true
 });
 

@@ -509,7 +509,7 @@ class QuestionBank extends React.Component {
              ConfirmDeleteQb={() => this.confirmDeleteQb()}
              CloseQbDelete={() => this.closeQbDelete()}
              />
-           {AddNewQuestion.showAddQDiv &&
+           {AddNewQuestion.showAddQDiv && user &&
                <AddQuestion
                  AddNewQuestion={AddNewQuestion}
                   AddNewOption={(option)=>this.AddNewOption(option)}
