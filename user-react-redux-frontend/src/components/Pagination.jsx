@@ -23,7 +23,7 @@ class Pagination extends Component {
        await this.loopPagination();
     }
 
-    setPagination(){console.log('this.state.loopEnd: '+this.state.loopEnd)
+    setPagination(){//console.log('this.state.loopEnd: '+this.state.loopEnd)
        if (this.state.currentPage < this.state.maxButtons && this.state.totalPagination <= this.state.maxButtons) {
            this.setState((prevState,props) => {
                return {
