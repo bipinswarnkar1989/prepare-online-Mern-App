@@ -14,7 +14,7 @@ class CreateQbank extends React.Component{
     this.handleQbSubmit = this.handleQbSubmit.bind(this);
     this.removeQbImage = this.removeQbImage.bind(this);
   }
-  componentWillMount(){
+  componentDidMount(){
     this.props.mappedfetchUserIfLoggedIn();
   }
 
