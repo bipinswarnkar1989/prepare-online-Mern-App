@@ -25,7 +25,8 @@ let  menuRoutes =  [
     { text: 'Question Banks', icon: <Web/>, link: '/question-banks/1/10' },
     { text: 'Mock Tests', icon: <GridOn/>, link: '/mock-test' },
     { text: 'Login', icon: <PermIdentity/>, link: '/login' },
-    { text: 'Register', icon: <PermIdentity/>, link: '/register' }
+    { text: 'Register', icon: <PermIdentity/>, link: '/register' },
+    { text: 'Add Course', icon: <PermIdentity/>, link: '/add-course' }
   ];
 
 let loggedInMenuRoutes = menuRoutes.filter((m) => m.text !== 'Login' && m.text !== 'Register')
