@@ -7,8 +7,21 @@ import {Card, CardHeader} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 
 class AddCourse extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            coursename:'',
+            uploadfiles:[]
+        }
+        this.uploadFile = this.uploadFile.bind(this);
+    }
+    
     componentWillMount(){
         this.props.mappedfetchUserIfLoggedIn();
+      }
+      uploadFile(event){
+      let file = event.target.files[0];
+      console.log(file)
       }
     render() {
         const styles = {
@@ -47,6 +60,7 @@ class AddCourse extends React.Component {
                 right: 0,
             }
         }
+        const { coursename } = this.state;
         return (
             <div style={styles.container}>
             <div style={styles.addContainer}>
@@ -58,10 +72,18 @@ class AddCourse extends React.Component {
              <TextField
              hintText="Course name"
              floatingLabelText="Enter course name"
-            
+             defaultValue={coursename}
+             onChange={value => this.setState({
+                 coursename:value
+             })}
              />
              <span style={styles.fileBtnCss}>
-               <Add color={white}/><br/> Video<input type="file" style={styles.inputFile}/>
+               <Add color={white}/><br/> Video
+               <input type="file" 
+               style={styles.inputFile} 
+               onChange={this.uploadFile}
+               multiple={true}
+               />
             </span>
             <div style={{display:'block', padding:20}}>
             <RaisedButton primary={true} label="Submit" fullWidth={true} />
