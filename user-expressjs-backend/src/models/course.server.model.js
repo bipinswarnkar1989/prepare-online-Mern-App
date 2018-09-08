@@ -24,10 +24,12 @@ const courseSchema = new Schema({
       updatedAt:{
         type:Date
       },
-      video:{
-          type:Schema.ObjectId,
-          ref:'Video'
-      }
+      videos:[
+        {
+            type:Schema.ObjectId,
+            ref:'Video'
+        }
+      ]
 });
 
 courseSchema.plugin(mongoosastic);
