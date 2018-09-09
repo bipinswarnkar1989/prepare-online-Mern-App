@@ -5,14 +5,16 @@ import mongoosastic from 'mongoosastic';
 var Schema = mongoose.Schema;
 
 const courseSchema = new Schema({
-    title:{
+    name:{
         type:String,
-        required:[true, 'Course Title is required']
+        required:[true, 'Course Title is required'],
+        es_indexed:true
     },
     author:{
         type:Schema.ObjectId,
         ref:'User',
-        required:[true, 'Author is required']
+        required:[true, 'Author is required'],
+        es_indexed:true
     },
     description:{
         type:String

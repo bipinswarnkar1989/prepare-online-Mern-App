@@ -23,7 +23,7 @@ var storage = multer.diskStorage({
     storage:storage,
     fileFilter:(req,file,cb) => {
       console.log(file);
-      if(file.mimetype == 'video/x-flv' || file.mimetype == 'video/mp4' || file.mimetype == 'video/x-msvideo' || file.mimetype == 'video/x-ms-wmv' || file.mimetype == 'video/quicktime' || file.mimetype == 'video/3gpp'){
+      if(file.mimetype == 'video/x-flv' || file.mimetype == 'video/mp4' || file.mimetype == 'video/x-msvideo' || file.mimetype == 'video/x-ms-wmv' || file.mimetype == 'video/quicktime' || file.mimetype == 'video/3gpp' || file.mimetype == 'video/avi'){
         cb(null,true);
       }
       else{

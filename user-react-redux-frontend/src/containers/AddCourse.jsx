@@ -4,7 +4,7 @@ import * as userActions from '../actions/userActions';
 
 const mapStateToProps = (state) => {
     return {
-
+        mappedUserState:state.userState,
     }
 }
 

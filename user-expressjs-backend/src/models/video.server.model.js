@@ -12,6 +12,7 @@ const videoSchema = new Schema({
     },
     title:{
         type:String,
+        es_indexed:true
     },
     author:{
         type:Schema.ObjectId,

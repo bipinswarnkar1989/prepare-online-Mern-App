@@ -10,19 +10,34 @@ class AddCourse extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            coursename:'',
-            uploadfiles:[]
+            name:'',
+            description:'',
+            videofiles:[]
         }
         this.uploadFile = this.uploadFile.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     
     componentWillMount(){
         this.props.mappedfetchUserIfLoggedIn();
       }
+
       uploadFile(event){
       let file = event.target.files[0];
       console.log(file)
       }
+      
+      handleSubmit(event){
+        event.preventDefault();
+        let data = {
+            name:this.state.name,
+            author:this.props.mappedUserState.user._id,
+            description:this.state.description,
+            videos:[]
+
+        }
+      }
+
     render() {
         const styles = {
             container:{
@@ -31,7 +46,7 @@ class AddCourse extends React.Component {
             addContainer:{
                display: 'flex',
                alignContent: 'center',
-               
+               flexDirection: 'column',
             },
             formDiv:{
               display:'flex',
@@ -42,12 +57,13 @@ class AddCourse extends React.Component {
             },
             fileBtnCss:{
                 position:'relative',
-                backgroundColor:'blue',
+                backgroundColor:'#E64A65',
                 color:'white',
                 textAlign:'center',
                 padding: 2,
                 borderRadius: 4,
-                width:70,
+                width:80,
+                
             },
             inputFile:{
                 position:'absolute',
@@ -60,7 +76,7 @@ class AddCourse extends React.Component {
                 right: 0,
             }
         }
-        const { coursename } = this.state;
+        const { name, description } = this.state;
         return (
             <div style={styles.container}>
             <div style={styles.addContainer}>
@@ -69,25 +85,42 @@ class AddCourse extends React.Component {
       title="Add Course"
     />
              <div style={styles.formDiv}>
+             <form onSubmit={this.handleSubmit}>
              <TextField
+             required
+             fullWidth
              hintText="Course name"
              floatingLabelText="Enter course name"
-             defaultValue={coursename}
+             defaultValue={name}
              onChange={value => this.setState({
-                 coursename:value
+                 name:value
              })}
              />
-             <span style={styles.fileBtnCss}>
-               <Add color={white}/><br/> Video
+              <TextField
+             multiline
+             fullWidth
+             hintText="Description"
+             floatingLabelText="Enter course description"
+            value={this.state.description}
+             onChange={value => this.setState({
+                 description:value
+             })}
+             />
+             <div style={styles.fileBtnCss}>
+               <Add  color={white}/>
+               <span style={{ height:'100%', display:'block'}}>Video</span>
                <input type="file" 
                style={styles.inputFile} 
                onChange={this.uploadFile}
                multiple={true}
+               accept="video/mp4,video/x-m4v,video/*"
                />
-            </span>
-            <div style={{display:'block', padding:20}}>
-            <RaisedButton primary={true} label="Submit" fullWidth={true} />
             </div>
+            <div style={{display:'block', padding:20}}>
+            <RaisedButton type="submit" primary={true} label="Submit" fullWidth={true} />
+            </div>
+             </form>
+            
              </div>
             </Card>
             </div>
