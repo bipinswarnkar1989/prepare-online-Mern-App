@@ -16,6 +16,7 @@ import quesRoutes from './routes/question.server.route';
 import qbBookmarkRoutes from './routes/qBankBookMark.server.route';
 import opTionRoutes from './routes/quesOption.server.route';
 import courseRoutes from './routes/course.server.route';
+import videoRoutes from './routes/video.server.route';
 
 // define our app using express
 const app = express();
@@ -58,6 +59,7 @@ app.use('/api/question',quesRoutes);
 app.use('/api/qbbookmark',qbBookmarkRoutes);
 app.use('/api/option',opTionRoutes);
 app.use('/api/courses', courseRoutes);
+app.use('/api/videos', videoRoutes);
 
 app.get('/login/facebook', passport.authenticate('facebook',{
   scope:'email'

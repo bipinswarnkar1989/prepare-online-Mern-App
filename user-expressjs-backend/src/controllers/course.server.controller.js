@@ -5,7 +5,7 @@ import Video from '../models/video.server.model';
 import elasticClient from '../config/esSearchConfig';
 const esClient = elasticClient;
 
-class CourseCtrl{
+class CourseCtrl {
    async addCourse (req, res, next) {
        console.log('addCourse: '+ JSON.stringify(req.body));
        try {
