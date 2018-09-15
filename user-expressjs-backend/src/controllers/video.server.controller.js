@@ -36,7 +36,7 @@ class videoCtrl {
    async addVideo (req, res, next) {
     console.log('addVideo: '+ JSON.stringify(req.body));
     try {
-        let newVideo = new Course(req.body);
+        let newVideo = new Video(req.body);
         if(req.file){
             newVideo.videoAddress = req.file.path;
           }
@@ -44,7 +44,7 @@ class videoCtrl {
          let result = {
              success:true,
              message:'Video Added Successfully',
-             course
+             video
            }
          return  res.json(result);
     } catch (error) {

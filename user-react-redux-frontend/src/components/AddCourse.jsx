@@ -22,7 +22,7 @@ class AddCourse extends React.Component {
         this.props.mappedfetchUserIfLoggedIn();
       }
 
-      uploadFile(event){
+      uploadVideo(event){
       let file = event.target.files[0];
       console.log(file)
       }
@@ -77,6 +77,7 @@ class AddCourse extends React.Component {
             }
         }
         const { name, description } = this.state;
+        const { isLoading, error, successMsg, video } = this.props.mappedVideoState;
         return (
             <div style={styles.container}>
             <div style={styles.addContainer}>
