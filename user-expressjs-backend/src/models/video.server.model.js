@@ -8,7 +8,6 @@ const videoSchema = new Schema({
     course:{
        type:Schema.ObjectId,
        ref:'Course',
-       required:[true, 'Course is required']
     },
     title:{
         type:String,
