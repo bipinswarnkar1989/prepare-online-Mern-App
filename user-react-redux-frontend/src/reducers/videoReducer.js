@@ -33,7 +33,9 @@ const videoReducer = ( currentState = INITIAL_STATE, action ) => {
             video:null,
             successMsg:null,
             error:action.response.message
-         } 
+         }
+         
+     
     
         default:
             return currentState;

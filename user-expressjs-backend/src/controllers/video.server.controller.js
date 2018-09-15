@@ -9,13 +9,13 @@ const esClient = elasticClient;
 //set multer storage
 var storage = multer.diskStorage({
     destination:(req,file,cb) => {
-      cb(null,'./public/courseVideos');
+      cb(null, './public/courseVideos');
     },
     filename:(req,file,cb) => {
       let date = Date.now();
       let newImageName = file.originalname.split('.')[file.originalname.split('.').length - 2];
       newImageName = newImageName.replace(/ /g, '_');
-      cb(null,file.fieldname + date + newImageName + '.' +file.originalname.split('.')[file.originalname.split('.').length -1] );
+      cb(null,file.fieldname + date + newImageName  + '.' +file.originalname.split('.')[file.originalname.split('.').length -1] );
     }
   });
   
@@ -23,7 +23,7 @@ var storage = multer.diskStorage({
     storage:storage,
     fileFilter:(req,file,cb) => {
       console.log(file);
-      if(file.mimetype == 'video/x-flv' || file.mimetype == 'video/mp4' || file.mimetype == 'video/x-msvideo' || file.mimetype == 'video/x-ms-wmv' || file.mimetype == 'video/quicktime' || file.mimetype == 'video/3gpp' || file.mimetype == 'video/avi'){
+      if(file.mimetype == 'video/x-flv' || file.mimetype == 'video/mp4' || file.mimetype === 'video/x-msvideo' || file.mimetype === 'video/x-ms-wmv' || file.mimetype === 'video/quicktime' || file.mimetype === 'video/3gpp' || file.mimetype === 'video/avi'){
         cb(null,true);
       }
       else{
@@ -40,7 +40,7 @@ class videoCtrl {
         if(req.file){
             newVideo.videoAddress = req.file.path;
           }
-         let video =  await newCourse.save();
+         let video =  await newVideo.save();
          let result = {
              success:true,
              message:'Video Added Successfully',
@@ -56,15 +56,15 @@ class videoCtrl {
    }
 
    async uploadVideo (req,res,next) {
-    try {
-        await Upload(req,res);
+    Upload(req,res,(err) => {
+      if(err){
+        console.log('ERROR:'+err);
+        return res.json({'success':false,'message':err});
+      }
+      else{
         next();
-    } catch (error) {
-        return res.json({
-            success:false,
-            message:error.message,
-          });
-    }
+      }
+});
   }
 }
 

@@ -6,6 +6,8 @@ import {white} from 'material-ui/styles/colors';
 import {Card, CardHeader} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 
+const apiUrl = `http://localhost:3001/api/videos`;
+
 class AddCourse extends React.Component {
     constructor(props) {
         super(props);
@@ -14,7 +16,7 @@ class AddCourse extends React.Component {
             description:'',
             videofiles:[]
         }
-        this.uploadFile = this.uploadFile.bind(this);
+        this.uploadVideo = this.uploadVideo.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
@@ -24,7 +26,32 @@ class AddCourse extends React.Component {
 
       uploadVideo(event){
       let file = event.target.files[0];
-      console.log(file)
+      const data = new FormData();
+      data.append('video', file);
+      data.append('author',this.props.mappedUserState.user._id);
+      console.log(file);
+      const token = localStorage.getItem('userToken');
+       fetch(apiUrl, {
+           method:'post',
+           body:data,
+           headers: { 'authorization':token }
+       }).then((resp) => {
+           if (resp.ok) {
+               resp.json().then((json) => {
+                   console.log(json)
+                   if (json.success) {
+                       this.props.mappedsuccessUploadVideo(json);
+                   } else {
+                       this.props.mappedfailedUploadVideo(json);
+                   }
+               })
+           } else {
+               let json = {
+                   message:resp.statusText
+               }
+               this.props.mappedfailedUploadVideo(json);
+           }
+       })
       }
       
       handleSubmit(event){
@@ -112,7 +139,7 @@ class AddCourse extends React.Component {
                <span style={{ height:'100%', display:'block'}}>Video</span>
                <input type="file" 
                style={styles.inputFile} 
-               onChange={this.uploadFile}
+               onChange={this.uploadVideo}
                multiple={true}
                accept="video/mp4,video/x-m4v,video/*"
                />
