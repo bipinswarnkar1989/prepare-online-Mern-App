@@ -5,6 +5,7 @@ import Add from 'material-ui/svg-icons/content/add';
 import {white} from 'material-ui/styles/colors';
 import {Card, CardHeader} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import Snackbar from 'material-ui/Snackbar';
 
 const apiUrl = `http://localhost:3001/api/videos`;
 
@@ -15,7 +16,9 @@ class AddCourse extends React.Component {
             name:'',
             description:'',
             videofiles:[],
-            progress:0
+            progress:0,
+            success:null,
+            snackOpen:false
         }
         this.uploadVideo = this.uploadVideo.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -66,32 +69,48 @@ class AddCourse extends React.Component {
         console.log(file);
         const token = localStorage.getItem('userToken');
         
-        var request = new XMLHttpRequest();
-        request.onreadystatechange = function () {
-            if (request.readyState == 4) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
                 try {
-                    var resp = JSON.parse(request.response);
+                    if (xhr.status === 200) {
+                    var resp = JSON.parse(xhr.response);
                     console.log(resp);
                     if (resp.success) {
                         _this.props.mappedsuccessUploadVideo(resp);
                     } else {
                         _this.props.mappedfailedUploadVideo(resp);
                     }
+                  }
                 } catch (error) {
-                    var resp = {
-                        status: 'error',
-                        data: 'Unknown error occurred: [' + request.responseText + ']'
-                    };
+                    alert(error.message);
                 }
-                console.log(resp.status + ': ' + resp.data);
             }
         }
-        request.upload.addEventListener('progress', function(e){
-            document.getElementById('_progress').style.width = Math.ceil(e.loaded/e.total) * 100 + '%';
+        xhr.upload.addEventListener('progress', function(e){
+            document.getElementById('_progress').style.width = Math.ceil(e.loaded/e.total) * 100 + '%'; //  loaded is a value of how much data has been sent to the server, and the total value is the overall amount of data to be sent, therefore we can use these two to work out a percentage, and set the progress bar to that width
         }, false);
 
-        request.open('POST', apiUrl);
-        request.send(data);
+        xhr.upload.addEventListener('load', function (e) {
+            console.log(e)
+            _this.setState({
+                snackOpen:true,
+                success:'Video Uploaded Successfully'
+            })
+        }, false);
+
+        xhr.ontimeout = function () {
+            console.error("The request for " + apiUrl + " timed out.");
+            alert(("The request for " + apiUrl + " timed out."))
+        };
+
+        xhr.onerror = function (e) {
+            console.error(xhr.statusText);
+            alert(xhr.statusText);
+          };
+
+        xhr.open('POST', apiUrl, true);
+        xhr.send(data);
       }
       
       handleSubmit(event){
@@ -104,6 +123,12 @@ class AddCourse extends React.Component {
 
         }
       }
+
+      handleRequestClose = () => {
+        this.setState({
+            snackOpen: false,
+        });
+      };
 
     render() {
         const styles = {
@@ -189,8 +214,11 @@ class AddCourse extends React.Component {
                {isLoading && 
                    <span style={{}}>Uploading....</span>
                }
-               <div style={{border:'1px solid #000'}} className='progress_outer'>
-               <div style={{width:'20%', backgroundColor:'#DEDEDE', height:20, transition:'width 2.5s ease'}} id='_progress' className='progress'></div>
+               {successMsg && 
+                  successMsg
+               }
+               <div style={{border:'1px solid #77B5EE'}} className='progress_outer'>
+               <div style={{width:'0%', backgroundColor:'#77B5EE', height:20, transition:'width 2.5s ease'}} id='_progress' className='progress'></div>
                </div>
                </div>
             
@@ -203,6 +231,13 @@ class AddCourse extends React.Component {
              </div>
             </Card>
             </div>
+            <Snackbar
+          open={this.state.snackOpen}
+          message={this.state.success}
+          autoHideDuration={4000}
+          onRequestClose={this.handleRequestClose}
+          style={{textAlign:'center'}}
+        />
             </div>
         );
     }

@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     error:null,
     successMsg:null,
     videos:[],
-    video:null
+    video:null,
 }
 
 const videoReducer = ( currentState = INITIAL_STATE, action ) => {
