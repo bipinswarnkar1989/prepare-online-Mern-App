@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         mappedfetchUserIfLoggedIn: () => dispatch(userActions.fetchUserIfLoggedIn()),
-        mappedrequestUploadVideo: payload => dispatch(videoActions.requestUploadVideo(payload)),
+        mappedrequestUploadVideo: () => dispatch(videoActions.requestUploadVideo()),
         mappedsuccessUploadVideo: response => dispatch(videoActions.successUploadVideo(response)),
         mappedfailedUploadVideo: response => dispatch(videoActions.failedUploadVideo(response))
     }

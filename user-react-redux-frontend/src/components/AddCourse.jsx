@@ -14,7 +14,8 @@ class AddCourse extends React.Component {
         this.state = {
             name:'',
             description:'',
-            videofiles:[]
+            videofiles:[],
+            progress:0
         }
         this.uploadVideo = this.uploadVideo.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,7 +25,8 @@ class AddCourse extends React.Component {
         this.props.mappedfetchUserIfLoggedIn();
       }
 
-      uploadVideo(event){
+      uploadVideoThroughFetch(event){
+      this.props.mappedrequestUploadVideo();
       let file = event.target.files[0];
       const data = new FormData();
       data.append('video', file);
@@ -52,6 +54,44 @@ class AddCourse extends React.Component {
                this.props.mappedfailedUploadVideo(json);
            }
        })
+      }
+
+      uploadVideo(event){
+        var _this = this;
+        this.props.mappedrequestUploadVideo();
+        let file = event.target.files[0];
+        const data = new FormData();
+        data.append('video', file);
+        data.append('author',this.props.mappedUserState.user._id);
+        console.log(file);
+        const token = localStorage.getItem('userToken');
+        
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (request.readyState == 4) {
+                try {
+                    var resp = JSON.parse(request.response);
+                    console.log(resp);
+                    if (resp.success) {
+                        _this.props.mappedsuccessUploadVideo(resp);
+                    } else {
+                        _this.props.mappedfailedUploadVideo(resp);
+                    }
+                } catch (error) {
+                    var resp = {
+                        status: 'error',
+                        data: 'Unknown error occurred: [' + request.responseText + ']'
+                    };
+                }
+                console.log(resp.status + ': ' + resp.data);
+            }
+        }
+        request.upload.addEventListener('progress', function(e){
+            document.getElementById('_progress').style.width = Math.ceil(e.loaded/e.total) * 100 + '%';
+        }, false);
+
+        request.open('POST', apiUrl);
+        request.send(data);
       }
       
       handleSubmit(event){
@@ -143,6 +183,17 @@ class AddCourse extends React.Component {
                multiple={true}
                accept="video/mp4,video/x-m4v,video/*"
                />
+            </div>
+            <div style={{display:'block', textAlign:'center'}}>
+               <div>
+               {isLoading && 
+                   <span style={{}}>Uploading....</span>
+               }
+               <div style={{border:'1px solid #000'}} className='progress_outer'>
+               <div style={{width:'20%', backgroundColor:'#DEDEDE', height:20, transition:'width 2.5s ease'}} id='_progress' className='progress'></div>
+               </div>
+               </div>
+            
             </div>
             <div style={{display:'block', padding:20}}>
             <RaisedButton type="submit" primary={true} label="Submit" fullWidth={true} />

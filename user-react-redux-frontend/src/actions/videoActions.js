@@ -1,7 +1,6 @@
-export const requestUploadVideo = (payload) => {
+export const requestUploadVideo = () => {
     return {
         type:'REQUEST_UPLOAD_VIDEO',
-        payload
     }
 }
 
