@@ -63,6 +63,10 @@ class AddCourse extends React.Component {
         var _this = this;
         this.props.mappedrequestUploadVideo();
         let file = event.target.files[0];
+        var source = document.getElementById('video_here');
+        source.src = window.URL.createObjectURL(file);
+        //source.parent()[0].load();
+
         const data = new FormData();
         data.append('video', file);
         data.append('author',this.props.mappedUserState.user._id);
@@ -78,6 +82,12 @@ class AddCourse extends React.Component {
                     console.log(resp);
                     if (resp.success) {
                         _this.props.mappedsuccessUploadVideo(resp);
+                        setTimeout(function(){
+                            _this.setState({
+                                snackOpen:true,
+                                success:resp.message
+                            })
+                        }, 1000)
                     } else {
                         _this.props.mappedfailedUploadVideo(resp);
                     }
@@ -214,9 +224,16 @@ class AddCourse extends React.Component {
                {isLoading && 
                    <span style={{}}>Uploading....</span>
                }
-               {successMsg && 
-                  successMsg
+               
+               <div style={{position:'relative', width:400}}>
+               {isLoading && 
+               <div style={{position:'absolute', zIndex:9, width:'100%', height:'100%', backgroundColor:'rgb(255,0,0,0.5)'}}></div>
                }
+               <video width="400" controls id="video_here">
+                <source/>
+                 Your browser does not support HTML5 video.
+              </video>
+               </div>
                <div style={{border:'1px solid #77B5EE'}} className='progress_outer'>
                <div style={{width:'0%', backgroundColor:'#77B5EE', height:20, transition:'width 2.5s ease'}} id='_progress' className='progress'></div>
                </div>
