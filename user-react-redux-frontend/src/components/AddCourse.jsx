@@ -22,6 +22,7 @@ class AddCourse extends React.Component {
         }
         this.uploadVideo = this.uploadVideo.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
     
     componentWillMount(){
@@ -59,10 +60,48 @@ class AddCourse extends React.Component {
        })
       }
 
-      uploadVideo(event){
+      handleChange(event){
+        let file = event.target.files[0];
+        let fileId = file.lastModified + file.size;
+        let newElement = {
+            fileId:fileId,
+            file:file,
+            uploadProgress:0,
+            processed:false
+        };
+        let newFile = [...this.state.videofiles, newElement];
+        this.setState({
+            videofiles:newFile
+        }, () => {
+            console.log(this.state.videofiles);
+            var numFiles = this.state.videofiles;
+            for (var i = 0; i < numFiles.length; i++) {
+                var file = numFiles[i];
+                if (!file.processed) {
+                    this.uploadVideo(file);
+                }
+              }
+        })
+        
+      }
+
+      uploadVideo(file){
+        let fileObject = { ...file, processed:true }
+        console.log(fileObject)
+        let newVideofiles = this.state.videofiles.map((item) => {
+            if (item.fileId === fileObject.fileId) {
+                return fileObject;
+            }
+            return item;
+        })
+        this.setState({
+            videofiles:newVideofiles
+        }, () => console.log(this.state.videofiles));
+        
+        return;
         var _this = this;
         this.props.mappedrequestUploadVideo();
-        let file = event.target.files[0];
+        
         var source = document.getElementById('video_here');
         source.src = window.URL.createObjectURL(file);
         //source.parent()[0].load();
@@ -214,7 +253,7 @@ class AddCourse extends React.Component {
                <span style={{ height:'100%', display:'block'}}>Video</span>
                <input type="file" 
                style={styles.inputFile} 
-               onChange={this.uploadVideo}
+               onChange={this.handleChange}
                multiple={true}
                accept="video/mp4,video/x-m4v,video/*"
                />
