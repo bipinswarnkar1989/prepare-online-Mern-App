@@ -67,7 +67,9 @@ class AddCourse extends React.Component {
             fileId:fileId,
             file:file,
             uploadProgress:0,
-            processed:false
+            processed:false,
+            src:null,
+            isLoading:false
         };
         let newFile = [...this.state.videofiles, newElement];
         this.setState({
@@ -78,15 +80,7 @@ class AddCourse extends React.Component {
             for (var i = 0; i < numFiles.length; i++) {
                 var file = numFiles[i];
                 if (!file.processed) {
-                    this.uploadVideo(file);
-                }
-              }
-        })
-        
-      }
-
-      uploadVideo(file){
-        let fileObject = { ...file, processed:true }
+                    let fileObject = { ...file, processed:true, isLoading:true }
         console.log(fileObject)
         let newVideofiles = this.state.videofiles.map((item) => {
             if (item.fileId === fileObject.fileId) {
@@ -96,15 +90,28 @@ class AddCourse extends React.Component {
         })
         this.setState({
             videofiles:newVideofiles
-        }, () => console.log(this.state.videofiles));
+        }, () => {
+            console.log(this.state.videofiles);
+            this.uploadVideo(fileObject);
+        });
+                    
+                }
+              }
+        })
         
-        return;
+      }
+
+      uploadVideo(f){
+       const fileElement = f;
+       console.log(fileElement);//return;
         var _this = this;
+        let file = fileElement.file;
         this.props.mappedrequestUploadVideo();
         
-        var source = document.getElementById('video_here');
-        source.src = window.URL.createObjectURL(file);
+        // var source = document.getElementById('video_here');
+        // source.src = window.URL.createObjectURL(file);
         //source.parent()[0].load();
+        const src = window.URL.createObjectURL(file);
 
         const data = new FormData();
         data.append('video', file);
@@ -137,7 +144,23 @@ class AddCourse extends React.Component {
             }
         }
         xhr.upload.addEventListener('progress', function(e){
-            document.getElementById('_progress').style.width = Math.ceil(e.loaded/e.total) * 100 + '%'; //  loaded is a value of how much data has been sent to the server, and the total value is the overall amount of data to be sent, therefore we can use these two to work out a percentage, and set the progress bar to that width
+            console.log('fileElement: '+ JSON.stringify(fileElement))
+            //document.getElementById('_progress').style.width = Math.ceil(e.loaded/e.total) * 100 + '%'; //  loaded is a value of how much data has been sent to the server, and the total value is the overall amount of data to be sent, therefore we can use these two to work out a percentage, and set the progress bar to that width
+            var percentCompleted = Math.ceil(e.loaded/e.total) * 100; 
+            const fileObject = { ...fileElement, uploadProgress: percentCompleted, src: src, isLoading: false }
+              _this.setState({
+                  uploadProgress:percentCompleted
+              })
+              console.log(fileObject)
+        let newVideofiles = _this.state.videofiles.map((item) => {
+            if (item.fileId === fileObject.fileId) {
+                return fileObject;
+            }
+            return item;
+        })
+        _this.setState({
+            videofiles:newVideofiles
+        });
         }, false);
 
         xhr.upload.addEventListener('load', function (e) {
@@ -217,11 +240,12 @@ class AddCourse extends React.Component {
                 right: 0,
             }
         }
-        const { name, description } = this.state;
-        const { isLoading, error, successMsg, video } = this.props.mappedVideoState;
+        const { name, description, videofiles } = this.state;
+        const { isLoading, error, successMsg, video, } = this.props.mappedVideoState;
         return (
             <div style={styles.container}>
             <div style={styles.addContainer}>
+            {JSON.stringify(videofiles)}
             <Card>
             <CardHeader
       title="Add Course"
@@ -258,27 +282,32 @@ class AddCourse extends React.Component {
                accept="video/mp4,video/x-m4v,video/*"
                />
             </div>
-            <div style={{display:'block', textAlign:'center'}}>
-               <div>
-               {isLoading && 
+            {isLoading && 
                    <span style={{}}>Uploading....</span>
                }
-               
-               <div style={{position:'relative', width:400}}>
-               {isLoading && 
-               <div style={{position:'absolute', zIndex:9, width:'100%', height:'100%', backgroundColor:'rgb(255,0,0,0.5)'}}></div>
-               }
-               <video width="400" controls id="video_here">
-                <source/>
-                 Your browser does not support HTML5 video.
-              </video>
-               </div>
-               <div style={{border:'1px solid #77B5EE'}} className='progress_outer'>
-               <div style={{width:'0%', backgroundColor:'#77B5EE', height:20, transition:'width 2.5s ease'}} id='_progress' className='progress'></div>
-               </div>
-               </div>
-            
-            </div>
+           {videofiles && videofiles.length !== 0 && 
+             videofiles.map((v) => {
+                return (
+                    <div style={{display:'block', textAlign:'center'}}>
+                <div>
+                <div style={{position:'relative', width:400}}>
+                {v.isLoading && 
+                <div style={{position:'absolute', zIndex:9, width:'100%', height:'100%', backgroundColor:'rgb(255,0,0,0.5)'}}></div>
+                }
+                <video src={v.src} width="400" controls id="video_here">
+                 <source />
+                  Your browser does not support HTML5 video.
+               </video>
+                </div>
+                <div style={{border:'1px solid #77B5EE'}} className='progress_outer'>
+                <div style={{width:`${v.uploadProgress}%`, backgroundColor:'#77B5EE', height:20, transition:'width 2.5s ease'}} id='_progress' className='progress'></div>
+                </div>
+                </div>
+             </div>
+                )
+             })
+           }
+
             <div style={{display:'block', padding:20}}>
             <RaisedButton type="submit" primary={true} label="Submit" fullWidth={true} />
             </div>
