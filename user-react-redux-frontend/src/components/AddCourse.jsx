@@ -245,7 +245,7 @@ class AddCourse extends React.Component {
         return (
             <div style={styles.container}>
             <div style={styles.addContainer}>
-            {JSON.stringify(videofiles)}
+            
             <Card>
             <CardHeader
       title="Add Course"
@@ -282,19 +282,20 @@ class AddCourse extends React.Component {
                accept="video/mp4,video/x-m4v,video/*"
                />
             </div>
-            {isLoading && 
+            {/* {isLoading && 
                    <span style={{}}>Uploading....</span>
-               }
+               } */}
+           <div style={{display:'flex', flexDirection:'row', flexWrap:'wrap'}}>
            {videofiles && videofiles.length !== 0 && 
              videofiles.map((v) => {
                 return (
-                    <div style={{display:'block', textAlign:'center'}}>
+                    <div style={{display:'block', textAlign:'center', padding:10, width:310, height:'auto'}}>
                 <div>
-                <div style={{position:'relative', width:400}}>
+                <div style={{position:'relative', width:'99%'}}>
                 {v.isLoading && 
                 <div style={{position:'absolute', zIndex:9, width:'100%', height:'100%', backgroundColor:'rgb(255,0,0,0.5)'}}></div>
                 }
-                <video src={v.src} width="400" controls id="video_here">
+                <video src={v.src} width="300" controls id="video_here">
                  <source />
                   Your browser does not support HTML5 video.
                </video>
@@ -307,6 +308,7 @@ class AddCourse extends React.Component {
                 )
              })
            }
+           </div>
 
             <div style={{display:'block', padding:20}}>
             <RaisedButton type="submit" primary={true} label="Submit" fullWidth={true} />
