@@ -22,8 +22,7 @@ const videoSchema = new Schema({
         type:String
     },
     createdAt:{
-        type:Date,
-        default:Date.now
+        type:Date
       },
       updatedAt:{
         type:Date

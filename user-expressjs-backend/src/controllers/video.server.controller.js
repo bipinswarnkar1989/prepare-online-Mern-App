@@ -37,6 +37,7 @@ class videoCtrl {
     console.log('addVideo: '+ JSON.stringify(req.body));
     try {
         let newVideo = new Video(req.body);
+        newVideo.createdAt = new Date();
         if(req.file){
             newVideo.videoAddress = req.file.path;
           }
