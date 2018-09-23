@@ -116,6 +116,7 @@ class AddCourse extends React.Component {
         const data = new FormData();
         data.append('video', file);
         data.append('author',this.props.mappedUserState.user._id);
+        data.append('status', 'draft');
         console.log(file);
         const token = localStorage.getItem('userToken');
         

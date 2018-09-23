@@ -31,6 +31,10 @@ const videoSchema = new Schema({
       videoAddress:{
           type:String,
           required:[true, 'Video Directory Address required']
+      },
+      status:{
+          type:String,
+          enum:['draft', 'published', 'unpublished']
       }
 });
 
