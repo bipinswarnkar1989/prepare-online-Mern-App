@@ -6,6 +6,7 @@ import {white} from 'material-ui/styles/colors';
 import {Card, CardHeader} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
+import Loading from './Loading';
 
 const apiUrl = `http://localhost:3001/api`;
 
@@ -211,6 +212,13 @@ class AddCourse extends React.Component {
                     resp.json().then(json => {
                         if(json.success){
                        this.props.mappedrequestAddCourseSuccess(json);
+                       this.setState({
+                        snackOpen:true,
+                        success:json.message,
+                        name:'',
+                        description:'',
+                        videofiles:[],
+                    })
                         } else {
                             this.props.mappedrequestAddCourseFailed(json);
                         }
@@ -288,6 +296,7 @@ class AddCourse extends React.Component {
              onChange={event => this.setState({
                 name:event.target.value
             })}
+            value={this.state.name}
              />
               <TextField
              multiline
@@ -298,6 +307,7 @@ class AddCourse extends React.Component {
              onChange={event => this.setState({
                  description:event.target.value
              })}
+             value={this.state.description}
              />
              <div style={styles.fileBtnCss}>
                <Add  color={white}/>
@@ -310,7 +320,9 @@ class AddCourse extends React.Component {
                />
             </div>
             {loadingCourse && 
-                   <span style={{}}>loading....</span>
+                   <div>
+                   <Loading/>
+                   </div>
                }
            <div style={{display:'flex', flexDirection:'row', flexWrap:'wrap'}}>
            {videofiles && videofiles.length !== 0 && 

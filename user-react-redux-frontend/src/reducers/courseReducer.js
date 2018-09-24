@@ -22,7 +22,7 @@ const courseReducer = (currentState = INITIAL_STATE, action) => {
                 courseError:null,
                 courseSuccess:resp.message
             }
-        case 'REQUEST_ADD_COURSE_SUCCESS':
+        case 'REQUEST_ADD_COURSE_FAILED':
             var resp = action.response;
             return {
                 ...currentState,
