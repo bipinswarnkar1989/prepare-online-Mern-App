@@ -5,13 +5,15 @@ import appReducer from './appReducer';
 import userReducer from './userReducer';
 import qBankReducer from './qBankReducer';
 import videoReducer from './videoReducer';
+import courseReducer from './courseReducer';
 
 export default combineReducers({
   appState:appReducer,
   routing,
   userState:userReducer,
   qBankState:qBankReducer,
-  videoState:videoReducer
+  videoState:videoReducer,
+  courseState:courseReducer,
   // More reducers if there are
   // can go here
 })

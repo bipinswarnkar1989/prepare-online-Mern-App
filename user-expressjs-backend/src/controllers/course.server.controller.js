@@ -11,12 +11,17 @@ class CourseCtrl {
        try {
            let newCourse = new Course(req.body);
             let course =  await newCourse.save();
-            let result = {
-                success:true,
-                message:'Course Added Successfully',
-                course
-              }
-            return  res.json(result);
+            if (course && course.videos.length > 0) {
+                req.course = course;
+                next();
+            } else {
+                let result = {
+                    success:true,
+                    message:'Course Added Successfully',
+                    course
+                  }
+                 return  res.json(result);
+            }
        } catch (error) {
           return res.json({
           success:false,

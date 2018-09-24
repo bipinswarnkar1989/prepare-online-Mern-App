@@ -4,6 +4,7 @@ import User from '../models/user.server.model';
 import Course from '../models/course.server.model';
 import Video from '../models/video.server.model';
 import elasticClient from '../config/esSearchConfig';
+import { triggerAsyncId } from 'async_hooks';
 const esClient = elasticClient;
 
 //set multer storage
@@ -65,8 +66,66 @@ class videoCtrl {
       else{
         next();
       }
-});
+    });
   }
+
+  async updateVideo (req, res, next) {
+    console.log('updateVideo: '+ JSON.stringify(req.body));
+    if (req.body && req.body.id) {
+       try {
+         let id = req.body.id;
+         let modifiedVideo = req.body;
+         modifiedVideo.updatedAt = new Date();
+         const video = await Video.findByIdAndUpdate(
+           id,
+           { $set:modifiedVideo },
+           { new:true }
+         );
+         let result = {
+          success:true,
+          message:'Video Updated Successfully',
+          video
+        }
+      return  res.json(result);
+       } catch (error) {
+        return res.json({
+          success:false,
+          message:error.message,
+        });
+       }
+    }
+  }
+
+  async addCoursesInVideos (req, res, next) {
+    console.log('addCoursesInVideos: '+ JSON.stringify(req.course));
+    let course = req.course;
+    if (course) {
+       try {
+         let id = course._id;
+         let videoIds = course.videos;
+        // modifiedVideo.updatedAt = new Date();
+         const videos = await Video.update(
+           {
+             _id: { $in:videoIds }
+           },
+           { $set: { course:id } },
+           { multi:true }
+         );
+         let result = {
+          success:true,
+          message:'Course Added in Videos Successfully',
+          videos
+        }
+      return  res.json(result);
+       } catch (error) {
+        return res.json({
+          success:false,
+          message:error.message,
+        });
+       }
+    }
+  }
+
 }
 
 export default videoCtrl;

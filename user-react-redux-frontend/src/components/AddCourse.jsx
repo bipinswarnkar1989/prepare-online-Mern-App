@@ -7,9 +7,10 @@ import {Card, CardHeader} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 
-const apiUrl = `http://localhost:3001/api/videos`;
+const apiUrl = `http://localhost:3001/api`;
 
 class AddCourse extends React.Component {
+    token;
     constructor(props) {
         super(props);
         this.state = {
@@ -18,11 +19,12 @@ class AddCourse extends React.Component {
             videofiles:[],
             progress:0,
             success:null,
-            snackOpen:false
+            snackOpen:false,
         }
         this.uploadVideo = this.uploadVideo.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.token = localStorage.getItem('userToken');
     }
     
     componentWillMount(){
@@ -36,11 +38,11 @@ class AddCourse extends React.Component {
       data.append('video', file);
       data.append('author',this.props.mappedUserState.user._id);
       console.log(file);
-      const token = localStorage.getItem('userToken');
-       fetch(apiUrl, {
+      
+       fetch(`${apiUrl}/videos`, {
            method:'post',
            body:data,
-           headers: { 'authorization':token }
+           headers: { 'authorization':this.token }
        }).then((resp) => {
            if (resp.ok) {
                resp.json().then((json) => {
@@ -182,18 +184,42 @@ class AddCourse extends React.Component {
             alert(xhr.statusText);
           };
 
-        xhr.open('POST', apiUrl, true);
+        xhr.open('POST', `${apiUrl}/videos`, true);
         xhr.send(data);
       }
       
       handleSubmit(event){
         event.preventDefault();
-        let data = {
+        const data = {
             name:this.state.name,
             author:this.props.mappedUserState.user._id,
             description:this.state.description,
-            videos:[]
-
+            videos:this.props.mappedVideoState.videoIds
+        };console.log(data)
+        if (this.state.name && data.author && this.props.mappedVideoState.videoIds.length > 0) {
+            this.props.mappedrequestAddCourse();
+            fetch(`${apiUrl}/courses`, {
+                method:'post',
+                body:JSON.stringify(data),
+                headers:{ 
+                    'authorization':this.token,
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                 }
+            }).then(resp => {
+                if (resp.ok) {
+                    resp.json().then(json => {
+                        if(json.success){
+                       this.props.mappedrequestAddCourseSuccess(json);
+                        } else {
+                            this.props.mappedrequestAddCourseFailed(json);
+                        }
+                    })
+                } else {
+                    alert(resp.statusText);
+                    
+                }
+            })
         }
       }
 
@@ -243,6 +269,7 @@ class AddCourse extends React.Component {
         }
         const { name, description, videofiles } = this.state;
         const { isLoading, error, successMsg, video, } = this.props.mappedVideoState;
+        const { loadingCourse, courseSuccess, courseError } = this.props.mappedcourseState;
         return (
             <div style={styles.container}>
             <div style={styles.addContainer}>
@@ -258,19 +285,18 @@ class AddCourse extends React.Component {
              fullWidth
              hintText="Course name"
              floatingLabelText="Enter course name"
-             defaultValue={name}
-             onChange={value => this.setState({
-                 name:value
-             })}
+             onChange={event => this.setState({
+                name:event.target.value
+            })}
              />
               <TextField
              multiline
              fullWidth
              hintText="Description"
              floatingLabelText="Enter course description"
-            value={this.state.description}
-             onChange={value => this.setState({
-                 description:value
+             defaultValue={this.state.description}
+             onChange={event => this.setState({
+                 description:event.target.value
              })}
              />
              <div style={styles.fileBtnCss}>
@@ -283,9 +309,9 @@ class AddCourse extends React.Component {
                accept="video/mp4,video/x-m4v,video/*"
                />
             </div>
-            {/* {isLoading && 
-                   <span style={{}}>Uploading....</span>
-               } */}
+            {loadingCourse && 
+                   <span style={{}}>loading....</span>
+               }
            <div style={{display:'flex', flexDirection:'row', flexWrap:'wrap'}}>
            {videofiles && videofiles.length !== 0 && 
              videofiles.map((v) => {
@@ -310,7 +336,7 @@ class AddCourse extends React.Component {
              })
            }
            </div>
-
+{this.state.author}
             <div style={{display:'block', padding:20}}>
             <RaisedButton type="submit" primary={true} label="Submit" fullWidth={true} />
             </div>

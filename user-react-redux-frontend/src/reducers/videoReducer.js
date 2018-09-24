@@ -3,7 +3,7 @@ const INITIAL_STATE = {
     isLoading:false,
     error:null,
     successMsg:null,
-    videos:[],
+    videoIds:[],
     video:null,
 }
 
@@ -18,12 +18,14 @@ const videoReducer = ( currentState = INITIAL_STATE, action ) => {
            }
             
         case 'SUCCESS_UPLOAD_VIDEO':
+           const videoIds = [ ...currentState.videoIds, action.response.video._id];
            return {
                ...currentState,
                isLoading:false,
                video:action.response.video.videoAddress,
                successMsg:action.response.message,
-               error:null
+               error:null,
+               videoIds:videoIds,
            } 
            
         case 'FAILED_UPLOAD_VIDEO':
