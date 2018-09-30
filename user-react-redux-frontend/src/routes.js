@@ -9,6 +9,7 @@ import CreateQbank from './containers/CreateQbank';
 import QuestionBank from './containers/QuestionBank';
 import MockTest from './containers/MockTest';
 import AddCourse from './containers/AddCourse';
+import Courses from './containers/Courses';
 import Authenticate from './middlewares/authenticate';
 
 export default (
@@ -23,6 +24,7 @@ export default (
   <Route path="/question-bank/:id/view-questions/:page/:limit" component={QuestionBank}/>
   <Route path="/mock-test" component={MockTest}/>
   <Route onEnter={requireAuth}  path="/add-course" component={AddCourse}/>
+  <Route path="/courses" component={Courses}/>
   </Route>
 )
 

@@ -26,7 +26,8 @@ let  menuRoutes =  [
     { text: 'Mock Tests', icon: <GridOn/>, link: '/mock-test' },
     { text: 'Login', icon: <PermIdentity/>, link: '/login' },
     { text: 'Register', icon: <PermIdentity/>, link: '/register' },
-    { text: 'Add Course', icon: <PermIdentity/>, link: '/add-course' }
+    { text: 'Add Course', icon: <PermIdentity/>, link: '/add-course' },
+    { text: 'Courses', icon: <PermIdentity/>, link: '/courses' }
   ];
 
 let loggedInMenuRoutes = menuRoutes.filter((m) => m.text !== 'Login' && m.text !== 'Register')
