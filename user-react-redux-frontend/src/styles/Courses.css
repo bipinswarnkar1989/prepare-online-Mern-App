@@ -83,6 +83,18 @@
     padding: 3px;
 }
 
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    width: 95%;
+    text-align: center;
+}
+
 On screens that are 992px wide or less, go from four columns to two columns
 @media (min-width: 768px) and (max-width: 1125px) {
     .courseDiv {

@@ -21,15 +21,43 @@ class AddCourse extends React.Component {
             progress:0,
             success:null,
             snackOpen:false,
+            image:null,
+            imagePreview:null,
         }
         this.uploadVideo = this.uploadVideo.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.token = localStorage.getItem('userToken');
+        this.handleImageChange = this.handleImageChange.bind(this);
+        this.removeImage = this.removeImage.bind(this);
     }
     
     componentWillMount(){
         this.props.mappedfetchUserIfLoggedIn();
+      }
+
+      handleImageChange(event){
+        var _this = this;
+        const file = event.target.files[0];console.log(file)
+        this.setState({
+            image:file,
+        });
+        const fileReader = new FileReader();
+        fileReader.onload = (r) => {
+            let preview = r.target.result;
+            console.log(preview);
+            _this.setState({
+               imagePreview:preview
+            });
+        }
+        fileReader.readAsDataURL(file);
+      }
+
+      removeImage(){
+          this.setState({
+            image:null,
+            imagePreview:null,
+          })
       }
 
       uploadVideoThroughFetch(event){
@@ -275,7 +303,7 @@ class AddCourse extends React.Component {
                 right: 0,
             }
         }
-        const { name, description, videofiles } = this.state;
+        const { name, description, videofiles, imagePreview } = this.state;
         const { isLoading, error, successMsg, video, } = this.props.mappedVideoState;
         const { loadingCourse, courseSuccess, courseError } = this.props.mappedcourseState;
         return (
@@ -309,6 +337,19 @@ class AddCourse extends React.Component {
              })}
              value={this.state.description}
              />
+            <div style={{textAlign:'center', display:'block', padding:5, marginBottom:10}}>
+            {imagePreview && 
+              <div style={{position:"relative", width:'99%'}}>
+                 <span onClick={this.removeImage} style={{position:'absolute', right:1,top:1, cursor:'pointer'}}>X</span>
+                  <img src={imagePreview} />
+                  </div>
+            }
+            <label for="file-upload" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i> Browse Course Image
+            </label>
+            <input id="file-upload" type="file" onChange={this.handleImageChange}/>
+            </div>
+            
              <div style={styles.fileBtnCss}>
                <Add  color={white}/>
                <span style={{ height:'100%', display:'block'}}>Video</span>
