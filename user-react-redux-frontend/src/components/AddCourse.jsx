@@ -23,6 +23,7 @@ class AddCourse extends React.Component {
             snackOpen:false,
             image:null,
             imagePreview:null,
+            imgUploadProgress:0
         }
         this.uploadVideo = this.uploadVideo.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,7 +52,10 @@ class AddCourse extends React.Component {
             });
         }
         fileReader.readAsDataURL(file);
+        this.uploadImage(file);
       }
+
+      
 
       removeImage(){
           this.setState({
@@ -216,6 +220,14 @@ class AddCourse extends React.Component {
         xhr.open('POST', `${apiUrl}/videos`, true);
         xhr.send(data);
       }
+
+      uploadImage(image){
+          let data = new FormData();
+          const token = localStorage.getItem('userToken');
+          data.append('image', image);
+          var xhr = new XMLHttpRequest();
+          
+    }
       
       handleSubmit(event){
         event.preventDefault();
@@ -303,7 +315,7 @@ class AddCourse extends React.Component {
                 right: 0,
             }
         }
-        const { name, description, videofiles, imagePreview } = this.state;
+        const { name, description, videofiles, imagePreview, imgUploadProgress } = this.state;
         const { isLoading, error, successMsg, video, } = this.props.mappedVideoState;
         const { loadingCourse, courseSuccess, courseError } = this.props.mappedcourseState;
         return (
@@ -342,6 +354,11 @@ class AddCourse extends React.Component {
               <div style={{position:"relative", width:'99%'}}>
                  <span onClick={this.removeImage} style={{position:'absolute', right:1,top:1, cursor:'pointer'}}>X</span>
                   <img src={imagePreview} />
+                  <div style={{position:'absolute', top:'50%', width:'99%', margin:'0 auto'}}>
+                  <div style={{border:'1px solid #77B5EE'}} className='progress_outer'>
+                <div style={{width:`${imgUploadProgress}%`, backgroundColor:'#77B5EE', height:20, transition:'width 2.5s ease'}} id='_progress' className='progress'></div>
+                </div>
+                </div>
                   </div>
             }
             <label for="file-upload" class="custom-file-upload">

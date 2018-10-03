@@ -19,6 +19,8 @@ router.route('/:id')
       .delete(courseCtrlObj.deleteCourse);
 router.route('/:page/:limit')
       .get(courseCtrlObj.getCourses);
+router.route('/uploadImage')
+      .post(courseCtrlObj.UploadImage, courseCtrlObj.getCourses);
 
 
 export default router;
