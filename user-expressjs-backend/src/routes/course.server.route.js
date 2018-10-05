@@ -21,6 +21,7 @@ router.route('/:page/:limit')
       .get(courseCtrlObj.getCourses);
 router.route('/uploadimage')
       .post(courseCtrlObj.UploadImage, courseCtrlObj.getResult);
-
+router.route('/:page/:limit')
+      .get(courseCtrlObj.getCourses);
 
 export default router;

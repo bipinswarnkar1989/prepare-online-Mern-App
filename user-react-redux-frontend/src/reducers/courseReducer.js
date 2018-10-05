@@ -31,6 +31,27 @@ const courseReducer = (currentState = INITIAL_STATE, action) => {
                 courseError:resp.message,
                 courseSuccess:null
             }
+        case 'REQUEST_GET_COURSES':
+            return {
+                ...currentState,
+                loadingCourse:true,
+            }
+        case 'REQUEST_GET_COURSES_SUCCESS':
+            return {
+                ...currentState,
+                courses:action.response.courses,
+                loadingCourse:false,
+                courseError:null,
+                courseSuccess:action.response.message
+            }
+        case 'REQUEST_GET_COURSES_FAILED':
+            return {
+                ...currentState,
+                courses:[],
+                loadingCourse:false,
+                courseError:action.response.message,
+                courseSuccess:null
+            }
         default:
             return currentState;
     }

@@ -20,7 +20,10 @@ const mapDispatchToProps = (dispatch) => {
         mappedfailedUploadVideo: response => dispatch(videoActions.failedUploadVideo(response)),
         mappedrequestAddCourse: () => dispatch(courseActions.requestAddCourse()),
         mappedrequestAddCourseSuccess: response => dispatch(courseActions.requestAddCourseSuccess(response)),
-        mappedrequestAddCourseFailed: response => dispatch(courseActions.requestAddCourseFailed(response))
+        mappedrequestAddCourseFailed: response => dispatch(courseActions.requestAddCourseFailed(response)),
+        mappedrequestGetCourses: () => dispatch(courseActions.requestGetCourses()),
+        mappedrequestGetCoursesSuccess: response => dispatch(courseActions.requestGetCoursesSuccess(response)),
+        mappedrequestGetCoursesFailed:response => dispatch(courseActions.requestGetCoursesFailed(response)),
     }
 }
 

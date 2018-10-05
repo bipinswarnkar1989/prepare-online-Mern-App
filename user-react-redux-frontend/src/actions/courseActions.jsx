@@ -17,3 +17,23 @@ export const requestAddCourseFailed = (response) => {
         response
     }
 }
+
+export const requestGetCourses = () => {
+    return {
+        type:'REQUEST_GET_COURSES'
+    }
+}
+
+export const requestGetCoursesSuccess = (response) => {
+    return {
+        type:'REQUEST_GET_COURSES_SUCCESS',
+        response,
+    }
+}
+
+export const requestGetCoursesFailed = (response) => {
+    return {
+        type:'REQUEST_GET_COURSES_FAILED',
+        response,
+    }
+}

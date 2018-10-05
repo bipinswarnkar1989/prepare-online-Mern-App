@@ -24,7 +24,7 @@ export default (
   <Route path="/question-bank/:id/view-questions/:page/:limit" component={QuestionBank}/>
   <Route path="/mock-test" component={MockTest}/>
   <Route onEnter={requireAuth}  path="/add-course" component={AddCourse}/>
-  <Route path="/courses" component={Courses}/>
+  <Route path="/courses/:page/:limit" component={Courses}/>
   </Route>
 )
 

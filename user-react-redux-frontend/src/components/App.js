@@ -27,7 +27,7 @@ let  menuRoutes =  [
     { text: 'Login', icon: <PermIdentity/>, link: '/login' },
     { text: 'Register', icon: <PermIdentity/>, link: '/register' },
     { text: 'Add Course', icon: <PermIdentity/>, link: '/add-course' },
-    { text: 'Courses', icon: <PermIdentity/>, link: '/courses' }
+    { text: 'Courses', icon: <PermIdentity/>, link: '/courses/1/10' }
   ];
 
 let loggedInMenuRoutes = menuRoutes.filter((m) => m.text !== 'Login' && m.text !== 'Register')
