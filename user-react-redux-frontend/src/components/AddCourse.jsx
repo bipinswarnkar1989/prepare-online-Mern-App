@@ -23,7 +23,9 @@ class AddCourse extends React.Component {
             snackOpen:false,
             image:null,
             imagePreview:null,
-            imgUploadProgress:0
+            imgUploadProgress:0,
+            isImgLoading:false,
+            courseImagePath:null
         }
         this.uploadVideo = this.uploadVideo.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -61,6 +63,7 @@ class AddCourse extends React.Component {
           this.setState({
             image:null,
             imagePreview:null,
+            imgUploadProgress:0,
           })
       }
 
@@ -222,20 +225,77 @@ class AddCourse extends React.Component {
       }
 
       uploadImage(image){
+          let type = image.type.split('/')[0];
+          console.log(type);
+          if (type !== 'image' ) {
+              alert('Only Image File Allowed!');
+              return;
+          }
+          this.setState({
+            isImgLoading:true
+          })
+          var _this = this;
           let data = new FormData();
           const token = localStorage.getItem('userToken');
           data.append('image', image);
           var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function() {
+                try {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = JSON.parse(xhr.response);
+                        console.log(response);
+                        if (response.success) {
+                         // _this.props.mappedsuccessUploadVideo(resp);
+                          setTimeout(function(){
+                              _this.setState({
+                                  snackOpen:true,
+                                  success:response.message,
+                                  courseImagePath:response.file.path
+                              })
+                          }, 1000)
+                      } else {
+                          //_this.props.mappedfailedUploadVideo(resp);
+                      }
+                    }
+    
+                } catch (error) {
+                   alert(error.message); 
+                }
           
     }
-      
+    xhr.upload.addEventListener('progress', function (e) {
+        if(e.lengthComputable){
+            var percentage = Math.round((e.loaded * 100) /e.total);
+            _this.setState({
+                imgUploadProgress:percentage
+            });
+        }
+    }, false);
+    xhr.upload.addEventListener('load', function (e) {
+        console.log(e)
+        setTimeout(function(){
+            _this.setState({
+                isImgLoading:false,
+                imgUploadProgress:0,
+            })
+        }, 2000);
+    }, false);
+
+    xhr.ontimeout = function () {
+        console.error("The request for " + apiUrl + " timed out.");
+        alert(("The request for " + apiUrl + " timed out."))
+    };
+    xhr.open('POST', `${apiUrl}/courses/uploadimage`, true);
+    xhr.send(data);
+}  
       handleSubmit(event){
         event.preventDefault();
         const data = {
             name:this.state.name,
             author:this.props.mappedUserState.user._id,
             description:this.state.description,
-            videos:this.props.mappedVideoState.videoIds
+            videos:this.props.mappedVideoState.videoIds,
+            image:this.state.courseImagePath,
         };console.log(data)
         if (this.state.name && data.author && this.props.mappedVideoState.videoIds.length > 0) {
             this.props.mappedrequestAddCourse();
@@ -258,6 +318,11 @@ class AddCourse extends React.Component {
                         name:'',
                         description:'',
                         videofiles:[],
+                        image:null,
+                        imagePreview:null,
+                        imgUploadProgress:0,
+                        isImgLoading:false,
+                        courseImagePath:null
                     })
                         } else {
                             this.props.mappedrequestAddCourseFailed(json);
@@ -315,7 +380,7 @@ class AddCourse extends React.Component {
                 right: 0,
             }
         }
-        const { name, description, videofiles, imagePreview, imgUploadProgress } = this.state;
+        const { name, description, videofiles, imagePreview, imgUploadProgress, courseImagePath } = this.state;
         const { isLoading, error, successMsg, video, } = this.props.mappedVideoState;
         const { loadingCourse, courseSuccess, courseError } = this.props.mappedcourseState;
         return (
@@ -349,22 +414,25 @@ class AddCourse extends React.Component {
              })}
              value={this.state.description}
              />
+             
             <div style={{textAlign:'center', display:'block', padding:5, marginBottom:10}}>
             {imagePreview && 
               <div style={{position:"relative", width:'99%'}}>
-                 <span onClick={this.removeImage} style={{position:'absolute', right:1,top:1, cursor:'pointer'}}>X</span>
-                  <img src={imagePreview} />
+                 <span onClick={this.removeImage} style={{position:'absolute', right:1,top:1, cursor:'pointer', backgroundColor:'rgb(255,255,255,255)', padding:2}}>X</span>
+                  <img src={imagePreview} style={{maxWidth:'100%'}} />
+                  {this.state.isImgLoading &&
                   <div style={{position:'absolute', top:'50%', width:'99%', margin:'0 auto'}}>
                   <div style={{border:'1px solid #77B5EE'}} className='progress_outer'>
                 <div style={{width:`${imgUploadProgress}%`, backgroundColor:'#77B5EE', height:20, transition:'width 2.5s ease'}} id='_progress' className='progress'></div>
                 </div>
                 </div>
+                }
                   </div>
             }
-            <label for="file-upload" class="custom-file-upload">
-                <i class="fa fa-cloud-upload"></i> Browse Course Image
+            <label htmlFor="file-upload" className="custom-file-upload">
+                <i className="fa fa-cloud-upload"></i> Browse Course Image
             </label>
-            <input id="file-upload" type="file" onChange={this.handleImageChange}/>
+            <input accept="image/*" id="file-upload" type="file" onChange={this.handleImageChange}/>
             </div>
             
              <div style={styles.fileBtnCss}>
@@ -417,7 +485,7 @@ class AddCourse extends React.Component {
             </div>
             <Snackbar
           open={this.state.snackOpen}
-          message={this.state.success}
+          message={this.state.success === null ? '' : this.state.success}
           autoHideDuration={4000}
           onRequestClose={this.handleRequestClose}
           style={{textAlign:'center'}}

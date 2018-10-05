@@ -31,7 +31,8 @@ const courseSchema = new Schema({
             type:Schema.ObjectId,
             ref:'Video'
         }
-      ]
+      ],
+      image:String
 });
 
 courseSchema.plugin(mongoosastic);

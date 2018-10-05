@@ -157,7 +157,7 @@ class CourseCtrl {
              return res.json({'success':false,'message':err});
            }
            else{
-             req.results = {
+             req.result = {
                success:true,
                message:'Image Uploaded Successfully',
                file:req.file
