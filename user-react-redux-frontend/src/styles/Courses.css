@@ -95,6 +95,14 @@ input[type="file"] {
     text-align: center;
 }
 
+.courseimgDiv{
+    display: flex;
+    align-self: center;
+    width: 100%;
+    flex-shrink: 0;
+    height: 200px;
+}
+
 On screens that are 992px wide or less, go from four columns to two columns
 @media (min-width: 768px) and (max-width: 1125px) {
     .courseDiv {

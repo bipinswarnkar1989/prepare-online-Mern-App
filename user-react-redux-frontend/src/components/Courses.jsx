@@ -102,8 +102,8 @@ class Courses extends React.Component {
                 return (
                     <div key={c._id} className='courseDiv' style={styles.courseDiv}>
                     <div className='courseContainer'>
-                    <div className='imgDiv'>
-                    <img src={`//localhost:3001/${c.image.replace('public', '')}`} />
+                    <div className='courseimgDiv'>
+                    <img style={{maxWidth:'100%',height:'auto'}} src={`//localhost:3001/${c.image.replace('public', '')}`} />
                     </div>
                     <div className='courseTypeDiv'>
                     <h5 className='courseType'>COURSE <span>:</span> REACT</h5>
